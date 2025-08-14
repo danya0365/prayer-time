@@ -6,6 +6,12 @@ interface PrayerTimesDisplayProps {
 }
 
 export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTimesDisplayProps) {
+  const getPrayerCardClasses = (prayer: PrayerInfo, isCurrentPrayer: boolean) => {
+    const baseClasses = 'rounded-xl p-5 backdrop-blur-sm transition-all border card-bg card-border card-shadow';
+    const currentPrayerClasses = isCurrentPrayer ? `ring-2 scale-[1.02] ring-${prayer.name}` : '';
+    return `${baseClasses} ${currentPrayerClasses}`;
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
       {prayers.map((prayer) => {
@@ -14,31 +20,18 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
         return (
           <div 
             key={prayer.name}
-            className={`
-              rounded-xl p-5 backdrop-blur-sm transition-all border
-              ${isCurrentPrayer ? 'ring-2 scale-[1.02]' : ''}
-            `}
-            style={{ 
-              backgroundColor: 'var(--card-bg)',
-              borderColor: 'var(--card-border)',
-              boxShadow: 'var(--card-shadow)',
-              '--tw-ring-color': `var(--color-${prayer.name})`
-            } as React.CSSProperties}
+            className={getPrayerCardClasses(prayer, isCurrentPrayer)}
           >
             <div className="flex items-center mb-3">
               <span className="text-2xl mr-2" aria-hidden="true">{prayer.emoji}</span>
               <h3 
-                className={`text-xl font-medium ${isCurrentPrayer ? `text-${prayer.name}` : ''}`}
-                style={{ color: isCurrentPrayer ? `var(--color-${prayer.name})` : 'inherit' }}
+                className={`text-xl font-medium ${isCurrentPrayer ? `text-${prayer.name}` : 'text-foreground'}`}
               >
                 {prayer.displayName}
               </h3>
               {isCurrentPrayer && (
                 <span 
-                  className="ml-auto text-xs font-semibold px-2 py-1 rounded-full text-white"
-                  style={{ 
-                    backgroundColor: `var(--color-${prayer.name})`
-                  }}
+                  className={`ml-auto text-xs font-semibold px-2 py-1 rounded-full text-on-surface bg-${prayer.name}`}
                 >
                   NOW
                 </span>
