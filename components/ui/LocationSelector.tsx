@@ -97,16 +97,16 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
+    <div className="fixed inset-0 bg-overlay flex items-center justify-center p-4 z-50">
+      <div className="bg-background dark:bg-surface rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        <div className="flex items-center justify-between p-6 border-b border-border dark:border-border-dark">
+          <h2 className="text-xl font-semibold text-foreground dark:text-on-surface">
             Select Prayer Times Location
           </h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="p-2 text-muted hover:text-muted-dark dark:text-muted dark:hover:text-muted-light rounded-md hover:bg-muted-light dark:hover:bg-muted-dark"
           >
             <X className="h-5 w-5" />
           </button>
@@ -117,12 +117,12 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
           {/* Current Location Button */}
           <button
             onClick={handleUseCurrentLocation}
-            className="w-full flex items-center gap-3 p-4 border border-emerald-200 dark:border-emerald-800 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+            className="w-full flex items-center gap-3 p-4 border border-primary-light dark:border-primary-dark rounded-lg hover:bg-primary-light dark:hover:bg-primary-dark/20 transition-colors"
           >
-            <Navigation className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+            <Navigation className="h-5 w-5 text-primary dark:text-primary-dark" />
             <div className="text-left">
-              <p className="font-medium text-gray-900 dark:text-gray-100">Use Current Location</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="font-medium text-foreground dark:text-on-surface">Use Current Location</p>
+              <p className="text-sm text-muted dark:text-muted">
                 Automatically detect your location for accurate prayer times
               </p>
             </div>
@@ -131,20 +131,20 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
           {/* Search */}
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted" />
               <input
                 type="text"
                 placeholder="Search for a city or location..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-3 border border-border dark:border-border-dark rounded-lg bg-background dark:bg-surface text-foreground dark:text-on-surface placeholder-muted dark:placeholder-muted focus:ring-2 focus:ring-primary focus:border-primary"
               />
             </div>
 
             {/* Search Results */}
             {isSearching && (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-6 w-6 border-2 border-emerald-500 border-t-transparent"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent"></div>
               </div>
             )}
 
@@ -156,16 +156,16 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
                     onClick={() => handleLocationSelect(location)}
                     className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left ${
                       selectedLocation?.latitude === location.latitude && selectedLocation?.longitude === location.longitude
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
-                        : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                        ? 'border-primary bg-primary-light dark:bg-primary-dark/20'
+                        : 'border-border dark:border-border-dark hover:bg-muted-light dark:hover:bg-muted-dark'
                     }`}
                   >
-                    <MapPin className="h-4 w-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                    <MapPin className="h-4 w-4 text-muted dark:text-muted flex-shrink-0" />
                     <div className="min-w-0 flex-1">
-                      <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                      <p className="font-medium text-foreground dark:text-on-surface truncate">
                         {location.address}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                      <p className="text-sm text-muted dark:text-muted truncate">
                         {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
                       </p>
                     </div>
@@ -175,7 +175,7 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
             )}
 
             {searchQuery && !isSearching && searchResults.length === 0 && (
-              <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <div className="text-center py-8 text-muted dark:text-muted">
                 No locations found for &quot;{searchQuery}&quot;
               </div>
             )}
@@ -183,13 +183,13 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
 
           {/* Selected Location */}
           {selectedLocation && (
-            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Selected Location</h3>
+            <div className="border border-border dark:border-border-dark rounded-lg p-4">
+              <h3 className="font-medium text-foreground dark:text-on-surface mb-2">Selected Location</h3>
               <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <MapPin className="h-4 w-4 text-primary dark:text-primary-dark" />
                 <div>
-                  <p className="text-gray-900 dark:text-gray-100">{selectedLocation.address}</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-foreground dark:text-on-surface">{selectedLocation.address}</p>
+                  <p className="text-sm text-muted dark:text-muted">
                     {selectedLocation.latitude.toFixed(4)}, {selectedLocation.longitude.toFixed(4)}
                   </p>
                 </div>
@@ -199,17 +199,17 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-end gap-3 p-6 border-t border-border dark:border-border-dark">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+            className="px-4 py-2 text-muted-dark dark:text-muted hover:text-foreground dark:hover:text-on-surface transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSaveLocation}
             disabled={!selectedLocation}
-            className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+            className="px-6 py-2 bg-primary hover:bg-primary-dark disabled:bg-muted disabled:cursor-not-allowed text-white rounded-lg transition-colors"
           >
             Save Location
           </button>

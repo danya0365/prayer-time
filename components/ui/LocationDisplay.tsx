@@ -23,8 +23,8 @@ export default function LocationDisplay({
   if (isLocationLoading) {
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
-        <div className="animate-spin rounded-full h-4 w-4 border-2 border-emerald-500 border-t-transparent"></div>
-        <span className="text-gray-600 dark:text-gray-400">Getting location...</span>
+        <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
+        <span className="text-muted dark:text-muted">Getting location...</span>
       </div>
     );
   }
@@ -32,11 +32,11 @@ export default function LocationDisplay({
   if (locationError) {
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
-        <MapPin className="h-4 w-4 text-red-500" />
-        <span className="text-red-600 dark:text-red-400">{locationError}</span>
+        <MapPin className="h-4 w-4 text-error" />
+        <span className="text-error dark:text-error-light">{locationError}</span>
         <button
           onClick={handleGetCurrentLocation}
-          className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 text-sm underline"
+          className="text-primary hover:text-primary-dark dark:text-primary-dark dark:hover:text-primary text-sm underline"
         >
           Retry
         </button>
@@ -47,11 +47,11 @@ export default function LocationDisplay({
   if (!currentLocation) {
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
-        <MapPin className="h-4 w-4 text-gray-500" />
-        <span className="text-gray-600 dark:text-gray-400">No location set</span>
+        <MapPin className="h-4 w-4 text-muted" />
+        <span className="text-muted dark:text-muted">No location set</span>
         <button
           onClick={handleGetCurrentLocation}
-          className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 text-sm underline"
+          className="text-primary hover:text-primary-dark dark:text-primary-dark dark:hover:text-primary text-sm underline"
         >
           Get location
         </button>
@@ -61,23 +61,23 @@ export default function LocationDisplay({
 
   return (
     <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
-      <MapPin className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+      <MapPin className="h-4 w-4 text-primary dark:text-primary-dark" />
       <div className="flex-1 min-w-0">
-        <p className="text-gray-900 dark:text-gray-100 font-medium truncate">
+        <p className="text-foreground dark:text-on-surface font-medium truncate">
           {currentLocation.address || `${currentLocation.latitude.toFixed(4)}, ${currentLocation.longitude.toFixed(4)}`}
         </p>
         {!compact && currentLocation.city && currentLocation.country && (
-          <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
+          <span className="text-muted dark:text-muted truncate">
             {currentLocation.city}, {currentLocation.country}
-          </p>
+          </span>
         )}
       </div>
       
       <div className="flex items-center gap-1">
         <button
           onClick={handleGetCurrentLocation}
-          className="p-1.5 text-gray-500 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400 transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-          title="Use current location"
+          className="p-1.5 text-muted hover:text-primary dark:text-muted dark:hover:text-primary-dark transition-colors rounded-md hover:bg-muted-light dark:hover:bg-muted-dark"
+          title="Change location"
         >
           <Navigation className="h-4 w-4" />
         </button>
@@ -85,7 +85,7 @@ export default function LocationDisplay({
         {showEditButton && onOpenLocationSelector && (
           <button
             onClick={onOpenLocationSelector}
-            className="p-1.5 text-gray-500 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400 transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="p-1.5 text-muted hover:text-primary dark:text-muted dark:hover:text-primary-dark transition-colors rounded-md hover:bg-muted-light dark:hover:bg-muted-dark"
             title="Change location"
           >
             <Settings className="h-4 w-4" />

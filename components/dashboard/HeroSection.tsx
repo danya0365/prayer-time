@@ -40,7 +40,7 @@ export default function HeroSection({
   return (
     <section className="w-full max-w-4xl mx-auto">
       {/* Header with gradient background */}
-      <div className="relative bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-3xl p-8 mb-8 text-white overflow-hidden">
+      <div className="relative bg-hero-gradient rounded-3xl p-8 mb-8 text-white overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>

@@ -42,13 +42,13 @@ export default function CurrentPrayerIndicator({
   const getPrayerColors = () => {
     const prayer = currentPrayer || nextPrayer;
     const colorMap = {
-      fajr: 'from-indigo-400 to-purple-500',
-      dhuhr: 'from-yellow-400 to-orange-500', 
-      asr: 'from-orange-400 to-red-500',
-      maghrib: 'from-pink-400 to-rose-500',
-      isha: 'from-blue-400 to-indigo-500'
+      fajr: 'bg-fajr-gradient',
+      dhuhr: 'bg-dhuhr-gradient', 
+      asr: 'bg-asr-gradient',
+      maghrib: 'bg-maghrib-gradient',
+      isha: 'bg-isha-gradient'
     };
-    return colorMap[prayer.name] || 'from-emerald-400 to-teal-500';
+    return colorMap[prayer.name] || 'bg-primary-gradient';
   };
 
   return (
@@ -56,7 +56,7 @@ export default function CurrentPrayerIndicator({
       <div className="text-center">
         {/* Prayer Status */}
         <div className="mb-4">
-          <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r ${getPrayerColors()} text-white font-semibold shadow-lg`}>
+          <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full ${getPrayerColors()} text-white font-semibold shadow-lg`}>
             <span className="text-2xl" aria-hidden="true">
               {currentPrayer ? currentPrayer.emoji : nextPrayer.emoji}
             </span>

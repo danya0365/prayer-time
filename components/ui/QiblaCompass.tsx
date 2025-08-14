@@ -80,7 +80,7 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
       {/* Compass */}
       <div className="relative w-32 h-32 mb-4">
         {/* Compass Circle */}
-        <div className="absolute inset-0 rounded-full border-2 border-card-border bg-gradient-to-br from-card-bg to-background">
+        <div className="absolute inset-0 rounded-full border-2 border-card-border card-bg">
           {/* Cardinal directions */}
           <div className="absolute top-1 left-1/2 transform -translate-x-1/2 text-xs font-bold text-foreground">N</div>
           <div className="absolute right-1 top-1/2 transform -translate-y-1/2 text-xs font-bold text-foreground">E</div>

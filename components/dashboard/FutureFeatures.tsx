@@ -92,7 +92,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
         <p className="text-lg text-foreground/70">
           Future Features Coming Soon
         </p>
-        <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full mx-auto mt-4" />
+        <div className="w-24 h-1 bg-dhuhr-gradient rounded-full mx-auto mt-4" />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -105,7 +105,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
             icon={feature.icon}
             onClick={() => handleFeatureClick(feature.id)}
             className={cn(
-              selectedFeature === feature.id && 'ring-2 ring-orange-500/50 scale-105'
+              selectedFeature === feature.id && 'ring-2 ring-warning/50 scale-105'
             )}
           />
         ))}

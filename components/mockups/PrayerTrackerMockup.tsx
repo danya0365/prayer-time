@@ -87,7 +87,7 @@ export function PrayerTrackerMockup({ className }: PrayerTrackerMockupProps) {
           {mockData.weeklyStats.map((percentage, index) => (
             <div key={index} className="flex-1 flex flex-col items-center">
               <div 
-                className="w-full bg-gradient-to-t from-blue-500 to-purple-500 rounded-t-sm"
+                className="w-full bg-isha-gradient rounded-t-sm"
                 style={{ height: `${percentage}%` }}
               />
               <div className="text-xs text-foreground/70 mt-1">

@@ -47,6 +47,27 @@
   --color-ramadan: #8b5cf6;
   --color-ramadan-light: #ede9fe;
   --color-ramadan-dark: #7c3aed;
+
+  /* UI Colors - Gray scale */
+  --color-muted: #6b7280;
+  --color-muted-light: #f9fafb;
+  --color-muted-dark: #374151;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-border-dark: #374151;
+
+  /* Primary brand colors */
+  --color-primary: #10b981;
+  --color-primary-light: #d1fae5;
+  --color-primary-dark: #047857;
+  --color-secondary: #6366f1;
+  --color-secondary-light: #e0e7ff;
+  --color-secondary-dark: #4338ca;
+
+  /* Overlay colors */
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-overlay-light: rgba(255, 255, 255, 0.9);
+  --color-overlay-dark: rgba(0, 0, 0, 0.8);
 }
 
 /* 3) ตัวแปรที่ไม่ต้องการให้สร้าง utility อัตโนมัติ เก็บไว้ใน base */
@@ -86,6 +107,19 @@
   .ring-asr { --tw-ring-color: var(--color-asr); }
   .ring-maghrib { --tw-ring-color: var(--color-maghrib); }
   .ring-isha { --tw-ring-color: var(--color-isha); }
+
+  /* UI utility classes */
+  .bg-overlay { background-color: var(--color-overlay); }
+  .bg-overlay-light { background-color: var(--color-overlay-light); }
+  .bg-overlay-dark { background-color: var(--color-overlay-dark); }
+  
+  /* Brand gradient classes */
+  .bg-primary-gradient { 
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); 
+  }
+  .bg-hero-gradient { 
+    background: linear-gradient(135deg, var(--color-primary), #14b8a6, #06b6d4); 
+  }
 }
 
 /* 4) Overrides ตอนเป็น .dark (แค่เปลี่ยนค่าตัวแปรก็พอ) */
@@ -122,5 +156,24 @@
     --color-islamic-dark: #34d399;
     --color-ramadan-light: #581c87;
     --color-ramadan-dark: #a78bfa;
+
+    /* UI Colors - Gray scale (dark mode) */
+    --color-muted: #9ca3af;
+    --color-muted-light: #1f2937;
+    --color-muted-dark: #d1d5db;
+    --color-border: #374151;
+    --color-border-light: #1f2937;
+    --color-border-dark: #6b7280;
+
+    /* Primary brand colors (dark mode) */
+    --color-primary-light: #065f46;
+    --color-primary-dark: #34d399;
+    --color-secondary-light: #312e81;
+    --color-secondary-dark: #818cf8;
+
+    /* Overlay colors (dark mode) */
+    --color-overlay: rgba(0, 0, 0, 0.7);
+    --color-overlay-light: rgba(0, 0, 0, 0.9);
+    --color-overlay-dark: rgba(255, 255, 255, 0.1);
   }
 }

@@ -28,7 +28,7 @@ export function MockupShowcase({ className }: MockupShowcaseProps) {
         <p className="text-foreground/70">
           Feature Mockups in Development
         </p>
-        <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full mx-auto mt-2" />
+        <div className="w-16 h-1 bg-dhuhr-gradient rounded-full mx-auto mt-2" />
       </div>
 
       {/* Tab Navigation */}
@@ -40,7 +40,7 @@ export function MockupShowcase({ className }: MockupShowcaseProps) {
             className={cn(
               'flex-1 min-w-0 py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200',
               activeTab === tab.id
-                ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-lg'
+                ? 'bg-dhuhr-gradient text-white shadow-lg'
                 : 'text-foreground/70 hover:text-foreground hover:bg-background/50'
             )}
           >

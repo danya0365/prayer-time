@@ -156,15 +156,15 @@ export default function PrayerTimesDashboard() {
       {/* Test Mode Controls */}
       {process.env.NODE_ENV === 'development' && (
         <div className="w-full max-w-4xl mb-4">
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+          <div className="bg-warning-light dark:bg-warning-dark/20 border border-warning-light dark:border-warning-dark rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-200">🧪 Test Mode (Development Only)</h3>
+              <h3 className="text-sm font-medium text-warning-dark dark:text-warning-light">🧪 Test Mode (Development Only)</h3>
               <button
                 onClick={toggleTestMode}
                 className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
                   testMode 
-                    ? 'bg-yellow-600 text-white hover:bg-yellow-700' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                    ? 'bg-warning text-white hover:bg-warning-dark' 
+                    : 'bg-muted-light text-muted-dark hover:bg-border-light dark:bg-muted-dark dark:text-muted-light dark:hover:bg-border-dark'
                 }`}
               >
                 {testMode ? 'Exit Test' : 'Test Mode'}
@@ -173,49 +173,43 @@ export default function PrayerTimesDashboard() {
             
             {testMode && (
               <div className="space-y-3">
-                <div className="text-sm text-yellow-700 dark:text-yellow-300">
+                <div className="text-sm text-warning-dark dark:text-warning-light">
                   <strong>Test Time:</strong> {testTime.toLocaleString()}
                 </div>
                 <div className="flex gap-2 flex-wrap">
                   <button
-                    onClick={() => adjustTestTime(-60)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                    onClick={() => setTestTime(new Date(testTime.getTime() + 60 * 60 * 1000))}
+                    className="px-3 py-1 bg-info text-white rounded text-xs hover:bg-info-dark transition-colors"
                   >
                     -1 Hour
                   </button>
                   <button
                     onClick={() => adjustTestTime(-30)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                    className="px-3 py-1 bg-info text-white rounded text-xs hover:bg-info-dark transition-colors"
                   >
                     -30 Min
                   </button>
                   <button
                     onClick={() => adjustTestTime(-5)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                    className="px-3 py-1 bg-info text-white rounded text-xs hover:bg-info-dark transition-colors"
                   >
                     -5 Min
                   </button>
                   <button
-                    onClick={() => adjustTestTime(5)}
-                    className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition-colors"
-                  >
-                    +5 Min
-                  </button>
-                  <button
-                    onClick={() => adjustTestTime(30)}
-                    className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition-colors"
+                    onClick={() => setTestTime(new Date(testTime.getTime() + 30 * 60 * 1000))}
+                    className="px-3 py-1 bg-info text-white rounded text-xs hover:bg-info-dark transition-colors"
                   >
                     +30 Min
                   </button>
                   <button
-                    onClick={() => adjustTestTime(60)}
-                    className="px-3 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600 transition-colors"
+                    onClick={() => setTestTime(new Date(testTime.getTime() - 10 * 60 * 1000))}
+                    className="px-3 py-1 bg-success text-white rounded text-xs hover:bg-success-dark transition-colors"
                   >
                     +1 Hour
                   </button>
                   <button
                     onClick={() => setTestTime(new Date())}
-                    className="px-3 py-1 bg-gray-500 text-white rounded text-xs hover:bg-gray-600 transition-colors"
+                    className="px-3 py-1 bg-muted text-white rounded text-xs hover:bg-muted-dark transition-colors"
                   >
                     Reset to Now
                   </button>
@@ -247,14 +241,14 @@ export default function PrayerTimesDashboard() {
           <div className="text-center">
             <button
               onClick={() => setShowAdditionalFeatures(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors font-medium"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
               ดูฟีเจอร์เพิ่มเติม
             </button>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <p className="text-sm text-muted dark:text-muted mt-2">
               แสดงฟีเจอร์อื่นๆ และตัวอย่างการใช้งาน
             </p>
           </div>
@@ -268,7 +262,7 @@ export default function PrayerTimesDashboard() {
           <div className="text-center">
             <button
               onClick={() => setShowAdditionalFeatures(false)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-muted hover:text-muted-dark dark:text-muted dark:hover:text-muted-light transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
