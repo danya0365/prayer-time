@@ -27,6 +27,7 @@ export default function PrayerTimesDashboard() {
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [locationSelectorOpen, setLocationSelectorOpen] = useState<boolean>(false);
+  const [showAdditionalFeatures, setShowAdditionalFeatures] = useState<boolean>(false);
   const { currentLocation, requestGeolocation } = useLocationStore();
   const [settings, setSettings] = useState<PrayerSettings>({
     calculationMethod: 'MoonsightingCommittee',
@@ -152,15 +153,53 @@ export default function PrayerTimesDashboard() {
         currentPrayer={currentPrayer}
       />
 
-      <AdditionalFeatures
-        latitude={currentLocation?.latitude}
-        longitude={currentLocation?.longitude}
-        language={settings.language}
-      />
+      {/* Additional Features Toggle */}
+      {!showAdditionalFeatures && (
+        <div className="w-full max-w-4xl mt-8">
+          <div className="text-center">
+            <button
+              onClick={() => setShowAdditionalFeatures(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+              ดูฟีเจอร์เพิ่มเติม
+            </button>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+              แสดงฟีเจอร์อื่นๆ และตัวอย่างการใช้งาน
+            </p>
+          </div>
+        </div>
+      )}
 
-      <MockupShowcase />
+      {/* Additional Features - Lazy Loaded */}
+      {showAdditionalFeatures && (
+        <div className="w-full max-w-4xl space-y-8 mt-8">
+          {/* Collapse Button */}
+          <div className="text-center">
+            <button
+              onClick={() => setShowAdditionalFeatures(false)}
+              className="inline-flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+              ซ่อนฟีเจอร์เพิ่มเติม
+            </button>
+          </div>
 
-      <FutureFeatures />
+          <AdditionalFeatures
+            latitude={currentLocation?.latitude}
+            longitude={currentLocation?.longitude}
+            language={settings.language}
+          />
+
+          <MockupShowcase />
+
+          <FutureFeatures />
+        </div>
+      )}
 
       <SettingsPanel
         isOpen={settingsOpen}
