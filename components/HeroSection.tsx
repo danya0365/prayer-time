@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { PrayerInfo } from '../utils/prayer-utils';
 import CurrentPrayerIndicator from './CurrentPrayerIndicator';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;
@@ -17,7 +18,12 @@ export default function HeroSection({
   const formattedDate = format(today, 'EEEE, MMMM d, yyyy');
   
   return (
-    <section className="w-full flex flex-col items-center justify-center text-center mb-8">
+    <section className="w-full flex flex-col items-center justify-center text-center mb-8 relative">
+      {/* Theme Toggle - positioned absolutely in top-right */}
+      <div className="absolute top-0 right-0">
+        <ThemeToggle />
+      </div>
+      
       <div className="mb-4">
         <p className="text-lg opacity-80">{formattedDate}</p>
         <h1 className="text-4xl font-bold mt-2 mb-6">Prayer Times Dashboard</h1>

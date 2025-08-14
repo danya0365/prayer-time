@@ -1,82 +1,60 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  
-  /* Prayer Times Theme Colors */
-  --fajr-color: #5b6fb5;
-  --dhuhr-color: #f59e0b;
-  --asr-color: #10b981;
-  --maghrib-color: #8b5cf6;
-  --isha-color: #1e40af;
-  
-  /* Prayer Gradients */
-  --fajr-gradient: linear-gradient(135deg, #5b6fb5, #8b9dc8);
-  --dhuhr-gradient: linear-gradient(135deg, #f59e0b, #fbbf24);
-  --asr-gradient: linear-gradient(135deg, #10b981, #34d399);
-  --maghrib-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
-  --isha-gradient: linear-gradient(135deg, #1e40af, #3b82f6);
-  
-  /* UI Theme */
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-border: rgba(0, 0, 0, 0.1);
-  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.03);
+/* 1) ทำให้ dark: ใช้ได้แบบสลับด้วยคลาส .dark (ค่าเริ่มต้นของ v4 คือ media query) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 2) ประกาศ theme tokens (จะได้ใช้คลาสเช่น bg-background, text-foreground, font-sans) */
+@theme {
+  --font-sans: "Kanit", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /* Light defaults */
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+
+  /* Prayer colors -> ใช้ bg-fajr, text-dhuhr ได้เลย */
+  --color-fajr: #5b6fb5;
+  --color-dhuhr: #f59e0b;
+  --color-asr: #10b981;
+  --color-maghrib: #8b5cf6;
+  --color-isha: #1e40af;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* Prayer Colors */
-  --color-fajr: var(--fajr-color);
-  --color-dhuhr: var(--dhuhr-color);
-  --color-asr: var(--asr-color);
-  --color-maghrib: var(--maghrib-color);
-  --color-isha: var(--isha-color);
-  
-  /* Prayer Gradients */
-  --gradient-fajr: var(--fajr-gradient);
-  --gradient-dhuhr: var(--dhuhr-gradient);
-  --gradient-asr: var(--asr-gradient);
-  --gradient-maghrib: var(--maghrib-gradient);
-  --gradient-isha: var(--isha-gradient);
-  
-  /* UI Theme */
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
-  --shadow-card: var(--card-shadow);
-}
-
-@media (prefers-color-scheme: dark) {
+/* 3) ตัวแปรที่ไม่ต้องการให้สร้าง utility อัตโนมัติ เก็บไว้ใน base */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    
-    /* Prayer Times Theme Colors - Dark Mode */
-    --fajr-color: #7889c9;
-    --dhuhr-color: #fbbf24;
-    --asr-color: #34d399;
-    --maghrib-color: #a78bfa;
-    --isha-color: #3b82f6;
-    
-    /* UI Theme - Dark Mode */
-    --card-bg: rgba(30, 30, 30, 0.8);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
+    /* Gradients */
+    --fajr-gradient: linear-gradient(135deg, #5b6fb5, #8b9dc8);
+    --dhuhr-gradient: linear-gradient(135deg, #f59e0b, #fbbf24);
+    --asr-gradient: linear-gradient(135deg, #10b981, #34d399);
+    --maghrib-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    --isha-gradient: linear-gradient(135deg, #1e40af, #3b82f6);
+
+    /* UI Theme */
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.03);
   }
+
+  /* ใช้ tokens กับ body ผ่าน utilities ของ Tailwind */
+  body { @apply bg-background text-foreground font-sans; }
 }
 
-@font-face {
-  font-family: 'Kanit';
-  src: url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
-  font-display: swap;
-}
+/* 4) Overrides ตอนเป็น .dark (แค่เปลี่ยนค่าตัวแปรก็พอ) */
+@layer base {
+  .dark {
+    --color-background: #0a0a0a;
+    --color-foreground: #f5f5f5;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: 'Kanit', Arial, Helvetica, sans-serif;
+    /* Gradients โทนมืด */
+    --fajr-gradient: linear-gradient(135deg, #8b9dc8, #5b6fb5);
+    --dhuhr-gradient: linear-gradient(135deg, #fcd34d, #f59e0b);
+    --asr-gradient: linear-gradient(135deg, #6ee7b7, #10b981);
+    --maghrib-gradient: linear-gradient(135deg, #c4b5fd, #8b5cf6);
+    --isha-gradient: linear-gradient(135deg, #60a5fa, #1e40af);
+
+    --card-bg: rgba(30,30,30,0.8);
+    --card-border: rgba(255,255,255,0.1);
+    --card-shadow: 0 4px 6px rgba(255,255,255,0.05), 0 10px 15px rgba(255,255,255,0.03);
+  }
 }
