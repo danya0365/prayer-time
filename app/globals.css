@@ -20,6 +20,33 @@
   --color-asr: #10b981;
   --color-maghrib: #8b5cf6;
   --color-isha: #1e40af;
+
+  /* Status colors */
+  --color-success: #10b981;
+  --color-success-light: #d1fae5;
+  --color-success-dark: #047857;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
+  --color-warning-dark: #d97706;
+  --color-error: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-dark: #dc2626;
+  --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-dark: #1d4ed8;
+
+  /* Development/Coming Soon colors */
+  --color-development: #f59e0b;
+  --color-development-light: #fef3c7;
+  --color-development-dark: #d97706;
+
+  /* Islamic/Religious colors */
+  --color-islamic: #10b981;
+  --color-islamic-light: #d1fae5;
+  --color-islamic-dark: #047857;
+  --color-ramadan: #8b5cf6;
+  --color-ramadan-light: #ede9fe;
+  --color-ramadan-dark: #7c3aed;
 }
 
 /* 3) ตัวแปรที่ไม่ต้องการให้สร้าง utility อัตโนมัติ เก็บไว้ใน base */
@@ -79,5 +106,21 @@
     --card-bg: rgba(30,30,30,0.8);
     --card-border: rgba(255,255,255,0.1);
     --card-shadow: 0 4px 6px rgba(255,255,255,0.05), 0 10px 15px rgba(255,255,255,0.03);
+
+    /* Status colors for dark mode */
+    --color-success-light: #065f46;
+    --color-success-dark: #34d399;
+    --color-warning-light: #92400e;
+    --color-warning-dark: #fbbf24;
+    --color-error-light: #991b1b;
+    --color-error-dark: #f87171;
+    --color-info-light: #1e3a8a;
+    --color-info-dark: #60a5fa;
+    --color-development-light: #92400e;
+    --color-development-dark: #fbbf24;
+    --color-islamic-light: #065f46;
+    --color-islamic-dark: #34d399;
+    --color-ramadan-light: #581c87;
+    --color-ramadan-dark: #a78bfa;
   }
 }

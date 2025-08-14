@@ -57,7 +57,7 @@ export function NotificationButton({ onPermissionChange }: NotificationButtonPro
       case 'granted':
         return (
           <svg
-            className="h-4 w-4 text-green-500"
+            className="h-4 w-4 text-success"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -73,7 +73,7 @@ export function NotificationButton({ onPermissionChange }: NotificationButtonPro
       case 'denied':
         return (
           <svg
-            className="h-4 w-4 text-red-500"
+            className="h-4 w-4 text-error"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

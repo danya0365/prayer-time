@@ -33,12 +33,12 @@ export function QuranReaderMockup({ className }: QuranReaderMockupProps) {
       </h3>
 
       {/* Surah Info */}
-      <div className="mb-4 p-3 rounded-lg bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
+      <div className="mb-4 p-3 rounded-lg bg-islamic-light border border-islamic/20">
         <div className="text-center">
-          <h4 className="font-semibold text-emerald-700 dark:text-emerald-400">
+          <h4 className="font-semibold text-islamic">
             سُورَة الفَاتِحَة
           </h4>
-          <p className="text-sm text-emerald-600 dark:text-emerald-300">
+          <p className="text-sm text-islamic">
             Surah Al-Fatiha (The Opening)
           </p>
         </div>
@@ -55,7 +55,7 @@ export function QuranReaderMockup({ className }: QuranReaderMockupProps) {
       </div>
 
       {/* Translation */}
-      <div className="mb-4 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+      <div className="mb-4 p-3 rounded-lg bg-info-light border border-info/20">
         <p className="text-foreground text-center">
           &ldquo;{mockVerse.translation}&rdquo;
         </p>
@@ -69,7 +69,7 @@ export function QuranReaderMockup({ className }: QuranReaderMockupProps) {
               <path fillRule="evenodd" d="M15.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 010 1.414zm-6 0a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 1.414L5.414 10l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
           </button>
-          <button className="p-2 rounded-lg bg-green-500/20 text-green-600 hover:bg-green-500/30 transition-colors">
+          <button className="p-2 rounded-lg bg-success-light text-success-dark hover:bg-success-light/80 transition-colors">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
             </svg>

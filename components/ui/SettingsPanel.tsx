@@ -207,7 +207,7 @@ export function SettingsPanel({ isOpen, onClose, onSettingsChange }: SettingsPan
               localStorage.removeItem('prayer-settings')
               onSettingsChange?.(DEFAULT_SETTINGS)
             }}
-            className="w-full p-3 rounded-lg border border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors"
+            className="w-full p-3 rounded-lg border border-error/20 bg-error-light text-error hover:bg-error-light/80 transition-colors"
           >
             Reset to Default
           </button>

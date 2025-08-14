@@ -37,12 +37,12 @@ export function PrayerTrackerMockup({ className }: PrayerTrackerMockupProps) {
       </h3>
 
       {/* Streak Counter */}
-      <div className="mb-6 p-4 rounded-lg bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+      <div className="mb-6 p-4 rounded-lg bg-success-light border border-success/20">
         <div className="text-center">
-          <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+          <div className="text-3xl font-bold text-success">
             {mockData.streak}
           </div>
-          <div className="text-sm text-green-700 dark:text-green-300">
+          <div className="text-sm text-success">
             วันติดต่อกัน 🔥
           </div>
         </div>
@@ -58,7 +58,7 @@ export function PrayerTrackerMockup({ className }: PrayerTrackerMockupProps) {
                 <div className={cn(
                   'w-4 h-4 rounded-full border-2',
                   prayer.completed 
-                    ? 'bg-green-500 border-green-500' 
+                    ? 'bg-success border-success' 
                     : 'border-foreground/30'
                 )}>
                   {prayer.completed && (
@@ -69,7 +69,7 @@ export function PrayerTrackerMockup({ className }: PrayerTrackerMockupProps) {
                 </div>
                 <span className={cn(
                   'font-medium',
-                  prayer.completed ? 'text-green-600 dark:text-green-400' : 'text-foreground'
+                  prayer.completed ? 'text-success' : 'text-foreground'
                 )}>
                   {prayer.name}
                 </span>

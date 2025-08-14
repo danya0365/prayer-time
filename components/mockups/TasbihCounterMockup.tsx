@@ -69,7 +69,7 @@ export function TasbihCounterMockup({ className }: TasbihCounterMockupProps) {
               strokeWidth="8"
               fill="none"
               strokeDasharray={`${(mockData.count / mockData.target) * 314} 314`}
-              className="text-green-500 transition-all duration-300"
+              className="text-success transition-all duration-300"
             />
           </svg>
           
@@ -87,7 +87,7 @@ export function TasbihCounterMockup({ className }: TasbihCounterMockupProps) {
         </div>
 
         {/* Tap Button */}
-        <button className="w-20 h-20 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95">
+        <button className="w-20 h-20 rounded-full bg-success text-white text-xl font-bold shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95">
           +
         </button>
       </div>
@@ -110,10 +110,10 @@ export function TasbihCounterMockup({ className }: TasbihCounterMockupProps) {
 
       {/* Controls */}
       <div className="flex gap-2">
-        <button className="flex-1 py-2 px-3 rounded-lg bg-red-500/20 text-red-600 text-sm hover:bg-red-500/30 transition-colors">
+        <button className="flex-1 py-2 px-3 rounded-lg bg-error-light text-error-dark text-sm hover:bg-error-light/80 transition-colors">
           รีเซ็ต
         </button>
-        <button className="flex-1 py-2 px-3 rounded-lg bg-blue-500/20 text-blue-600 text-sm hover:bg-blue-500/30 transition-colors">
+        <button className="flex-1 py-2 px-3 rounded-lg bg-info-light text-info-dark text-sm hover:bg-info-light/80 transition-colors">
           ประวัติ
         </button>
       </div>

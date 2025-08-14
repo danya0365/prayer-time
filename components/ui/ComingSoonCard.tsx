@@ -28,8 +28,8 @@ export function ComingSoonCard({
       onClick={onClick}
     >
       {/* Coming Soon Badge */}
-      <div className="absolute top-3 right-3 px-2 py-1 bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border border-orange-500/30 rounded-full">
-        <span className="text-xs font-medium text-orange-600 dark:text-orange-400">
+      <div className="absolute top-3 right-3 px-2 py-1 bg-development-light border border-development rounded-full">
+        <span className="text-xs font-medium text-development">
           กำลังพัฒนา
         </span>
       </div>
@@ -54,15 +54,15 @@ export function ComingSoonCard({
 
       {/* Progress indicator */}
       <div className="w-full bg-card-border rounded-full h-2 mb-2">
-        <div className="bg-gradient-to-r from-orange-500 to-yellow-500 h-2 rounded-full w-1/3 animate-pulse" />
+        <div className="bg-development h-2 rounded-full w-1/3 animate-pulse" />
       </div>
       <p className="text-xs text-foreground/50">
         อยู่ระหว่างการพัฒนา...
       </p>
 
       {/* Decorative elements */}
-      <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-gradient-to-tl from-orange-500/10 to-yellow-500/10 rounded-full opacity-50" />
-      <div className="absolute -top-2 -left-2 w-12 h-12 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-full opacity-30" />
+      <div className="absolute -bottom-2 -right-2 w-16 h-16 bg-development-light rounded-full opacity-50" />
+      <div className="absolute -top-2 -left-2 w-12 h-12 bg-development-light rounded-full opacity-30" />
     </div>
   )
 }

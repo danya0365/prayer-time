@@ -93,8 +93,8 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
           className="absolute inset-0 flex items-center justify-center"
           style={{ transform: `rotate(${qiblaDirection}deg)` }}
         >
-          <div className="w-1 h-12 bg-gradient-to-t from-green-600 to-green-400 rounded-full shadow-lg transform -translate-y-2">
-            <div className="w-3 h-3 bg-green-500 rounded-full absolute -top-1 left-1/2 transform -translate-x-1/2 shadow-md" />
+          <div className="w-1 h-12 bg-success rounded-full shadow-lg transform -translate-y-2">
+            <div className="w-3 h-3 bg-success rounded-full absolute -top-1 left-1/2 transform -translate-x-1/2 shadow-md" />
           </div>
         </div>
         
@@ -115,7 +115,7 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
         {!permissionGranted && (
           <button
             onClick={() => window.location.reload()}
-            className="mt-2 px-3 py-1 text-xs bg-green-500/20 text-green-600 rounded-full hover:bg-green-500/30 transition-colors"
+            className="mt-2 px-3 py-1 text-xs bg-success-light text-success-dark rounded-full hover:bg-success-light/80 transition-colors"
           >
             Enable Compass
           </button>

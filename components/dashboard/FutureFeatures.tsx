@@ -112,7 +112,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
       </div>
 
       {/* Call to Action */}
-      <div className="mt-12 text-center p-8 rounded-xl bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/20">
+      <div className="mt-12 text-center p-8 rounded-xl bg-development-light border border-development/20">
         <h3 className="text-2xl font-bold text-foreground mb-4">
           ต้องการฟีเจอร์อื่นๆ? 💡
         </h3>
@@ -121,7 +121,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
         </p>
         <button 
           onClick={() => alert('ขอบคุณสำหรับความสนใจ! เราจะพัฒนาฟีเจอร์เหล่านี้ในเร็วๆ นี้ 🙏')}
-          className="px-6 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
+          className="px-6 py-3 bg-development text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
         >
           แจ้งความต้องการ
         </button>

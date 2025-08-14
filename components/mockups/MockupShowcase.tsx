@@ -63,7 +63,7 @@ export function MockupShowcase({ className }: MockupShowcaseProps) {
       </div>
 
       {/* Development Status */}
-      <div className="mt-6 p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+      <div className="mt-6 p-4 rounded-lg bg-info-light border border-info/20">
         <div className="flex items-center gap-3">
           <div className="text-2xl">👨‍💻</div>
           <div>
@@ -76,15 +76,15 @@ export function MockupShowcase({ className }: MockupShowcaseProps) {
         
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="text-center p-3 rounded-lg bg-background/30">
-            <div className="text-lg font-bold text-orange-600 dark:text-orange-400">30%</div>
+            <div className="text-lg font-bold text-development">30%</div>
             <div className="text-xs text-foreground/70">UI Design</div>
           </div>
           <div className="text-center p-3 rounded-lg bg-background/30">
-            <div className="text-lg font-bold text-yellow-600 dark:text-yellow-400">15%</div>
+            <div className="text-lg font-bold text-warning">15%</div>
             <div className="text-xs text-foreground/70">Development</div>
           </div>
           <div className="text-center p-3 rounded-lg bg-background/30">
-            <div className="text-lg font-bold text-green-600 dark:text-green-400">0%</div>
+            <div className="text-lg font-bold text-success">0%</div>
             <div className="text-xs text-foreground/70">Testing</div>
           </div>
         </div>
