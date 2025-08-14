@@ -25,18 +25,12 @@ export default function CurrentPrayerIndicator({
     return () => clearInterval(timer);
   }, []);
   
-  // Get gradient background based on current or next prayer
-  const getPrayerGradient = () => {
-    const prayer = currentPrayer || nextPrayer;
-    return `var(--gradient-${prayer.name})`;
-  };
-  
   return (
     <div 
       className="w-full max-w-md rounded-2xl p-6 text-white relative overflow-hidden"
       style={{ 
-        background: getPrayerGradient(),
-        boxShadow: 'var(--shadow-card)'
+        background: `var(--${(currentPrayer || nextPrayer).name}-gradient)`,
+        boxShadow: 'var(--card-shadow)'
       }}
       aria-live="polite"
     >
@@ -69,13 +63,11 @@ export default function CurrentPrayerIndicator({
       
       {/* Decorative elements */}
       <div 
-        className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20 -translate-y-1/2 translate-x-1/2" 
-        style={{ background: 'white' }}
+        className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white opacity-20 -translate-y-1/2 translate-x-1/2" 
         aria-hidden="true"
       />
       <div 
-        className="absolute bottom-0 left-0 w-24 h-24 rounded-full opacity-10 translate-y-1/2 -translate-x-1/2" 
-        style={{ background: 'white' }}
+        className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-white opacity-10 translate-y-1/2 -translate-x-1/2" 
         aria-hidden="true"
       />
     </div>
