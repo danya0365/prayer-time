@@ -9,6 +9,9 @@ import {
 } from '../../utils/prayer-utils';
 import { useNotifications } from '../../hooks/useNotifications';
 import { SettingsPanel, PrayerSettings } from '../ui/SettingsPanel';
+import { useLocationStore } from '../../stores/locationStore';
+import LocationDisplay from '../ui/LocationDisplay';
+import LocationSelector from '../ui/LocationSelector';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
 import { AdditionalFeatures } from './AdditionalFeatures';
@@ -23,7 +26,8 @@ export default function PrayerTimesDashboard() {
   const [loading, setLoading] = useState<boolean>(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
-  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [locationSelectorOpen, setLocationSelectorOpen] = useState<boolean>(false);
+  const { currentLocation, requestGeolocation } = useLocationStore();
   const [settings, setSettings] = useState<PrayerSettings>({
     calculationMethod: 'MoonsightingCommittee',
     notificationMinutes: 15,
@@ -39,13 +43,13 @@ export default function PrayerTimesDashboard() {
     notificationMinutes: settings.notificationMinutes
   });
 
-  // Get user's geolocation or use default (Bangkok)
+  // Calculate prayer times when location changes
   useEffect(() => {
-    const calculatePrayerTimes = (latitude?: number, longitude?: number) => {
+    const calculatePrayerTimes = () => {
       try {
-        // Get prayer times for today
-        const prayerTimes = latitude && longitude 
-          ? getPrayerTimes(new Date(), { latitude, longitude })
+        // Get prayer times for today using current location
+        const prayerTimes = currentLocation 
+          ? getPrayerTimes(new Date(), { latitude: currentLocation.latitude, longitude: currentLocation.longitude })
           : getPrayerTimes();
           
         // Get all prayer info
@@ -75,21 +79,12 @@ export default function PrayerTimesDashboard() {
       }
     };
     
-    // Try to get user's location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation({ latitude, longitude });
-          calculatePrayerTimes(latitude, longitude);
-        },
-        (error) => {
-          console.error('Error getting geolocation:', error);
-          calculatePrayerTimes(); // Use default coordinates
-        }
-      );
-    } else {
-      calculatePrayerTimes(); // Use default coordinates
+    // Calculate prayer times with current location
+    calculatePrayerTimes();
+    
+    // If no location is set, try to get user's location automatically
+    if (!currentLocation) {
+      requestGeolocation();
     }
     
     // Update prayer times at midnight
@@ -108,7 +103,7 @@ export default function PrayerTimesDashboard() {
     };
     
     checkForDayChange();
-  }, [settings]); // Re-calculate when settings change
+  }, [settings, currentLocation, requestGeolocation]); // Re-calculate when settings or location change
 
   // Handle notification permission change
   const handleNotificationPermissionChange = (granted: boolean) => {
@@ -132,6 +127,18 @@ export default function PrayerTimesDashboard() {
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-4">
+      {/* Location Display */}
+      <div className="w-full max-w-4xl mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Prayer Times Location</h3>
+          <LocationDisplay 
+            onOpenLocationSelector={() => setLocationSelectorOpen(true)}
+            showEditButton={true}
+            compact={false}
+          />
+        </div>
+      </div>
+
       <HeroSection 
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
@@ -146,8 +153,8 @@ export default function PrayerTimesDashboard() {
       />
 
       <AdditionalFeatures
-        latitude={userLocation?.latitude}
-        longitude={userLocation?.longitude}
+        latitude={currentLocation?.latitude}
+        longitude={currentLocation?.longitude}
         language={settings.language}
       />
 
@@ -159,6 +166,11 @@ export default function PrayerTimesDashboard() {
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         onSettingsChange={handleSettingsChange}
+      />
+
+      <LocationSelector
+        isOpen={locationSelectorOpen}
+        onClose={() => setLocationSelectorOpen(false)}
       />
     </div>
   );
