@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
-import { PrayerInfo } from '../utils/prayer-utils';
+import { PrayerInfo } from '../../utils/prayer-utils';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import CurrentPrayerIndicator from './CurrentPrayerIndicator';
-import { ThemeToggle } from './ui/ThemeToggle';
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;

@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { PrayerInfo, formatTimeUntilNextPrayer } from '../utils/prayer-utils';
-import { cn } from '../utils/cn';
+import { cn } from '../../utils/cn';
+import { PrayerInfo, formatTimeUntilNextPrayer } from '../../utils/prayer-utils';
 
 interface CurrentPrayerIndicatorProps {
   currentPrayer: PrayerInfo | null;

@@ -1,5 +1,5 @@
-import { PrayerInfo, formatPrayerTime } from '../utils/prayer-utils';
-import { cn } from '../utils/cn';
+import { cn } from '../../utils/cn';
+import { PrayerInfo, formatPrayerTime } from '../../utils/prayer-utils';
 
 interface PrayerTimesDisplayProps {
   prayers: PrayerInfo[];

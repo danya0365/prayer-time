@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import {
-    getAllPrayerInfo,
-    getCurrentAndNextPrayer,
-    getPrayerTimes,
-    PrayerInfo
-} from '../utils/prayer-utils';
+  getAllPrayerInfo,
+  getCurrentAndNextPrayer,
+  getPrayerTimes,
+  PrayerInfo
+} from '../../utils/prayer-utils';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
 
