@@ -7,8 +7,11 @@ import {
   getPrayerTimes,
   PrayerInfo
 } from '../../utils/prayer-utils';
+import { useNotifications } from '../../hooks/useNotifications';
+import { SettingsPanel, PrayerSettings } from '../ui/SettingsPanel';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
+import { AdditionalFeatures } from './AdditionalFeatures';
 
 export default function PrayerTimesDashboard() {
   const [prayers, setPrayers] = useState<PrayerInfo[]>([]);
@@ -16,7 +19,24 @@ export default function PrayerTimesDashboard() {
   const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
   const [timeUntilNext, setTimeUntilNext] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const [settings, setSettings] = useState<PrayerSettings>({
+    calculationMethod: 'MoonsightingCommittee',
+    notificationMinutes: 15,
+    language: 'en',
+    adjustments: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
+  });
   
+  // Use notifications hook
+  useNotifications({
+    enabled: notificationsEnabled,
+    nextPrayer: nextPrayer!,
+    timeUntilNext,
+    notificationMinutes: settings.notificationMinutes
+  });
+
   // Get user's geolocation or use default (Bangkok)
   useEffect(() => {
     const calculatePrayerTimes = (latitude?: number, longitude?: number) => {
@@ -57,7 +77,9 @@ export default function PrayerTimesDashboard() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          calculatePrayerTimes(position.coords.latitude, position.coords.longitude);
+          const { latitude, longitude } = position.coords;
+          setUserLocation({ latitude, longitude });
+          calculatePrayerTimes(latitude, longitude);
         },
         (error) => {
           console.error('Error getting geolocation:', error);
@@ -84,7 +106,17 @@ export default function PrayerTimesDashboard() {
     };
     
     checkForDayChange();
-  }, []);
+  }, [settings]); // Re-calculate when settings change
+
+  // Handle notification permission change
+  const handleNotificationPermissionChange = (granted: boolean) => {
+    setNotificationsEnabled(granted);
+  };
+
+  // Handle settings change
+  const handleSettingsChange = (newSettings: PrayerSettings) => {
+    setSettings(newSettings);
+  };
   
   if (loading || !nextPrayer) {
     return (
@@ -102,11 +134,25 @@ export default function PrayerTimesDashboard() {
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
         timeUntilNext={timeUntilNext}
+        onNotificationPermissionChange={handleNotificationPermissionChange}
+        onSettingsClick={() => setSettingsOpen(true)}
       />
       
       <PrayerTimesDisplay 
         prayers={prayers}
         currentPrayer={currentPrayer}
+      />
+
+      <AdditionalFeatures
+        latitude={userLocation?.latitude}
+        longitude={userLocation?.longitude}
+        language={settings.language}
+      />
+
+      <SettingsPanel
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        onSettingsChange={handleSettingsChange}
       />
     </div>
   );

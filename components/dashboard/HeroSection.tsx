@@ -1,26 +1,34 @@
 import { format } from 'date-fns';
 import { PrayerInfo } from '../../utils/prayer-utils';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { NotificationButton } from '../ui/NotificationButton';
+import { SettingsButton } from '../ui/SettingsButton';
 import CurrentPrayerIndicator from './CurrentPrayerIndicator';
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;
   nextPrayer: PrayerInfo;
   timeUntilNext: number;
+  onNotificationPermissionChange?: (granted: boolean) => void;
+  onSettingsClick?: () => void;
 }
 
 export default function HeroSection({ 
   currentPrayer, 
   nextPrayer, 
-  timeUntilNext 
+  timeUntilNext,
+  onNotificationPermissionChange,
+  onSettingsClick
 }: HeroSectionProps) {
   const today = new Date();
   const formattedDate = format(today, 'EEEE, MMMM d, yyyy');
   
   return (
     <section className="w-full flex flex-col items-center justify-center text-center mb-8 relative">
-      {/* Theme Toggle - positioned absolutely in top-right */}
-      <div className="absolute top-0 right-0">
+      {/* Control buttons - positioned absolutely in top-right */}
+      <div className="absolute top-0 right-0 flex gap-2">
+        <NotificationButton onPermissionChange={onNotificationPermissionChange} />
+        <SettingsButton onClick={onSettingsClick || (() => {})} />
         <ThemeToggle />
       </div>
       
