@@ -8,8 +8,9 @@ import {
   PrayerInfo
 } from '../../utils/prayer-utils';
 import { useNotifications } from '../../hooks/useNotifications';
-import { SettingsPanel, PrayerSettings } from '../ui/SettingsPanel';
+import SettingsPanel from '../ui/SettingsPanel';
 import { useLocationStore } from '../../stores/locationStore';
+import { useSettingsStore } from '../../stores/settingsStore';
 import LocationSelector from '../ui/LocationSelector';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
@@ -30,12 +31,7 @@ export default function PrayerTimesDashboard() {
   const [testMode, setTestMode] = useState<boolean>(false);
   const [testTime, setTestTime] = useState<Date>(new Date());
   const { currentLocation, requestGeolocation } = useLocationStore();
-  const [settings, setSettings] = useState<PrayerSettings>({
-    calculationMethod: 'MuslimWorldLeague',
-    notificationMinutes: 15,
-    language: 'en',
-    adjustments: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
-  });
+  const { settings } = useSettingsStore();
   
   // Use notifications hook - enabled state managed in settings
   useNotifications({
@@ -123,10 +119,7 @@ export default function PrayerTimesDashboard() {
 
   // Note: Notification settings moved to SettingsPanel
 
-  // Handle settings change
-  const handleSettingsChange = (newSettings: PrayerSettings) => {
-    setSettings(newSettings);
-  };
+
   
   // Test mode functions
   const toggleTestMode = () => {
@@ -288,7 +281,6 @@ export default function PrayerTimesDashboard() {
       <SettingsPanel
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
-        onSettingsChange={handleSettingsChange}
       />
 
       <LocationSelector
