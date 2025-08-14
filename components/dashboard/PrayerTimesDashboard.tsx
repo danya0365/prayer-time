@@ -12,6 +12,8 @@ import { SettingsPanel, PrayerSettings } from '../ui/SettingsPanel';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
 import { AdditionalFeatures } from './AdditionalFeatures';
+import { FutureFeatures } from './FutureFeatures';
+import { MockupShowcase } from '../mockups/MockupShowcase';
 
 export default function PrayerTimesDashboard() {
   const [prayers, setPrayers] = useState<PrayerInfo[]>([]);
@@ -148,6 +150,10 @@ export default function PrayerTimesDashboard() {
         longitude={userLocation?.longitude}
         language={settings.language}
       />
+
+      <MockupShowcase />
+
+      <FutureFeatures />
 
       <SettingsPanel
         isOpen={settingsOpen}
