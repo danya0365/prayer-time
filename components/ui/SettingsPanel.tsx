@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { cn } from '../../utils/cn'
+import { ThemeToggle } from './ThemeToggle'
+import { NotificationButton } from './NotificationButton'
 // import { CalculationMethod } from 'adhan' // Will be used when implementing calculation method changes
 
 interface SettingsPanelProps {
@@ -37,7 +39,7 @@ const CALCULATION_METHODS = [
 ]
 
 const DEFAULT_SETTINGS: PrayerSettings = {
-  calculationMethod: 'MoonsightingCommittee',
+  calculationMethod: 'MuslimWorldLeague',
   notificationMinutes: 15,
   language: 'en',
   adjustments: {
@@ -119,6 +121,29 @@ export function SettingsPanel({ isOpen, onClose, onSettingsChange }: SettingsPan
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+          </div>
+
+          {/* App Settings */}
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">App Settings</h3>
+            
+            {/* Theme Toggle */}
+            <div className="flex items-center justify-between mb-4 p-4 rounded-lg border border-card-border bg-card-bg">
+              <div>
+                <h4 className="font-medium text-foreground">Theme</h4>
+                <p className="text-sm text-foreground/70">Switch between light and dark mode</p>
+              </div>
+              <ThemeToggle />
+            </div>
+            
+            {/* Notification Permission */}
+            <div className="flex items-center justify-between p-4 rounded-lg border border-card-border bg-card-bg">
+              <div>
+                <h4 className="font-medium text-foreground">Prayer Notifications</h4>
+                <p className="text-sm text-foreground/70">Enable browser notifications for prayer times</p>
+              </div>
+              <NotificationButton onPermissionChange={(granted) => console.log('Notification permission:', granted)} />
+            </div>
           </div>
 
           {/* Calculation Method */}

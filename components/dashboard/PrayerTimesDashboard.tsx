@@ -10,7 +10,6 @@ import {
 import { useNotifications } from '../../hooks/useNotifications';
 import { SettingsPanel, PrayerSettings } from '../ui/SettingsPanel';
 import { useLocationStore } from '../../stores/locationStore';
-import LocationDisplay from '../ui/LocationDisplay';
 import LocationSelector from '../ui/LocationSelector';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
@@ -24,21 +23,21 @@ export default function PrayerTimesDashboard() {
   const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
   const [timeUntilNext, setTimeUntilNext] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [notificationsEnabled, setNotificationsEnabled] = useState<boolean>(false);
+  // Notifications now handled in SettingsPanel
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [locationSelectorOpen, setLocationSelectorOpen] = useState<boolean>(false);
   const [showAdditionalFeatures, setShowAdditionalFeatures] = useState<boolean>(false);
   const { currentLocation, requestGeolocation } = useLocationStore();
   const [settings, setSettings] = useState<PrayerSettings>({
-    calculationMethod: 'MoonsightingCommittee',
+    calculationMethod: 'MuslimWorldLeague',
     notificationMinutes: 15,
     language: 'en',
     adjustments: { fajr: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 }
   });
   
-  // Use notifications hook
+  // Use notifications hook - enabled state managed in settings
   useNotifications({
-    enabled: notificationsEnabled,
+    enabled: false, // Will be managed through settings panel
     nextPrayer: nextPrayer!,
     timeUntilNext,
     notificationMinutes: settings.notificationMinutes
@@ -106,10 +105,7 @@ export default function PrayerTimesDashboard() {
     checkForDayChange();
   }, [settings, currentLocation, requestGeolocation]); // Re-calculate when settings or location change
 
-  // Handle notification permission change
-  const handleNotificationPermissionChange = (granted: boolean) => {
-    setNotificationsEnabled(granted);
-  };
+  // Note: Notification settings moved to SettingsPanel
 
   // Handle settings change
   const handleSettingsChange = (newSettings: PrayerSettings) => {
@@ -128,24 +124,12 @@ export default function PrayerTimesDashboard() {
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-10 px-4">
-      {/* Location Display */}
-      <div className="w-full max-w-4xl mb-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Prayer Times Location</h3>
-          <LocationDisplay 
-            onOpenLocationSelector={() => setLocationSelectorOpen(true)}
-            showEditButton={true}
-            compact={false}
-          />
-        </div>
-      </div>
-
       <HeroSection 
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
         timeUntilNext={timeUntilNext}
-        onNotificationPermissionChange={handleNotificationPermissionChange}
         onSettingsClick={() => setSettingsOpen(true)}
+        onLocationClick={() => setLocationSelectorOpen(true)}
       />
       
       <PrayerTimesDisplay 

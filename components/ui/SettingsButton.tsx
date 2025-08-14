@@ -5,21 +5,28 @@ import { cn } from '../../utils/cn'
 interface SettingsButtonProps {
   onClick: () => void
   className?: string
+  variant?: 'default' | 'light'
 }
 
-export function SettingsButton({ onClick, className }: SettingsButtonProps) {
+export function SettingsButton({ onClick, className, variant = 'default' }: SettingsButtonProps) {
   return (
     <button
       onClick={onClick}
       className={cn(
-        'inline-flex h-10 w-10 items-center justify-center rounded-lg border border-card-border bg-card-bg backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-foreground/20',
+        'inline-flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2',
+        variant === 'light' 
+          ? 'bg-white/20 hover:bg-white/30 border border-white/30 focus:ring-white/20 backdrop-blur-sm'
+          : 'border border-card-border bg-card-bg backdrop-blur-sm hover:shadow-lg focus:ring-foreground/20',
         className
       )}
       title="Settings"
       aria-label="Open settings"
     >
       <svg
-        className="h-4 w-4 text-foreground"
+        className={cn(
+          'h-4 w-4',
+          variant === 'light' ? 'text-white' : 'text-foreground'
+        )}
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"

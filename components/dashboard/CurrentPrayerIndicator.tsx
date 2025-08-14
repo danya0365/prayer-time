@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { cn } from '../../utils/cn';
 import { PrayerInfo, formatTimeUntilNextPrayer } from '../../utils/prayer-utils';
 
 interface CurrentPrayerIndicatorProps {
@@ -26,29 +25,45 @@ export default function CurrentPrayerIndicator({
     return () => clearInterval(timer);
   }, []);
   
-  const getPrayerGradientClass = () => {
+  const getPrayerColors = () => {
     const prayer = currentPrayer || nextPrayer;
-    return `bg-${prayer.name}-gradient`;
+    const colorMap = {
+      fajr: 'from-indigo-400 to-purple-500',
+      dhuhr: 'from-yellow-400 to-orange-500', 
+      asr: 'from-orange-400 to-red-500',
+      maghrib: 'from-pink-400 to-rose-500',
+      isha: 'from-blue-400 to-indigo-500'
+    };
+    return colorMap[prayer.name] || 'from-emerald-400 to-teal-500';
   };
 
   return (
-    <div 
-      className={cn(
-        'w-full max-w-md rounded-2xl p-6 text-on-surface relative overflow-hidden card-shadow',
-        getPrayerGradientClass()
-      )}
-      aria-live="polite"
-    >
-      <div className="relative z-10">
-        <div className="flex items-center justify-center mb-2">
-          <span className="text-4xl mr-2" aria-hidden="true">
-            {currentPrayer ? currentPrayer.emoji : nextPrayer.emoji}
-          </span>
-          <h2 className="text-2xl font-bold">
-            {currentPrayer 
-              ? `Current: ${currentPrayer.displayName}` 
-              : `Next: ${nextPrayer.displayName}`}
-          </h2>
+    <div className="bg-white/20 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-xl">
+      <div className="text-center">
+        {/* Prayer Status */}
+        <div className="mb-4">
+          <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r ${getPrayerColors()} text-white font-semibold shadow-lg`}>
+            <span className="text-2xl" aria-hidden="true">
+              {currentPrayer ? currentPrayer.emoji : nextPrayer.emoji}
+            </span>
+            <span className="text-lg">
+              {currentPrayer 
+                ? `Current: ${currentPrayer.displayName}` 
+                : `Next: ${nextPrayer.displayName}`}
+            </span>
+          </div>
+        </div>
+        
+        {/* Countdown */}
+        <div className="text-white">
+          <p className="text-white/80 text-sm mb-2 font-medium">
+            {currentPrayer ? 'Time until next prayer' : 'Time remaining'}
+          </p>
+          <div className="bg-white/20 rounded-xl px-6 py-4 backdrop-blur-sm border border-white/20">
+            <p className="text-3xl font-bold text-white">
+              {formatTimeUntilNextPrayer(timeUntilNext)}
+            </p>
+          </div>
         </div>
         
         <div className="mt-4 text-center">
@@ -65,16 +80,6 @@ export default function CurrentPrayerIndicator({
           </p>
         </div>
       </div>
-      
-      {/* Decorative elements */}
-      <div 
-        className="absolute top-0 right-0 w-32 h-32 rounded-full bg-surface opacity-20 -translate-y-1/2 translate-x-1/2" 
-        aria-hidden="true"
-      />
-      <div 
-        className="absolute bottom-0 left-0 w-24 h-24 rounded-full bg-surface opacity-10 translate-y-1/2 -translate-x-1/2" 
-        aria-hidden="true"
-      />
     </div>
   );
 }
