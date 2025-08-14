@@ -3,6 +3,25 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Prayer Times Theme Colors */
+  --fajr-color: #5b6fb5;
+  --dhuhr-color: #f59e0b;
+  --asr-color: #10b981;
+  --maghrib-color: #8b5cf6;
+  --isha-color: #1e40af;
+  
+  /* Prayer Gradients */
+  --fajr-gradient: linear-gradient(135deg, #5b6fb5, #8b9dc8);
+  --dhuhr-gradient: linear-gradient(135deg, #f59e0b, #fbbf24);
+  --asr-gradient: linear-gradient(135deg, #10b981, #34d399);
+  --maghrib-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  --isha-gradient: linear-gradient(135deg, #1e40af, #3b82f6);
+  
+  /* UI Theme */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.03);
 }
 
 @theme inline {
@@ -10,17 +29,54 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Prayer Colors */
+  --color-fajr: var(--fajr-color);
+  --color-dhuhr: var(--dhuhr-color);
+  --color-asr: var(--asr-color);
+  --color-maghrib: var(--maghrib-color);
+  --color-isha: var(--isha-color);
+  
+  /* Prayer Gradients */
+  --gradient-fajr: var(--fajr-gradient);
+  --gradient-dhuhr: var(--dhuhr-gradient);
+  --gradient-asr: var(--asr-gradient);
+  --gradient-maghrib: var(--maghrib-gradient);
+  --gradient-isha: var(--isha-gradient);
+  
+  /* UI Theme */
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --shadow-card: var(--card-shadow);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    
+    /* Prayer Times Theme Colors - Dark Mode */
+    --fajr-color: #7889c9;
+    --dhuhr-color: #fbbf24;
+    --asr-color: #34d399;
+    --maghrib-color: #a78bfa;
+    --isha-color: #3b82f6;
+    
+    /* UI Theme - Dark Mode */
+    --card-bg: rgba(30, 30, 30, 0.8);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1);
   }
+}
+
+@font-face {
+  font-family: 'Kanit';
+  src: url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+  font-display: swap;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Kanit', Arial, Helvetica, sans-serif;
 }
