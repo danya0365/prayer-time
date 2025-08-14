@@ -228,11 +228,13 @@ export default function PrayerTimesDashboard() {
         onLocationClick={() => setLocationSelectorOpen(true)}
         testMode={testMode}
         testTime={testTime}
+        language={settings.language}
       />
 
       <PrayerTimesDisplay 
         prayers={prayers}
         currentPrayer={currentPrayer}
+        language={settings.language}
       />
 
       {/* Additional Features Toggle */}

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { PrayerInfo, formatTimeUntilNextPrayer } from '../../utils/prayer-utils';
+import { useTranslation } from '../../hooks/useTranslation';
+import { Language } from '../../types/translation';
 
 interface CurrentPrayerIndicatorProps {
   currentPrayer: PrayerInfo | null;
@@ -9,14 +11,17 @@ interface CurrentPrayerIndicatorProps {
   timeUntilNext: number;
   testMode?: boolean;
   testTime?: Date;
+  language: Language;
 }
 
 export default function CurrentPrayerIndicator({
   currentPrayer,
   nextPrayer,
   timeUntilNext: initialTimeUntilNext,
-  testMode = false
+  testMode = false,
+  language
 }: CurrentPrayerIndicatorProps) {
+  const { t } = useTranslation({ language });
   const [timeUntilNext, setTimeUntilNext] = useState(initialTimeUntilNext);
   
   // Update countdown every minute (only in normal mode)
@@ -62,8 +67,8 @@ export default function CurrentPrayerIndicator({
             </span>
             <span className="text-lg">
               {currentPrayer 
-                ? `Current: ${currentPrayer.displayName}` 
-                : `Next: ${nextPrayer.displayName}`}
+                ? `${t.ui.current}: ${t.prayers[currentPrayer.name as keyof typeof t.prayers]}` 
+                : `${t.ui.next}: ${t.prayers[nextPrayer.name as keyof typeof t.prayers]}`}
             </span>
           </div>
         </div>
@@ -71,7 +76,7 @@ export default function CurrentPrayerIndicator({
         {/* Countdown */}
         <div className="text-white">
           <p className="text-white/80 text-sm mb-2 font-medium">
-            {currentPrayer ? 'Time until next prayer' : 'Time remaining'}
+            {currentPrayer ? t.ui.timeRemaining : t.ui.timeRemaining}
           </p>
           <div className="bg-white/20 rounded-xl px-6 py-4 backdrop-blur-sm border border-white/20">
             <p className="text-3xl font-bold text-white">
@@ -83,8 +88,8 @@ export default function CurrentPrayerIndicator({
         <div className="mt-4 text-center">
           <p className="text-lg opacity-90">
             {currentPrayer 
-              ? `Next prayer: ${nextPrayer.displayName} in ${formatTimeUntilNextPrayer(timeUntilNext)}` 
-              : `Time until ${nextPrayer.displayName}: ${formatTimeUntilNextPrayer(timeUntilNext)}`}
+              ? `${t.ui.nextPrayer}: ${t.prayers[nextPrayer.name as keyof typeof t.prayers]} ${t.time.in} ${formatTimeUntilNextPrayer(timeUntilNext)}` 
+              : `${t.time.until} ${t.prayers[nextPrayer.name as keyof typeof t.prayers]}: ${formatTimeUntilNextPrayer(timeUntilNext)}`}
           </p>
           <p className="mt-2 text-sm opacity-80">
             {new Date(Date.now() + timeUntilNext).toLocaleTimeString([], { 

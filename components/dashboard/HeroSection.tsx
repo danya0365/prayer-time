@@ -3,6 +3,8 @@ import { useLocationStore } from "../../stores/locationStore";
 import { PrayerInfo } from "../../utils/prayer-utils";
 import { SettingsButton } from "../ui/SettingsButton";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
+import { useTranslation } from "../../hooks/useTranslation";
+import { Language } from "../../types/translation";
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;
@@ -12,6 +14,7 @@ interface HeroSectionProps {
   onLocationClick?: () => void;
   testMode?: boolean;
   testTime?: Date;
+  language: Language;
 }
 
 export default function HeroSection({
@@ -22,7 +25,9 @@ export default function HeroSection({
   onLocationClick,
   testMode = false,
   testTime,
+  language,
 }: HeroSectionProps) {
+  const { t } = useTranslation({ language });
   const today = new Date();
   const formattedDate = format(today, "EEEE, MMMM d, yyyy");
   const { currentLocation } = useLocationStore();
@@ -52,10 +57,10 @@ export default function HeroSection({
               {formattedDate}
             </p>
             <h1 className="text-3xl md:text-4xl font-bold text-white">
-              🕌 Prayer Times Dashboard
+              🕌 {t.ui.todaysPrayerTimes}
             </h1>
             <p className="text-white/70 mt-2 text-sm">
-              Stay connected with your daily prayers
+              {t.ui.stayConnected}
             </p>
           </div>
 
@@ -65,6 +70,7 @@ export default function HeroSection({
             timeUntilNext={timeUntilNext}
             testMode={testMode}
             testTime={testTime}
+            language={language}
           />
         </div>
 

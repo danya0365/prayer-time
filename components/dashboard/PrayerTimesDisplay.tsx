@@ -1,12 +1,16 @@
 import { cn } from '../../utils/cn';
 import { PrayerInfo, formatPrayerTime } from '../../utils/prayer-utils';
+import { useTranslation } from '../../hooks/useTranslation';
+import { Language } from '../../types/translation';
 
 interface PrayerTimesDisplayProps {
   prayers: PrayerInfo[];
   currentPrayer: PrayerInfo | null;
+  language: Language;
 }
 
-export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTimesDisplayProps) {
+export default function PrayerTimesDisplay({ prayers, currentPrayer, language }: PrayerTimesDisplayProps) {
+  const { t } = useTranslation({ language });
   const getPrayerColors = (prayer: PrayerInfo) => {
     const colorMap = {
       fajr: { bg: 'bg-fajr-gradient', border: 'border-fajr', text: 'text-fajr' },
@@ -21,7 +25,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
   return (
     <div className="w-full max-w-4xl mx-auto mb-8">
       <h2 className="text-2xl font-bold text-center mb-6 text-foreground">
-        Today&apos;s Prayer Times
+        {t.ui.todaysPrayerTimes}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {prayers.map((prayer) => {
@@ -41,7 +45,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
               {/* Current Prayer Indicator */}
               {isCurrentPrayer && (
                 <div className={`absolute -top-2 -right-2 ${colors.bg} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
-                  NOW
+                  {t.ui.now}
                 </div>
               )}
               
@@ -53,7 +57,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
                   'text-lg font-semibold mb-2',
                   isCurrentPrayer ? colors.text : 'text-muted'
                 )}>
-                  {prayer.displayName}
+                  {t.prayers[prayer.name as keyof typeof t.prayers]}
                 </h3>
                 <div className={cn(
                   'text-2xl font-bold px-4 py-2 rounded-lg',
