@@ -156,15 +156,15 @@ export default function PrayerTimesDashboard() {
       {/* Test Mode Controls */}
       {process.env.NODE_ENV === 'development' && (
         <div className="w-full max-w-4xl mb-4">
-          <div className="bg-warning-light dark:bg-warning-dark/20 border border-warning-light dark:border-warning-dark rounded-lg p-4">
+          <div className="bg-warning-light/20 border border-warning-light rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-warning-dark dark:text-warning-light">🧪 Test Mode (Development Only)</h3>
+              <h3 className="text-sm font-medium text-warning-dark">🧪 Test Mode (Development Only)</h3>
               <button
                 onClick={toggleTestMode}
                 className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
                   testMode 
                     ? 'bg-warning text-white hover:bg-warning-dark' 
-                    : 'bg-muted-light text-muted-dark hover:bg-border-light dark:bg-muted-dark dark:text-muted-light dark:hover:bg-border-dark'
+                    : 'bg-muted-light text-muted-dark hover:bg-border-light'
                 }`}
               >
                 {testMode ? 'Exit Test' : 'Test Mode'}
@@ -173,7 +173,7 @@ export default function PrayerTimesDashboard() {
             
             {testMode && (
               <div className="space-y-3">
-                <div className="text-sm text-warning-dark dark:text-warning-light">
+                <div className="text-sm text-warning-dark">
                   <strong>Test Time:</strong> {testTime.toLocaleString()}
                 </div>
                 <div className="flex gap-2 flex-wrap">
@@ -248,7 +248,7 @@ export default function PrayerTimesDashboard() {
               </svg>
               ดูฟีเจอร์เพิ่มเติม
             </button>
-            <p className="text-sm text-muted dark:text-muted mt-2">
+            <p className="text-sm text-muted mt-2">
               แสดงฟีเจอร์อื่นๆ และตัวอย่างการใช้งาน
             </p>
           </div>
@@ -262,7 +262,7 @@ export default function PrayerTimesDashboard() {
           <div className="text-center">
             <button
               onClick={() => setShowAdditionalFeatures(false)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-muted hover:text-muted-dark dark:text-muted dark:hover:text-muted-light transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-muted hover:text-muted-dark transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />

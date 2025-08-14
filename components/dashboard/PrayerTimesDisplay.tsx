@@ -20,7 +20,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
 
   return (
     <div className="w-full max-w-4xl mx-auto mb-8">
-      <h2 className="text-2xl font-bold text-center mb-6 text-foreground dark:text-on-surface">
+      <h2 className="text-2xl font-bold text-center mb-6 text-foreground">
         Today&apos;s Prayer Times
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -32,10 +32,10 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
             <div 
               key={prayer.name}
               className={cn(
-                'relative bg-background dark:bg-surface rounded-2xl p-5 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:scale-105',
+                'relative bg-background rounded-2xl p-5 shadow-lg border-2 transition-all duration-300 hover:shadow-xl hover:scale-105',
                 isCurrentPrayer 
                   ? `${colors.border} ring-4 ring-opacity-30 scale-105 shadow-xl`
-                  : 'border-border dark:border-border-dark'
+                  : 'border-border'
               )}
             >
               {/* Current Prayer Indicator */}
@@ -51,7 +51,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
                 </div>
                 <h3 className={cn(
                   'text-lg font-semibold mb-2',
-                  isCurrentPrayer ? colors.text : 'text-muted-dark dark:text-muted'
+                  isCurrentPrayer ? colors.text : 'text-muted'
                 )}>
                   {prayer.displayName}
                 </h3>
@@ -59,7 +59,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer }: PrayerTim
                   'text-2xl font-bold px-4 py-2 rounded-lg',
                   isCurrentPrayer 
                     ? `${colors.bg} text-white shadow-md`
-                    : 'bg-muted-light dark:bg-muted-dark text-muted-dark dark:text-muted'
+                    : 'bg-muted-light text-muted'
                 )}>
                   {formatPrayerTime(prayer.time)}
                 </div>
