@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { 
-  getPrayerTimes, 
-  getAllPrayerInfo, 
-  getCurrentAndNextPrayer,
-  PrayerInfo
+import {
+    getAllPrayerInfo,
+    getCurrentAndNextPrayer,
+    getPrayerTimes,
+    PrayerInfo
 } from '../utils/prayer-utils';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';

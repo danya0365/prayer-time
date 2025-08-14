@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
-import CurrentPrayerIndicator from '../components/CurrentPrayerIndicator';
 import { PrayerInfo } from '../utils/prayer-utils';
+import CurrentPrayerIndicator from './CurrentPrayerIndicator';
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;

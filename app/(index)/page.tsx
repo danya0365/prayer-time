@@ -1,4 +1,4 @@
-import PrayerTimesDashboard from "./components/PrayerTimesDashboard";
+import PrayerTimesDashboard from "@/components/PrayerTimesDashboard";
 
 export default function Home() {
   return <PrayerTimesDashboard />;
