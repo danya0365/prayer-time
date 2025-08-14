@@ -8,7 +8,6 @@ export interface PrayerInfo {
   displayName: string;
   time: Date;
   emoji: string;
-  color: string;
 }
 
 // Bangkok coordinates as default
@@ -44,36 +43,31 @@ export function getAllPrayerInfo(prayerTimes: PrayerTimes): PrayerInfo[] {
       name: 'fajr',
       displayName: 'Fajr',
       time: prayerTimes.fajr,
-      emoji: '🌅',
-      color: 'var(--color-fajr)'
+      emoji: '🌅'
     },
     {
       name: 'dhuhr',
       displayName: 'Dhuhr',
       time: prayerTimes.dhuhr,
-      emoji: '☀️',
-      color: 'var(--color-dhuhr)'
+      emoji: '☀️'
     },
     {
       name: 'asr',
       displayName: 'Asr',
       time: prayerTimes.asr,
-      emoji: '🌤️',
-      color: 'var(--color-asr)'
+      emoji: '🌤️'
     },
     {
       name: 'maghrib',
       displayName: 'Maghrib',
       time: prayerTimes.maghrib,
-      emoji: '🌆',
-      color: 'var(--color-maghrib)'
+      emoji: '🌆'
     },
     {
       name: 'isha',
       displayName: 'Isha',
       time: prayerTimes.isha,
-      emoji: '🌙',
-      color: 'var(--color-isha)'
+      emoji: '🌙'
     }
   ];
 }
@@ -105,8 +99,7 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes): {
         name: 'fajr',
         displayName: 'Fajr',
         time: tomorrowPrayerTimes.fajr,
-        emoji: '🌅',
-        color: 'var(--color-fajr)'
+        emoji: '🌅'
       },
       timeUntilNext: tomorrowPrayerTimes.fajr.getTime() - now.getTime()
     };
