@@ -7,23 +7,37 @@ interface CurrentPrayerIndicatorProps {
   currentPrayer: PrayerInfo | null;
   nextPrayer: PrayerInfo;
   timeUntilNext: number;
+  testMode?: boolean;
+  testTime?: Date;
 }
 
 export default function CurrentPrayerIndicator({
   currentPrayer,
   nextPrayer,
-  timeUntilNext: initialTimeUntilNext
+  timeUntilNext: initialTimeUntilNext,
+  testMode = false
 }: CurrentPrayerIndicatorProps) {
   const [timeUntilNext, setTimeUntilNext] = useState(initialTimeUntilNext);
   
-  // Update countdown every minute
+  // Update countdown every minute (only in normal mode)
   useEffect(() => {
+    if (testMode) {
+      // In test mode, use the provided timeUntilNext directly
+      setTimeUntilNext(initialTimeUntilNext);
+      return;
+    }
+    
     const timer = setInterval(() => {
       setTimeUntilNext(prev => Math.max(0, prev - 60000)); // Subtract one minute (60000ms)
     }, 60000);
     
     return () => clearInterval(timer);
-  }, []);
+  }, [testMode, initialTimeUntilNext]);
+  
+  // Update timeUntilNext when props change (important for test mode)
+  useEffect(() => {
+    setTimeUntilNext(initialTimeUntilNext);
+  }, [initialTimeUntilNext]);
   
   const getPrayerColors = () => {
     const prayer = currentPrayer || nextPrayer;
