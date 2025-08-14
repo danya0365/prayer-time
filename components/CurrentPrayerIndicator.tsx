@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PrayerInfo, formatTimeUntilNextPrayer } from '../utils/prayer-utils';
+import { cn } from '../utils/cn';
 
 interface CurrentPrayerIndicatorProps {
   currentPrayer: PrayerInfo | null;
@@ -32,7 +33,10 @@ export default function CurrentPrayerIndicator({
 
   return (
     <div 
-      className={`w-full max-w-md rounded-2xl p-6 text-on-surface relative overflow-hidden card-shadow ${getPrayerGradientClass()}`}
+      className={cn(
+        'w-full max-w-md rounded-2xl p-6 text-on-surface relative overflow-hidden card-shadow',
+        getPrayerGradientClass()
+      )}
       aria-live="polite"
     >
       <div className="relative z-10">
