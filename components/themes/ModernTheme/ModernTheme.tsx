@@ -7,6 +7,7 @@ import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
 import { formatDisplayDate } from '../../../utils/date-formatting';
 import { formatPrayerTime } from '../../../utils/prayer-utils';
+import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
 
 interface ModernThemeProps {
   prayers: PrayerInfo[];
@@ -121,22 +122,7 @@ export function ModernTheme({
                   {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 <p className={`text-sm ${themeConfig.colors.text.secondary} mt-1`}>
-                  {(() => {
-                    const now = new Date();
-                    const timeDiff = prayer.time.getTime() - now.getTime();
-                    const isPassed = timeDiff < 0;
-                    const isCurrent = currentPrayer?.name === prayer.name;
-                    
-                    if (isPassed) {
-                      return "Completed";
-                    } else if (isCurrent) {
-                      return "Active now";
-                    } else {
-                      const hours = Math.floor(timeDiff / 3600000);
-                      const minutes = Math.floor((timeDiff % 3600000) / 60000);
-                      return `in ${hours}h ${minutes}m`;
-                    }
-                  })()}
+                  {calculatePrayerTimeStatus(prayer, currentPrayer, settings.language).displayText}
                 </p>
                 {prayer.isCurrent && (
                   <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">

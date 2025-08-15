@@ -9,6 +9,7 @@ import { useLocationStore } from '../../../stores/locationStore';
 import { formatDisplayDate, formatTimeWithLocale } from '../../../utils/date-formatting';
 import { formatPrayerTime } from '../../../utils/prayer-utils';
 import { getCalculationMethodInfo } from '../../../constants/calculationMethods';
+import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
 
 interface MinimalThemeProps {
   prayers: PrayerInfo[];
@@ -278,19 +279,9 @@ export function MinimalTheme({
                       {formatPrayerTime(prayer.time, settings.language)}
                     </p>
                     
-                    {!isPassed && !isCurrent && (
-                      <p className={`text-xs ${themeConfig.colors.text.secondary} mt-1`}>
-                        {timeDiff > 0 && timeDiff < 86400000 && ( // Less than 24 hours
-                          `in ${Math.floor(timeDiff / 3600000)}h ${Math.floor((timeDiff % 3600000) / 60000)}m`
-                        )}
-                      </p>
-                    )}
-                    
-                    {isCurrent && nextPrayer && (
-                      <p className={`text-xs text-blue-600 mt-1 font-medium`}>
-                        {formatTimeUntil(timeUntilNext)} remaining
-                      </p>
-                    )}
+                    <p className={`text-xs ${themeConfig.colors.text.secondary} mt-1`}>
+                      {calculatePrayerTimeStatus(prayer, currentPrayer, settings.language).displayText}
+                    </p>
                   </div>
                 </div>
               );

@@ -2,6 +2,7 @@ import { cn } from '../../../../utils/cn';
 import { PrayerInfo, formatPrayerTime } from '../../../../utils/prayer-utils';
 import { useTranslation } from '../../../../hooks/useTranslation';
 import { Language } from '../../../../types/translation';
+import { calculatePrayerTimeStatus } from '../../../../utils/prayer-time-status';
 
 interface PrayerTimesDisplayProps {
   prayers: PrayerInfo[];
@@ -65,21 +66,7 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer, language }:
                   "text-xs mt-1",
                   isCurrent ? "text-white/80" : "text-muted-foreground"
                 )}>
-                  {(() => {
-                    const now = new Date();
-                    const timeDiff = prayer.time.getTime() - now.getTime();
-                    const isPassed = timeDiff < 0;
-                    
-                    if (isPassed) {
-                      return "Completed";
-                    } else if (isCurrent) {
-                      return "Active now";
-                    } else {
-                      const hours = Math.floor(timeDiff / 3600000);
-                      const minutes = Math.floor((timeDiff % 3600000) / 60000);
-                      return `in ${hours}h ${minutes}m`;
-                    }
-                  })()}
+                  {calculatePrayerTimeStatus(prayer, currentPrayer, language).displayText}
                 </p>
               </div>
             </div>

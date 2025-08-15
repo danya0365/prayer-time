@@ -5,8 +5,9 @@ import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { formatDisplayDate, formatTimeWithLocale } from '../../../utils/date-formatting';
+import { formatDisplayDate } from '../../../utils/date-formatting';
 import { formatPrayerTime } from '../../../utils/prayer-utils';
+import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
 
 interface ClassicThemeProps {
   prayers: PrayerInfo[];
@@ -156,22 +157,7 @@ export function ClassicTheme({
                     {formatPrayerTime(prayer.time, settings.language)}
                   </p>
                   <p className={`text-sm ${themeConfig.colors.text.secondary}`}>
-                    {(() => {
-                      const now = new Date();
-                      const timeDiff = prayer.time.getTime() - now.getTime();
-                      const isPassed = timeDiff < 0;
-                      const isCurrent = currentPrayer?.name === prayer.name;
-                      
-                      if (isPassed) {
-                        return "Completed";
-                      } else if (isCurrent) {
-                        return "Active now";
-                      } else {
-                        const hours = Math.floor(timeDiff / 3600000);
-                        const minutes = Math.floor((timeDiff % 3600000) / 60000);
-                        return `in ${hours}h ${minutes}m`;
-                      }
-                    })()}
+                    {calculatePrayerTimeStatus(prayer, currentPrayer, settings.language).displayText}
                   </p>
                 </div>
               </div>
