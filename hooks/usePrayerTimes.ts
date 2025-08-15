@@ -56,7 +56,7 @@ export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTi
 
       // Get prayer times for the current day
       const coordinates = new Coordinates(currentLocation.latitude, currentLocation.longitude);
-      const prayerTimes = getPrayerTimes(currentTime, coordinates);
+      const prayerTimes = getPrayerTimes(currentTime, coordinates, settings.calculationMethod, settings.adjustments);
 
       // Get all prayer info with colors and names
       const allPrayerInfo = getAllPrayerInfo(prayerTimes, currentTime);

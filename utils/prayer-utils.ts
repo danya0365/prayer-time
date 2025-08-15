@@ -1,6 +1,6 @@
 import { CalculationMethod, Coordinates, Madhab, PrayerTimes } from 'adhan';
-import { formatTimeWithLocale } from './date-formatting';
 import { Language } from '../types/translation';
+import { formatTimeWithLocale } from './date-formatting';
 
 export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
 
@@ -19,13 +19,62 @@ const DEFAULT_COORDINATES: Coordinates = new Coordinates(13.7563, 100.5018);
 /**
  * Get prayer times for the current date
  */
-export function getPrayerTimes(date: Date = new Date(), coordinates?: Coordinates): PrayerTimes {
+export function getPrayerTimes(
+  date: Date = new Date(), 
+  coordinates?: Coordinates, 
+  calculationMethod: string = 'MoonsightingCommittee',
+  adjustments?: { fajr: number; dhuhr: number; asr: number; maghrib: number; isha: number }
+): PrayerTimes {
   // Use provided coordinates or default to Bangkok
   const location = coordinates || DEFAULT_COORDINATES;
   
-  // Use MoonsightingCommittee calculation method for accurate times
-  const params = CalculationMethod.MoonsightingCommittee();
+  // Get calculation method based on user settings
+  let params;
+  switch (calculationMethod) {
+    case 'MuslimWorldLeague':
+      params = CalculationMethod.MuslimWorldLeague();
+      break;
+    case 'Egyptian':
+      params = CalculationMethod.Egyptian();
+      break;
+    case 'Karachi':
+      params = CalculationMethod.Karachi();
+      break;
+    case 'UmmAlQura':
+      params = CalculationMethod.UmmAlQura();
+      break;
+    case 'Dubai':
+      params = CalculationMethod.Dubai();
+      break;
+    case 'Qatar':
+      params = CalculationMethod.Qatar();
+      break;
+    case 'Kuwait':
+      params = CalculationMethod.Kuwait();
+      break;
+    case 'Singapore':
+      params = CalculationMethod.Singapore();
+      break;
+    case 'Turkey':
+      params = CalculationMethod.Turkey();
+      break;
+    case 'MoonsightingCommittee':
+    default:
+      params = CalculationMethod.MoonsightingCommittee();
+      break;
+  }
+  
+  // Set madhab to Shafi for all methods
   params.madhab = Madhab.Shafi;
+  
+  // Apply time adjustments if provided
+  if (adjustments) {
+    params.adjustments.fajr = adjustments.fajr;
+    params.adjustments.dhuhr = adjustments.dhuhr;
+    params.adjustments.asr = adjustments.asr;
+    params.adjustments.maghrib = adjustments.maghrib;
+    params.adjustments.isha = adjustments.isha;
+  }
   
   return new PrayerTimes(location, date, params);
 }
