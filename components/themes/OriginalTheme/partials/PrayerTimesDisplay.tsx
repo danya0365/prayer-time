@@ -65,7 +65,21 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer, language }:
                   "text-xs mt-1",
                   isCurrent ? "text-white/80" : "text-muted-foreground"
                 )}>
-                  {formatPrayerTime(prayer.time, language)}
+                  {(() => {
+                    const now = new Date();
+                    const timeDiff = prayer.time.getTime() - now.getTime();
+                    const isPassed = timeDiff < 0;
+                    
+                    if (isPassed) {
+                      return "Completed";
+                    } else if (isCurrent) {
+                      return "Active now";
+                    } else {
+                      const hours = Math.floor(timeDiff / 3600000);
+                      const minutes = Math.floor((timeDiff % 3600000) / 60000);
+                      return `in ${hours}h ${minutes}m`;
+                    }
+                  })()}
                 </p>
               </div>
             </div>

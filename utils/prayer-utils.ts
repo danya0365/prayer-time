@@ -169,8 +169,12 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes, currentTime: D
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowPrayerTimes = getPrayerTimes(tomorrow);
     
+    // After Isha, current prayer is still Isha (extended until Fajr)
+    const currentPrayer = prayers[prayers.length - 1]; // Isha is last prayer
+    currentPrayer.isCurrent = true; // Mark as current
+    
     return {
-      current: prayers[prayers.length - 1], // Last prayer of today
+      current: currentPrayer, // Always show Isha as current after Isha time
       next: {
         name: 'fajr',
         displayName: 'Fajr',
@@ -183,9 +187,35 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes, currentTime: D
     };
   }
   
-  // Current prayer is the one before next, or null if before first prayer
-  const currentPrayerIndex = nextPrayerIndex > 0 ? nextPrayerIndex - 1 : -1;
-  const currentPrayer = currentPrayerIndex >= 0 ? prayers[currentPrayerIndex] : null;
+  // Current prayer logic: find the most recent prayer that has passed
+  let currentPrayer: PrayerInfo | null = null;
+  
+  // Check if we're before the first prayer (Fajr)
+  if (nextPrayerIndex === 0) {
+    // Before Fajr - use yesterday's Isha as current prayer
+    const yesterday = new Date(currentTime);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayPrayerTimes = getPrayerTimes(yesterday);
+    
+    currentPrayer = {
+      name: 'isha',
+      displayName: 'Isha',
+      time: yesterdayPrayerTimes.isha,
+      emoji: '🌙',
+      color: 'bg-gradient-to-r from-purple-600 to-indigo-700',
+      isCurrent: true
+    };
+  } else {
+    // Find the most recent prayer that has passed
+    for (let i = nextPrayerIndex - 1; i >= 0; i--) {
+      if (prayers[i].time <= currentTime) {
+        currentPrayer = prayers[i];
+        currentPrayer.isCurrent = true; // Mark as current
+        break;
+      }
+    }
+  }
+  
   const nextPrayer = prayers[nextPrayerIndex];
   
   // Calculate time until next prayer in milliseconds

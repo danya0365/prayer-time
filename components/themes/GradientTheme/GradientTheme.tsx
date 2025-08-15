@@ -156,7 +156,22 @@ export function GradientTheme({
                   {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 <p className={`text-sm ${themeConfig.colors.text.secondary} mb-3`}>
-                  {formatPrayerTime(prayer.time, settings.language)}
+                  {(() => {
+                    const now = new Date();
+                    const timeDiff = prayer.time.getTime() - now.getTime();
+                    const isPassed = timeDiff < 0;
+                    const isCurrent = currentPrayer?.name === prayer.name;
+                    
+                    if (isPassed) {
+                      return "Completed";
+                    } else if (isCurrent) {
+                      return "Active now";
+                    } else {
+                      const hours = Math.floor(timeDiff / 3600000);
+                      const minutes = Math.floor((timeDiff % 3600000) / 60000);
+                      return `in ${hours}h ${minutes}m`;
+                    }
+                  })()}
                 </p>
                 
                 {prayer.isCurrent && (
