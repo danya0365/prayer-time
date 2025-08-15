@@ -1,13 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { cn } from '../../utils/cn'
-import { useSettingsStore } from '../../stores/settingsStore'
+import { useEffect, useState } from 'react'
 import { useTranslation } from '../../hooks/useTranslation'
+import { useSettingsStore } from '../../stores/settingsStore'
 import { Language } from '../../types/translation'
 import { CalculationMethodType } from '../../utils/prayer-utils'
 import { CALCULATION_METHODS, getCalculationMethodInfo } from '../../constants/calculationMethods'
+import { cn } from '../../utils/cn'
+import { NotificationButton } from '../ui/NotificationButton'
 import ThemeSelector from '../ui/ThemeSelector'
+import { ThemeToggle } from '../ui/ThemeToggle'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -66,17 +68,13 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           {/* Theme Toggle */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">Theme</span>
-            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg">
-              Toggle Theme
-            </button>
+            <ThemeToggle />
           </div>
 
           {/* Notifications */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">{t.ui.notifications}</span>
-            <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg">
-              On
-            </button>
+            <NotificationButton />
           </div>
 
           {/* Calculation Method */}
