@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { cn } from '../../utils/cn'
+import { useSettingsStore } from '../../stores/settingsStore'
+import { useTranslation } from '../../hooks/useTranslation'
 
 interface NotificationButtonProps {
   onPermissionChange?: (granted: boolean) => void
@@ -10,6 +12,8 @@ interface NotificationButtonProps {
 export function NotificationButton({ onPermissionChange }: NotificationButtonProps) {
   const [permission, setPermission] = useState<NotificationPermission>('default')
   const [mounted, setMounted] = useState(false)
+  const { settings } = useSettingsStore()
+  const { t } = useTranslation({ language: settings.language })
 
   useEffect(() => {
     setMounted(true)
@@ -20,7 +24,7 @@ export function NotificationButton({ onPermissionChange }: NotificationButtonPro
 
   const requestPermission = async () => {
     if (!('Notification' in window)) {
-      alert('This browser does not support notifications')
+      alert(t.alerts.notificationSupport)
       return
     }
 
@@ -32,7 +36,7 @@ export function NotificationButton({ onPermissionChange }: NotificationButtonPro
       if (result === 'granted') {
         // Test notification
         new Notification('Prayer Times Dashboard', {
-          body: 'Notifications enabled! You will receive prayer time alerts.',
+          body: t.alerts.notificationEnabled,
           icon: '/favicon.ico'
         })
       }

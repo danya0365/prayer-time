@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { cn } from '../../utils/cn'
 import { ComingSoonCard } from '../ui/ComingSoonCard'
+import { useSettingsStore } from '../../stores/settingsStore'
+import { useTranslation } from '../../hooks/useTranslation'
 
 interface FutureFeaturesProps {
   className?: string
@@ -10,6 +12,8 @@ interface FutureFeaturesProps {
 
 export function FutureFeatures({ className }: FutureFeaturesProps) {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null)
+  const { settings } = useSettingsStore()
+  const { t } = useTranslation({ language: settings.language })
 
   const futureFeatures = [
     {
@@ -80,7 +84,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
   const handleFeatureClick = (featureId: string) => {
     setSelectedFeature(featureId)
     // Show a toast or modal with more details
-    alert(`${featureId} จะเปิดให้ใช้งานเร็วๆ นี้! 🚀`)
+    alert(`${featureId} ${t.alerts.featureComingSoon}`)
   }
 
   return (
@@ -120,7 +124,7 @@ export function FutureFeatures({ className }: FutureFeaturesProps) {
           แจ้งความต้องการหรือข้อเสนอแนะเพื่อให้เราพัฒนาฟีเจอร์ที่ตรงกับความต้องการของคุณ
         </p>
         <button 
-          onClick={() => alert('ขอบคุณสำหรับความสนใจ! เราจะพัฒนาฟีเจอร์เหล่านี้ในเร็วๆ นี้ 🙏')}
+          onClick={() => alert(t.alerts.thankYou)}
           className="px-6 py-3 bg-development text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 hover:scale-105"
         >
           แจ้งความต้องการ

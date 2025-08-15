@@ -44,6 +44,7 @@ export interface Translations {
     futureFeatures: string;
     comingSoon: string;
     stayConnected: string;
+    resetToNow: string;
   };
   
   // Time formats
@@ -63,6 +64,19 @@ export interface Translations {
     thailand: string;
     requestingLocation: string;
     locationError: string;
+    accessDenied: string;
+    unavailable: string;
+    timeout: string;
+    failed: string;
+  };
+
+  // Alerts and confirmations
+  alerts: {
+    resetConfirm: string;
+    notificationSupport: string;
+    notificationEnabled: string;
+    featureComingSoon: string;
+    thankYou: string;
   };
   
   // Calculation methods

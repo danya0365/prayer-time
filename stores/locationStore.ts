@@ -116,11 +116,11 @@ export const useLocationStore = create<LocationState>()(
             });
           }
         } catch (error) {
-          const errorMessage = error instanceof GeolocationPositionError 
-            ? getGeolocationErrorMessage(error.code)
-            : 'Failed to get your location';
+          const errorCode = error instanceof GeolocationPositionError 
+            ? error.code
+            : 0;
           
-          get().setLocationError(errorMessage);
+          get().setLocationError(`GEOLOCATION_ERROR_${errorCode}`);
         }
       }
     }),
@@ -133,15 +133,4 @@ export const useLocationStore = create<LocationState>()(
   )
 );
 
-function getGeolocationErrorMessage(code: number): string {
-  switch (code) {
-    case 1:
-      return 'Location access denied. Please enable location permissions.';
-    case 2:
-      return 'Location unavailable. Please try again.';
-    case 3:
-      return 'Location request timed out. Please try again.';
-    default:
-      return 'Failed to get your location.';
-  }
-}
+

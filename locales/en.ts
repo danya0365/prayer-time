@@ -41,7 +41,8 @@ export const en: Translations = {
     additionalFeatures: 'Additional Features',
     futureFeatures: 'Future Features',
     comingSoon: 'Coming Soon',
-    stayConnected: 'Stay connected with your daily prayers'
+    stayConnected: 'Stay connected with your daily prayers',
+    resetToNow: 'Reset to Now'
   },
   
   time: {
@@ -57,8 +58,20 @@ export const en: Translations = {
     selectLocation: 'Select Location',
     bangkok: 'Bangkok',
     thailand: 'Thailand',
-    requestingLocation: 'Requesting location...',
-    locationError: 'Location error'
+    requestingLocation: 'Getting your location...',
+    locationError: 'Unable to get location',
+    accessDenied: 'Location access denied. Please enable location permissions.',
+    unavailable: 'Location unavailable. Please try again.',
+    timeout: 'Location request timed out. Please try again.',
+    failed: 'Failed to get your location.'
+  },
+  
+  alerts: {
+    resetConfirm: 'Reset all settings to default?',
+    notificationSupport: 'This browser does not support notifications',
+    notificationEnabled: 'Notifications enabled! You will receive prayer time alerts.',
+    featureComingSoon: 'will be available soon! 🚀',
+    thankYou: 'Thank you for your interest! We will develop these features soon 🙏'
   },
   
   calculationMethods: {

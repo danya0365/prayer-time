@@ -157,7 +157,7 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           <div className="pt-4 border-t border-border">
             <button
               onClick={() => {
-                if (confirm('Reset all settings to default?')) {
+                if (confirm(t.alerts.resetConfirm)) {
                   // We'll use the resetSettings function from the store
                   const { resetSettings } = useSettingsStore.getState();
                   resetSettings();

@@ -11,6 +11,7 @@ import { useNotifications } from '../../hooks/useNotifications';
 import SettingsPanel from '../ui/SettingsPanel';
 import { useLocationStore } from '../../stores/locationStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../hooks/useTranslation';
 import LocationSelector from '../ui/LocationSelector';
 import HeroSection from './HeroSection';
 import PrayerTimesDisplay from './PrayerTimesDisplay';
@@ -32,6 +33,7 @@ export default function PrayerTimesDashboard() {
   const [testTime, setTestTime] = useState<Date>(new Date());
   const { currentLocation, requestGeolocation } = useLocationStore();
   const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
   
   // Use notifications hook - enabled state managed in settings
   useNotifications({
@@ -138,7 +140,7 @@ export default function PrayerTimesDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-pulse text-xl font-medium">
-          Loading prayer times...
+          {t.ui.loading}...
         </div>
       </div>
     );
@@ -204,7 +206,7 @@ export default function PrayerTimesDashboard() {
                     onClick={() => setTestTime(new Date())}
                     className="px-3 py-1 bg-muted text-white rounded text-xs hover:bg-muted-dark transition-colors"
                   >
-                    Reset to Now
+                    {t.ui.resetToNow}
                   </button>
                 </div>
               </div>
