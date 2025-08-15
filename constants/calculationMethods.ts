@@ -9,9 +9,17 @@ export interface CalculationMethodInfo {
 
 /**
  * Available calculation methods for prayer times
- * Organized by geographical regions for better UX
+ * Ordered by preference with MuslimWorldLeague as default and first
  */
 export const CALCULATION_METHODS: CalculationMethodInfo[] = [
+  // Default & Most Widely Used
+  {
+    key: 'MuslimWorldLeague',
+    name: 'Muslim World League',
+    description: 'Used in Europe, Far East, parts of US (Default & Recommended)',
+    region: 'Europe & International'
+  },
+  
   // North America
   {
     key: 'MoonsightingCommittee',
@@ -26,6 +34,30 @@ export const CALCULATION_METHODS: CalculationMethodInfo[] = [
     name: 'Umm Al-Qura University, Makkah',
     description: 'Used in Saudi Arabia',
     region: 'Saudi Arabia'
+  },
+  
+  // Africa & Middle East
+  {
+    key: 'Egyptian',
+    name: 'Egyptian General Authority',
+    description: 'Used in Africa, Syria, Iraq, Lebanon, Malaysia, Parts of US',
+    region: 'Africa & Middle East'
+  },
+  
+  // South Asia
+  {
+    key: 'Karachi',
+    name: 'University of Islamic Sciences, Karachi',
+    description: 'Used in Pakistan, Bangladesh, India, Afghanistan, Parts of Europe',
+    region: 'South Asia'
+  },
+  
+  // Southeast Asia
+  {
+    key: 'Singapore',
+    name: 'Singapore',
+    description: 'Used in Singapore, Malaysia, and Indonesia',
+    region: 'Southeast Asia'
   },
   
   // Gulf Countries
@@ -46,38 +78,6 @@ export const CALCULATION_METHODS: CalculationMethodInfo[] = [
     name: 'Kuwait',
     description: 'Method used in Kuwait',
     region: 'Kuwait'
-  },
-  
-  // Southeast Asia
-  {
-    key: 'Singapore',
-    name: 'Singapore',
-    description: 'Used in Singapore, Malaysia, and Indonesia',
-    region: 'Southeast Asia'
-  },
-  
-  // South Asia
-  {
-    key: 'Karachi',
-    name: 'University of Islamic Sciences, Karachi',
-    description: 'Used in Pakistan, Bangladesh, India, Afghanistan, Parts of Europe',
-    region: 'South Asia'
-  },
-  
-  // Europe & International
-  {
-    key: 'MuslimWorldLeague',
-    name: 'Muslim World League',
-    description: 'Used in Europe, Far East, parts of US',
-    region: 'Europe & International'
-  },
-  
-  // Africa & Middle East
-  {
-    key: 'Egyptian',
-    name: 'Egyptian General Authority',
-    description: 'Used in Africa, Syria, Iraq, Lebanon, Malaysia, Parts of US',
-    region: 'Africa & Middle East'
   },
   
   // Turkey
@@ -110,6 +110,6 @@ export const getCalculationMethodsByRegion = (): Record<string, CalculationMetho
 };
 
 /**
- * Default calculation method
+ * Default calculation method - MuslimWorldLeague (most widely used)
  */
 export const DEFAULT_CALCULATION_METHOD: CalculationMethodType = 'MuslimWorldLeague';
