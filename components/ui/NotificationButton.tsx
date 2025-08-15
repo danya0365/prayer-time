@@ -120,15 +120,24 @@ export function NotificationButton({ onPermissionChange }: NotificationButtonPro
     }
   }
 
+  // Don't render anything if denied - user can't do anything about it
+  if (permission === 'denied') {
+    return (
+      <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-red-500 bg-red-50 opacity-75">
+        <svg className="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+        </svg>
+      </div>
+    )
+  }
+
+  // Only show clickable button if permission is not denied
   return (
     <button
       onClick={requestPermission}
-      disabled={permission === 'denied'}
       className={cn(
         'inline-flex h-10 w-10 items-center justify-center rounded-lg border border-card-border bg-card-bg backdrop-blur-sm transition-all duration-200',
-        permission === 'denied' 
-          ? 'opacity-50 cursor-not-allowed' 
-          : 'hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-foreground/20'
+        'hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-foreground/20'
       )}
       title={getTooltip()}
       aria-label={getTooltip()}
