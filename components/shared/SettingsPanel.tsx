@@ -6,25 +6,13 @@ import { useSettingsStore } from '../../stores/settingsStore'
 import { useTranslation } from '../../hooks/useTranslation'
 import { Language } from '../../types/translation'
 import { CalculationMethodType } from '../../utils/prayer-utils'
+import { CALCULATION_METHODS, getCalculationMethodInfo } from '../../constants/calculationMethods'
 import ThemeSelector from '../ui/ThemeSelector'
 
 interface SettingsPanelProps {
   isOpen: boolean
   onClose: () => void
 }
-
-const CALCULATION_METHODS = [
-  { key: 'MoonsightingCommittee', name: 'Moonsighting Committee', description: 'Used in North America' },
-  { key: 'MuslimWorldLeague', name: 'Muslim World League', description: 'Used in Europe, Far East, parts of US' },
-  { key: 'Egyptian', name: 'Egyptian General Authority', description: 'Used in Africa, Syria, Iraq, Lebanon, Malaysia, Parts of US' },
-  { key: 'Karachi', name: 'University of Islamic Sciences, Karachi', description: 'Used in Pakistan, Bangladesh, India, Afghanistan, Parts of Europe' },
-  { key: 'UmmAlQura', name: 'Umm Al-Qura University, Makkah', description: 'Used in Saudi Arabia' },
-  { key: 'Dubai', name: 'Dubai (unofficial)', description: 'Used in UAE' },
-  { key: 'Qatar', name: 'Qatar', description: 'Modified version of Umm Al-Qura used in Qatar' },
-  { key: 'Kuwait', name: 'Kuwait', description: 'Method used in Kuwait' },
-  { key: 'Singapore', name: 'Singapore', description: 'Used in Singapore, Malaysia, and Indonesia' },
-  { key: 'Turkey', name: 'Turkey', description: 'Used in Turkey' }
-]
 
 export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const { settings, updateSettings, updateAdjustment } = useSettingsStore();
@@ -106,7 +94,7 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
               ))}
             </select>
             <p className="text-sm text-muted mt-2">
-              {CALCULATION_METHODS.find(m => m.key === settings.calculationMethod)?.description}
+              {getCalculationMethodInfo(settings.calculationMethod)?.description}
             </p>
           </div>
 

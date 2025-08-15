@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Language } from '../types/translation';
 import { CalculationMethodType } from '../utils/prayer-utils';
+import { DEFAULT_CALCULATION_METHOD } from '../constants/calculationMethods';
 
 export interface PrayerSettings {
   calculationMethod: CalculationMethodType;
@@ -25,7 +26,7 @@ interface SettingsState {
 
 // Default settings
 const DEFAULT_SETTINGS: PrayerSettings = {
-  calculationMethod: 'MuslimWorldLeague' as CalculationMethodType,
+  calculationMethod: DEFAULT_CALCULATION_METHOD,
   notificationMinutes: 15,
   language: 'en',
   adjustments: {
