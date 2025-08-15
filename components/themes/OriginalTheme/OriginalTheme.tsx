@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from 'react';
-import { useNotifications } from '../../hooks/useNotifications';
-import { usePrayerTimes } from '../../hooks/usePrayerTimes';
-import { useTranslation } from '../../hooks/useTranslation';
-import { useLocationStore } from '../../stores/locationStore';
-import { useSettingsStore } from '../../stores/settingsStore';
-import { AdditionalFeatures } from '../dashboard/AdditionalFeatures';
-import { FutureFeatures } from '../dashboard/FutureFeatures';
-import HeroSection from '../dashboard/HeroSection';
-import PrayerTimesDisplay from '../dashboard/PrayerTimesDisplay';
-import { MockupShowcase } from '../mockups/MockupShowcase';
-import LocationSelector from '../ui/LocationSelector';
-import SettingsPanel from '../ui/SettingsPanel';
+import { useNotifications } from '../../../hooks/useNotifications';
+import { usePrayerTimes } from '../../../hooks/usePrayerTimes';
+import { useTranslation } from '../../../hooks/useTranslation';
+import { useLocationStore } from '../../../stores/locationStore';
+import { useSettingsStore } from '../../../stores/settingsStore';
+import { AdditionalFeatures } from '../../dashboard/AdditionalFeatures';
+import { FutureFeatures } from '../../dashboard/FutureFeatures';
+import HeroSection from '../../dashboard/HeroSection';
+import PrayerTimesDisplay from '../../dashboard/PrayerTimesDisplay';
+import { MockupShowcase } from '../../mockups/MockupShowcase';
+import LocationSelector from '../../ui/LocationSelector';
+import SettingsPanel from '../../ui/SettingsPanel';
 
 export default function OriginalTheme() {
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);

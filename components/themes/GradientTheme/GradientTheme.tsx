@@ -1,10 +1,10 @@
 "use client";
 
 import React from 'react';
-import { PrayerInfo } from '../../utils/prayer-utils';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useTranslation } from '../../hooks/useTranslation';
-import { useSettingsStore } from '../../stores/settingsStore';
+import { PrayerInfo } from '../../../utils/prayer-utils';
+import { useTheme } from '../../../contexts/ThemeContext';
+import { useTranslation } from '../../../hooks/useTranslation';
+import { useSettingsStore } from '../../../stores/settingsStore';
 import { format } from 'date-fns';
 
 interface GradientThemeProps {
@@ -172,3 +172,5 @@ export function GradientTheme({
     </div>
   );
 }
+
+export default GradientTheme;

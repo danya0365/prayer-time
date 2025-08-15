@@ -5,10 +5,10 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { usePrayerTimes } from '../../hooks/usePrayerTimes';
 import { useDashboardState } from '../../hooks/useDashboardState';
 import OriginalTheme from './OriginalTheme';
-import { ModernTheme } from './ModernTheme';
-import { ClassicTheme } from './ClassicTheme';
-import { MinimalTheme } from './MinimalTheme';
-import { GradientTheme } from './GradientTheme';
+import ModernTheme from './ModernTheme';
+import ClassicTheme from './ClassicTheme';
+import MinimalTheme from './MinimalTheme';
+import GradientTheme from './GradientTheme';
 import FloatingSettingsButton from '../ui/FloatingSettingsButton';
 
 interface ThemedDashboardProps {
