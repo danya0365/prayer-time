@@ -8,6 +8,8 @@ export interface PrayerInfo {
   displayName: string;
   time: Date;
   emoji: string;
+  color: string;
+  isCurrent: boolean;
 }
 
 // Bangkok coordinates as default
@@ -37,59 +39,71 @@ export function formatPrayerTime(date: Date): string {
 /**
  * Get all prayer times for the day with additional information
  */
-export function getAllPrayerInfo(prayerTimes: PrayerTimes): PrayerInfo[] {
-  return [
+export function getAllPrayerInfo(prayerTimes: PrayerTimes, currentTime: Date = new Date()): PrayerInfo[] {
+  const prayers = [
     {
-      name: 'fajr',
+      name: 'fajr' as Prayer,
       displayName: 'Fajr',
       time: prayerTimes.fajr,
-      emoji: '🌅'
+      emoji: '🌅',
+      color: 'bg-gradient-to-r from-indigo-500 to-purple-600'
     },
     {
-      name: 'dhuhr',
+      name: 'dhuhr' as Prayer,
       displayName: 'Dhuhr',
       time: prayerTimes.dhuhr,
-      emoji: '☀️'
+      emoji: '☀️',
+      color: 'bg-gradient-to-r from-yellow-400 to-orange-500'
     },
     {
-      name: 'asr',
+      name: 'asr' as Prayer,
       displayName: 'Asr',
       time: prayerTimes.asr,
-      emoji: '🌤️'
+      emoji: '🌤️',
+      color: 'bg-gradient-to-r from-orange-400 to-red-500'
     },
     {
-      name: 'maghrib',
+      name: 'maghrib' as Prayer,
       displayName: 'Maghrib',
       time: prayerTimes.maghrib,
-      emoji: '🌆'
+      emoji: '🌆',
+      color: 'bg-gradient-to-r from-pink-500 to-rose-600'
     },
     {
-      name: 'isha',
+      name: 'isha' as Prayer,
       displayName: 'Isha',
       time: prayerTimes.isha,
-      emoji: '🌙'
+      emoji: '🌙',
+      color: 'bg-gradient-to-r from-purple-600 to-indigo-700'
     }
   ];
+
+  // Determine current prayer
+  const currentPrayerName = prayerTimes.currentPrayer(currentTime);
+  
+  return prayers.map(prayer => ({
+    ...prayer,
+    isCurrent: prayer.name === currentPrayerName?.toLowerCase()
+  }));
 }
 
 /**
  * Get the current prayer and next prayer
  */
-export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes): {
+export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes, currentTime: Date = new Date()): {
   current: PrayerInfo | null;
   next: PrayerInfo;
   timeUntilNext: number;
 } {
-  const now = new Date();
-  const prayers = getAllPrayerInfo(prayerTimes);
+  const prayers = getAllPrayerInfo(prayerTimes, currentTime);
   
   // Find the next prayer
-  const nextPrayerIndex = prayers.findIndex(prayer => prayer.time > now);
+  const nextPrayerIndex = prayers.findIndex(prayer => prayer.time > currentTime);
   
   // If no next prayer found today, the next prayer is tomorrow's Fajr
   if (nextPrayerIndex === -1) {
     // Get tomorrow's prayer times
-    const tomorrow = new Date();
+    const tomorrow = new Date(currentTime);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowPrayerTimes = getPrayerTimes(tomorrow);
     
@@ -99,9 +113,11 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes): {
         name: 'fajr',
         displayName: 'Fajr',
         time: tomorrowPrayerTimes.fajr,
-        emoji: '🌅'
+        emoji: '🌅',
+        color: 'bg-gradient-to-r from-indigo-500 to-purple-600',
+        isCurrent: false
       },
-      timeUntilNext: tomorrowPrayerTimes.fajr.getTime() - now.getTime()
+      timeUntilNext: tomorrowPrayerTimes.fajr.getTime() - currentTime.getTime()
     };
   }
   
@@ -111,7 +127,7 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes): {
   const nextPrayer = prayers[nextPrayerIndex];
   
   // Calculate time until next prayer in milliseconds
-  const timeUntilNext = nextPrayer.time.getTime() - now.getTime();
+  const timeUntilNext = nextPrayer.time.getTime() - currentTime.getTime();
   
   return {
     current: currentPrayer,

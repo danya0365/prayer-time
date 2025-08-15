@@ -42,7 +42,20 @@ export const ar: Translations = {
     futureFeatures: 'ميزات مستقبلية',
     comingSoon: 'قريباً',
     stayConnected: 'ابق متصلاً مع صلواتك اليومية',
-    resetToNow: 'إعادة تعيين للوقت الحالي'
+    resetToNow: 'إعادة تعيين إلى الآن'
+  },
+  
+  settings: {
+    theme: 'المظهر',
+    currentTheme: 'المظهر الحالي',
+    themeDescription: 'اختر النمط البصري المفضل لديك'
+  },
+
+  dashboard: {
+    title: 'لوحة أوقات الصلاة',
+    currentPrayer: 'الصلاة الحالية',
+    nextPrayer: 'الصلاة التالية',
+    prayerTimes: 'أوقات الصلاة'
   },
   
   time: {

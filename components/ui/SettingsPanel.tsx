@@ -7,6 +7,7 @@ import { NotificationButton } from './NotificationButton'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useTranslation } from '../../hooks/useTranslation'
 import { Language } from '../../types/translation'
+import ThemeSelector from './ThemeSelector'
 
 interface SettingsPanelProps {
   isOpen: boolean
@@ -68,6 +69,11 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+          </div>
+
+          {/* Theme Selector */}
+          <div className="mb-8">
+            <ThemeSelector />
           </div>
 
           {/* Theme Toggle */}

@@ -44,6 +44,19 @@ export const en: Translations = {
     stayConnected: 'Stay connected with your daily prayers',
     resetToNow: 'Reset to Now'
   },
+
+  settings: {
+    theme: 'Theme',
+    currentTheme: 'Current Theme',
+    themeDescription: 'Choose your preferred visual style'
+  },
+
+  dashboard: {
+    title: 'Prayer Times Dashboard',
+    currentPrayer: 'Current Prayer',
+    nextPrayer: 'Next Prayer',
+    prayerTimes: 'Prayer Times'
+  },
   
   time: {
     until: 'until',

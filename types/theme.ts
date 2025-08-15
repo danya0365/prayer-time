@@ -1,0 +1,191 @@
+export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient';
+
+export interface ThemeConfig {
+  id: ThemeType;
+  name: string;
+  description: string;
+  colors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    background: string;
+    surface: string;
+    text: {
+      primary: string;
+      secondary: string;
+      accent: string;
+    };
+    prayer: {
+      fajr: string;
+      dhuhr: string;
+      asr: string;
+      maghrib: string;
+      isha: string;
+      current: string;
+    };
+  };
+  styles: {
+    borderRadius: string;
+    spacing: string;
+    shadows: string;
+    animation: string;
+  };
+}
+
+export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
+  original: {
+    id: 'original',
+    name: 'Original',
+    description: 'The original Prayer Times Dashboard design',
+    colors: {
+      primary: 'bg-blue-600',
+      secondary: 'bg-blue-50',
+      accent: 'bg-blue-500',
+      background: 'bg-gray-50',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-600',
+        accent: 'text-blue-600'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-indigo-500 to-purple-600',
+        dhuhr: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+        asr: 'bg-gradient-to-r from-orange-400 to-red-500',
+        maghrib: 'bg-gradient-to-r from-pink-500 to-rose-500',
+        isha: 'bg-gradient-to-r from-purple-600 to-indigo-600',
+        current: 'bg-gradient-to-r from-green-400 to-blue-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-lg',
+      spacing: 'p-6',
+      shadows: 'shadow-lg',
+      animation: 'transition-all duration-300'
+    }
+  },
+  modern: {
+    id: 'modern',
+    name: 'Modern',
+    description: 'Clean and contemporary design with vibrant colors',
+    colors: {
+      primary: 'bg-blue-600',
+      secondary: 'bg-blue-100',
+      accent: 'bg-blue-500',
+      background: 'bg-gray-50',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-600',
+        accent: 'text-blue-600'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-indigo-500 to-purple-600',
+        dhuhr: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+        asr: 'bg-gradient-to-r from-orange-400 to-red-500',
+        maghrib: 'bg-gradient-to-r from-pink-500 to-rose-600',
+        isha: 'bg-gradient-to-r from-purple-600 to-indigo-700',
+        current: 'bg-gradient-to-r from-green-400 to-blue-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-xl',
+      spacing: 'p-6',
+      shadows: 'shadow-lg',
+      animation: 'transition-all duration-300 ease-in-out'
+    }
+  },
+  classic: {
+    id: 'classic',
+    name: 'Classic',
+    description: 'Traditional Islamic design with warm earth tones',
+    colors: {
+      primary: 'bg-emerald-700',
+      secondary: 'bg-emerald-50',
+      accent: 'bg-emerald-600',
+      background: 'bg-stone-100',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-stone-900',
+        secondary: 'text-stone-600',
+        accent: 'text-emerald-700'
+      },
+      prayer: {
+        fajr: 'bg-slate-600',
+        dhuhr: 'bg-amber-600',
+        asr: 'bg-orange-600',
+        maghrib: 'bg-rose-600',
+        isha: 'bg-indigo-700',
+        current: 'bg-emerald-600'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-lg',
+      spacing: 'p-5',
+      shadows: 'shadow-md',
+      animation: 'transition-colors duration-200'
+    }
+  },
+  minimal: {
+    id: 'minimal',
+    name: 'Minimal',
+    description: 'Simple and clean design focused on content',
+    colors: {
+      primary: 'bg-gray-900',
+      secondary: 'bg-gray-100',
+      accent: 'bg-gray-700',
+      background: 'bg-white',
+      surface: 'bg-gray-50',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-500',
+        accent: 'text-gray-700'
+      },
+      prayer: {
+        fajr: 'bg-gray-700',
+        dhuhr: 'bg-gray-600',
+        asr: 'bg-gray-500',
+        maghrib: 'bg-gray-600',
+        isha: 'bg-gray-700',
+        current: 'bg-gray-900'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-md',
+      spacing: 'p-4',
+      shadows: 'shadow-sm',
+      animation: 'transition-opacity duration-150'
+    }
+  },
+  gradient: {
+    id: 'gradient',
+    name: 'Gradient',
+    description: 'Vibrant gradients with dynamic color transitions',
+    colors: {
+      primary: 'bg-gradient-to-r from-purple-600 to-blue-600',
+      secondary: 'bg-gradient-to-r from-purple-50 to-blue-50',
+      accent: 'bg-gradient-to-r from-purple-500 to-blue-500',
+      background: 'bg-gradient-to-br from-purple-50 via-blue-50 to-cyan-50',
+      surface: 'bg-white/80 backdrop-blur-sm',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-600',
+        accent: 'bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600',
+        dhuhr: 'bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500',
+        asr: 'bg-gradient-to-r from-orange-500 via-red-500 to-pink-500',
+        maghrib: 'bg-gradient-to-r from-pink-500 via-rose-500 to-red-500',
+        isha: 'bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700',
+        current: 'bg-gradient-to-r from-green-400 via-blue-500 to-purple-600'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-2xl',
+      spacing: 'p-8',
+      shadows: 'shadow-2xl',
+      animation: 'transition-all duration-500 ease-out'
+    }
+  }
+};

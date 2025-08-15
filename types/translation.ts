@@ -46,6 +46,21 @@ export interface Translations {
     stayConnected: string;
     resetToNow: string;
   };
+
+  // Settings
+  settings: {
+    theme: string;
+    currentTheme: string;
+    themeDescription: string;
+  };
+
+  // Dashboard
+  dashboard: {
+    title: string;
+    currentPrayer: string;
+    nextPrayer: string;
+    prayerTimes: string;
+  };
   
   // Time formats
   time: {

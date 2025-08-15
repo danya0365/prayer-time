@@ -44,6 +44,19 @@ export const th: Translations = {
     stayConnected: 'เชื่อมต่อกับการละหมาดประจำวันของคุณ',
     resetToNow: 'รีเซ็ตเป็นเวลาปัจจุบัน'
   },
+
+  settings: {
+    theme: 'ธีม',
+    currentTheme: 'ธีมปัจจุบัน',
+    themeDescription: 'เลือกรูปแบบการแสดงผลที่คุณต้องการ'
+  },
+
+  dashboard: {
+    title: 'แดชบอร์ดเวลาละหมาด',
+    currentPrayer: 'การละหมาดปัจจุบัน',
+    nextPrayer: 'การละหมาดถัดไป',
+    prayerTimes: 'เวลาละหมาด'
+  },
   
   time: {
     until: 'จนถึง',
