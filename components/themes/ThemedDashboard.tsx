@@ -1,15 +1,13 @@
 "use client";
 
-import React from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { usePrayerTimes } from '../../hooks/usePrayerTimes';
-import { useDashboardState } from '../../hooks/useDashboardState';
-import OriginalTheme from './OriginalTheme';
-import ModernTheme from './ModernTheme';
-import ClassicTheme from './ClassicTheme';
-import MinimalTheme from './MinimalTheme';
-import GradientTheme from './GradientTheme';
 import FloatingSettingsButton from '../ui/FloatingSettingsButton';
+import ClassicTheme from './ClassicTheme/ClassicTheme';
+import GradientTheme from './GradientTheme/GradientTheme';
+import MinimalTheme from './MinimalTheme/MinimalTheme';
+import ModernTheme from './ModernTheme/ModernTheme';
+import OriginalTheme from './OriginalTheme/OriginalTheme';
 
 interface ThemedDashboardProps {
   testMode?: boolean;

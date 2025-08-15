@@ -6,13 +6,13 @@ import { usePrayerTimes } from '../../../hooks/usePrayerTimes';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useLocationStore } from '../../../stores/locationStore';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { AdditionalFeatures } from '../../dashboard/AdditionalFeatures';
-import { FutureFeatures } from '../../dashboard/FutureFeatures';
-import HeroSection from '../../dashboard/HeroSection';
-import PrayerTimesDisplay from '../../dashboard/PrayerTimesDisplay';
-import { MockupShowcase } from '../../mockups/MockupShowcase';
-import LocationSelector from '../../ui/LocationSelector';
-import SettingsPanel from '../../ui/SettingsPanel';
+import { AdditionalFeatures } from './partials/AdditionalFeatures';
+import { FutureFeatures } from './partials/FutureFeatures';
+import HeroSection from './partials/HeroSection';
+import PrayerTimesDisplay from './partials/PrayerTimesDisplay';
+import { MockupShowcase } from './partials/MockupShowcase';
+import LocationSelector from '../../shared/LocationSelector';
+import SettingsPanel from '../../shared/SettingsPanel';
 
 export default function OriginalTheme() {
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
