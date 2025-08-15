@@ -5,6 +5,7 @@ import { cn } from '../../utils/cn'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useTranslation } from '../../hooks/useTranslation'
 import { Language } from '../../types/translation'
+import { CalculationMethodType } from '../../utils/prayer-utils'
 import ThemeSelector from '../ui/ThemeSelector'
 
 interface SettingsPanelProps {
@@ -95,7 +96,7 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             <h3 className="text-lg font-semibold mb-3 text-foreground">{t.ui.calculationMethod}</h3>
             <select
               value={settings.calculationMethod}
-              onChange={(e) => updateSettings({ calculationMethod: e.target.value })}
+              onChange={(e) => updateSettings({ calculationMethod: e.target.value as CalculationMethodType })}
               className="w-full p-3 rounded-lg border border-card-border bg-card-bg text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
             >
               {CALCULATION_METHODS.map((method) => (

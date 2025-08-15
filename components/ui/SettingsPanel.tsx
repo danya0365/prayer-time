@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { cn } from '../../utils/cn'
-import { ThemeToggle } from './ThemeToggle'
-import { NotificationButton } from './NotificationButton'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useTranslation } from '../../hooks/useTranslation'
 import { Language } from '../../types/translation'
+import { CalculationMethodType } from '../../utils/prayer-utils'
 import ThemeSelector from './ThemeSelector'
 
 interface SettingsPanelProps {
@@ -79,13 +78,17 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           {/* Theme Toggle */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">Theme</span>
-            <ThemeToggle />
+            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg">
+              Toggle Theme
+            </button>
           </div>
 
           {/* Notifications */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">{t.ui.notifications}</span>
-            <NotificationButton />
+            <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg">
+              On
+            </button>
           </div>
 
           {/* Calculation Method */}
@@ -93,7 +96,7 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             <h3 className="text-lg font-semibold mb-3 text-foreground">{t.ui.calculationMethod}</h3>
             <select
               value={settings.calculationMethod}
-              onChange={(e) => updateSettings({ calculationMethod: e.target.value })}
+              onChange={(e) => updateSettings({ calculationMethod: e.target.value as CalculationMethodType })}
               className="w-full p-3 rounded-lg border border-card-border bg-card-bg text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20"
             >
               {CALCULATION_METHODS.map((method) => (

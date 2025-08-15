@@ -4,6 +4,18 @@ import { formatTimeWithLocale } from './date-formatting';
 
 export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
 
+export type CalculationMethodType = 
+  | 'MoonsightingCommittee'
+  | 'MuslimWorldLeague'
+  | 'Egyptian'
+  | 'Karachi'
+  | 'UmmAlQura'
+  | 'Dubai'
+  | 'Qatar'
+  | 'Kuwait'
+  | 'Singapore'
+  | 'Turkey';
+
 export interface PrayerInfo {
   name: Prayer;
   displayName: string;
@@ -22,7 +34,7 @@ const DEFAULT_COORDINATES: Coordinates = new Coordinates(13.7563, 100.5018);
 export function getPrayerTimes(
   date: Date = new Date(), 
   coordinates?: Coordinates, 
-  calculationMethod: string = 'MoonsightingCommittee',
+  calculationMethod: CalculationMethodType = 'MoonsightingCommittee',
   adjustments?: { fajr: number; dhuhr: number; asr: number; maghrib: number; isha: number }
 ): PrayerTimes {
   // Use provided coordinates or default to Bangkok
