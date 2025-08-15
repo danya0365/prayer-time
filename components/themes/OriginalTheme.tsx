@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
-import { useSettingsStore } from '../../stores/settingsStore';
-import { useLocationStore } from '../../stores/locationStore';
-import { usePrayerTimes } from '../../hooks/usePrayerTimes';
 import { useNotifications } from '../../hooks/useNotifications';
-import SettingsPanel from '../ui/SettingsPanel';
-import LocationSelector from '../ui/LocationSelector';
-import HeroSection from '../dashboard/HeroSection';
-import PrayerTimesDisplay from '../dashboard/PrayerTimesDisplay';
+import { usePrayerTimes } from '../../hooks/usePrayerTimes';
+import { useTranslation } from '../../hooks/useTranslation';
+import { useLocationStore } from '../../stores/locationStore';
+import { useSettingsStore } from '../../stores/settingsStore';
 import { AdditionalFeatures } from '../dashboard/AdditionalFeatures';
 import { FutureFeatures } from '../dashboard/FutureFeatures';
+import HeroSection from '../dashboard/HeroSection';
+import PrayerTimesDisplay from '../dashboard/PrayerTimesDisplay';
 import { MockupShowcase } from '../mockups/MockupShowcase';
+import LocationSelector from '../ui/LocationSelector';
+import SettingsPanel from '../ui/SettingsPanel';
 
 export default function OriginalTheme() {
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -21,7 +21,7 @@ export default function OriginalTheme() {
   const [testMode, setTestMode] = useState<boolean>(false);
   const [testTime, setTestTime] = useState<Date>(new Date());
   
-  const { currentLocation, requestGeolocation } = useLocationStore();
+  const { currentLocation } = useLocationStore();
   const { settings } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
   
@@ -50,104 +50,101 @@ export default function OriginalTheme() {
     notificationMinutes: settings.notificationMinutes
   });
 
-  const handleLocationRequest = async () => {
-    try {
-      await requestGeolocation();
-    } catch (error) {
-      console.error('Failed to get location:', error);
+  // Test mode functions
+  const toggleTestMode = () => {
+    setTestMode(!testMode);
+    if (!testMode) {
+      setTestTime(new Date());
     }
   };
-
-  const formatTimeUntil = (milliseconds: number): string => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  
+  const adjustTestTime = (minutes: number) => {
+    const newTime = new Date(testTime.getTime() + minutes * 60000);
+    setTestTime(newTime);
   };
 
-  if (loading) {
+  if (loading || !nextPrayer) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button
-            onClick={handleLocationRequest}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Retry
-          </button>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-xl font-medium">
+          {t.ui.loading}...
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <HeroSection
+    <div className="min-h-screen flex flex-col items-center justify-center py-10 px-4">
+      <HeroSection 
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
         timeUntilNext={timeUntilNext}
-        formatTimeUntil={formatTimeUntil}
-        onOpenSettings={() => setSettingsOpen(true)}
-        onOpenLocationSelector={() => setLocationSelectorOpen(true)}
+        onSettingsClick={() => setSettingsOpen(true)}
+        onLocationClick={() => setLocationSelectorOpen(true)}
         testMode={testMode}
-        onTestModeChange={setTestMode}
         testTime={testTime}
-        onTestTimeChange={setTestTime}
+        language={settings.language}
       />
 
-      {/* Prayer Times Display */}
       <PrayerTimesDisplay 
-        prayers={prayers} 
+        prayers={prayers}
         currentPrayer={currentPrayer}
         language={settings.language}
       />
 
       {/* Additional Features Toggle */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <button
-            onClick={() => setShowAdditionalFeatures(!showAdditionalFeatures)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
-          >
-            {showAdditionalFeatures ? 'Hide Features' : 'Show Features'}
-          </button>
-        </div>
-
-        {/* Additional Features */}
-        {showAdditionalFeatures && (
-          <div className="mt-8 space-y-8">
-            <AdditionalFeatures />
-            <FutureFeatures />
-            <MockupShowcase />
+      {!showAdditionalFeatures && (
+        <div className="w-full max-w-4xl mt-8">
+          <div className="text-center">
+            <button
+              onClick={() => setShowAdditionalFeatures(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors font-medium"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+              ดูฟีเจอร์เพิ่มเติม
+            </button>
+            <p className="text-sm text-muted mt-2">
+              แสดงฟีเจอร์อื่นๆ และตัวอย่างการใช้งาน
+            </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Settings Panel */}
+      {/* Additional Features - Lazy Loaded */}
+      {showAdditionalFeatures && (
+        <div className="w-full max-w-4xl space-y-8 mt-8">
+          {/* Collapse Button */}
+          <div className="text-center">
+            <button
+              onClick={() => setShowAdditionalFeatures(false)}
+              className="inline-flex items-center gap-2 px-4 py-2 text-muted hover:text-muted-dark transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+              ซ่อนฟีเจอร์เพิ่มเติม
+            </button>
+          </div>
+
+          <AdditionalFeatures
+            latitude={currentLocation?.latitude}
+            longitude={currentLocation?.longitude}
+            language={settings.language}
+          />
+
+          <MockupShowcase />
+
+          <FutureFeatures />
+        </div>
+      )}
+
       <SettingsPanel
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
       />
 
-      {/* Location Selector */}
       <LocationSelector
         isOpen={locationSelectorOpen}
         onClose={() => setLocationSelectorOpen(false)}

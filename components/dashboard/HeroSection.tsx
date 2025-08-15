@@ -1,10 +1,10 @@
 import { format } from "date-fns";
+import { useTranslation } from "../../hooks/useTranslation";
 import { useLocationStore } from "../../stores/locationStore";
+import { Language } from "../../types/translation";
 import { PrayerInfo } from "../../utils/prayer-utils";
 import { SettingsButton } from "../ui/SettingsButton";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
-import { useTranslation } from "../../hooks/useTranslation";
-import { Language } from "../../types/translation";
 
 interface HeroSectionProps {
   currentPrayer: PrayerInfo | null;
@@ -75,7 +75,7 @@ export default function HeroSection({
         </div>
 
         {/* Control buttons */}
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-4 right-4 z-10">
           <SettingsButton
             onClick={onSettingsClick || (() => {})}
             variant="light"
@@ -83,7 +83,7 @@ export default function HeroSection({
         </div>
 
         {/* Location display - compact */}
-        <div className="absolute top-4 left-4 z-50">
+        <div className="absolute top-4 left-4 z-10">
           <button
             onClick={onLocationClick || (() => {})}
             className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 rounded-full px-3 py-2 text-white text-sm font-medium transition-all duration-200 hover:scale-105"
