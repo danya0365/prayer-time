@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useTranslation } from '../../hooks/useTranslation';
 import { useSettingsStore } from '../../stores/settingsStore';
-import SettingsPanel from './SettingsPanel';
+import SettingsPanel from '../shared/SettingsPanel';
 import LocationSelector from './LocationSelector';
 
 export default function FloatingSettingsButton() {

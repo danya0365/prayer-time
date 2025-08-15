@@ -8,7 +8,7 @@ import {
   PrayerInfo
 } from '../../utils/prayer-utils';
 import { useNotifications } from '../../hooks/useNotifications';
-import SettingsPanel from '../ui/SettingsPanel';
+import SettingsPanel from '../shared/SettingsPanel';
 import { useLocationStore } from '../../stores/locationStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../hooks/useTranslation';
