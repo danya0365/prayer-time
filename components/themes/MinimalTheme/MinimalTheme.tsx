@@ -5,7 +5,8 @@ import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { format } from 'date-fns';
+import { formatDisplayDate } from '../../../utils/date-formatting';
+import { formatPrayerTime } from '../../../utils/prayer-utils';
 
 interface MinimalThemeProps {
   prayers: PrayerInfo[];
@@ -69,7 +70,7 @@ export function MinimalTheme({
             {t.dashboard.title}
           </h1>
           <p className={`text-sm ${themeConfig.colors.text.secondary}`}>
-            {format(new Date(), 'EEEE, MMMM d, yyyy')}
+            {formatDisplayDate(new Date(), settings.language)}
           </p>
         </div>
       </div>
@@ -133,11 +134,11 @@ export function MinimalTheme({
                 </div>
                 
                 <div className="text-right">
-                  <p className={`font-mono ${themeConfig.colors.text.primary}`}>
-                    {format(prayer.time, 'HH:mm')}
+                  <p className={`text-lg font-mono ${themeConfig.colors.text.primary}`}>
+                    {formatPrayerTime(prayer.time, settings.language)}
                   </p>
-                  <p className={`text-xs ${themeConfig.colors.text.secondary}`}>
-                    {format(prayer.time, 'h:mm a')}
+                  <p className={`text-xs ${themeConfig.colors.text.secondary} mt-1`}>
+                    {formatPrayerTime(prayer.time, settings.language)}
                   </p>
                 </div>
               </div>

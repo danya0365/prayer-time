@@ -59,13 +59,13 @@ export default function PrayerTimesDisplay({ prayers, currentPrayer, language }:
                   "text-lg font-mono font-bold",
                   isCurrent ? "text-white" : colors.text
                 )}>
-                  {formatPrayerTime(prayer.time)}
+                  {formatPrayerTime(prayer.time, language)}
                 </p>
                 <p className={cn(
                   "text-xs mt-1",
                   isCurrent ? "text-white/80" : "text-muted-foreground"
                 )}>
-                  {formatPrayerTime(prayer.time)}
+                  {formatPrayerTime(prayer.time, language)}
                 </p>
               </div>
             </div>

@@ -1,8 +1,8 @@
-import { format } from "date-fns";
 import { useTranslation } from "../../../../hooks/useTranslation";
 import { useLocationStore } from "../../../../stores/locationStore";
 import { Language } from "../../../../types/translation";
 import { PrayerInfo } from "../../../../utils/prayer-utils";
+import { formatDisplayDate, formatTimeWithLocale } from "../../../../utils/date-formatting";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
 
 interface HeroSectionProps {
@@ -28,7 +28,7 @@ export default function HeroSection({
 }: HeroSectionProps) {
   const { t } = useTranslation({ language });
   const today = new Date();
-  const formattedDate = format(today, "EEEE, MMMM d, yyyy");
+  const formattedDate = formatDisplayDate(today, language);
   const { currentLocation } = useLocationStore();
 
   const getLocationDisplayText = () => {
@@ -102,7 +102,7 @@ export default function HeroSection({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
                 <span className="text-yellow-200 text-sm font-medium">
-                  Test Mode: {format(testTime, 'HH:mm:ss')}
+                  Test Mode: {formatTimeWithLocale(testTime || new Date(), language)}
                 </span>
               </div>
             </div>

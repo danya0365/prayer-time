@@ -1,5 +1,6 @@
 import { CalculationMethod, Coordinates, Madhab, PrayerTimes } from 'adhan';
-import { format } from 'date-fns';
+import { formatTimeWithLocale } from './date-formatting';
+import { Language } from '../types/translation';
 
 export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
 
@@ -32,8 +33,8 @@ export function getPrayerTimes(date: Date = new Date(), coordinates?: Coordinate
 /**
  * Format prayer time to readable string
  */
-export function formatPrayerTime(date: Date): string {
-  return format(date, 'h:mm a');
+export function formatPrayerTime(date: Date, language: Language = 'en'): string {
+  return formatTimeWithLocale(date, language);
 }
 
 /**

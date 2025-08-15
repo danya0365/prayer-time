@@ -5,7 +5,8 @@ import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { format } from 'date-fns';
+import { formatDisplayDate } from '../../../utils/date-formatting';
+import { formatPrayerTime } from '../../../utils/prayer-utils';
 
 interface GradientThemeProps {
   prayers: PrayerInfo[];
@@ -84,7 +85,7 @@ export function GradientTheme({
               <div className="h-1 w-32 bg-gradient-to-r from-white/50 to-transparent mx-auto mb-4"></div>
             </div>
             <p className="text-xl opacity-90 font-light">
-              {format(new Date(), 'EEEE, MMMM d, yyyy')}
+              {formatDisplayDate(new Date(), settings.language)}
             </p>
           </div>
         </div>
@@ -105,7 +106,7 @@ export function GradientTheme({
                   {t.dashboard.currentPrayer}
                 </p>
                 <div className="text-2xl font-mono bg-white/20 rounded-lg px-4 py-2 inline-block">
-                  {format(currentPrayer.time, 'HH:mm')}
+                  {formatPrayerTime(currentPrayer.time, settings.language)}
                 </div>
               </div>
             </div>
@@ -152,10 +153,10 @@ export function GradientTheme({
               
               <div className={`${themeConfig.styles.spacing} text-center bg-gradient-to-b from-white to-gray-50`}>
                 <p className={`text-3xl font-mono font-bold ${themeConfig.colors.text.primary} mb-2`}>
-                  {format(prayer.time, 'HH:mm')}
+                  {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 <p className={`text-sm ${themeConfig.colors.text.secondary} mb-3`}>
-                  {format(prayer.time, 'h:mm a')}
+                  {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 
                 {prayer.isCurrent && (

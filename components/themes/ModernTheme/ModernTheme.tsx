@@ -5,7 +5,8 @@ import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { format } from 'date-fns';
+import { formatDisplayDate } from '../../../utils/date-formatting';
+import { formatPrayerTime } from '../../../utils/prayer-utils';
 
 interface ModernThemeProps {
   prayers: PrayerInfo[];
@@ -70,7 +71,7 @@ export function ModernTheme({
             {t.dashboard.title}
           </h1>
           <p className="text-xl opacity-90">
-            {format(new Date(), 'EEEE, MMMM d, yyyy')}
+            {formatDisplayDate(new Date(), settings.language)}
           </p>
           
           {/* Current Prayer Indicator */}
@@ -117,10 +118,10 @@ export function ModernTheme({
               </div>
               <div className={`${themeConfig.styles.spacing} text-center`}>
                 <p className={`text-2xl font-mono font-bold ${themeConfig.colors.text.primary}`}>
-                  {format(prayer.time, 'HH:mm')}
+                  {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 <p className={`text-sm ${themeConfig.colors.text.secondary} mt-1`}>
-                  {format(prayer.time, 'h:mm a')}
+                  {formatPrayerTime(prayer.time, settings.language)}
                 </p>
                 {prayer.isCurrent && (
                   <div className="mt-3 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">

@@ -5,7 +5,8 @@ import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
-import { format } from 'date-fns';
+import { formatDisplayDate, formatTimeWithLocale } from '../../../utils/date-formatting';
+import { formatPrayerTime } from '../../../utils/prayer-utils';
 
 interface ClassicThemeProps {
   prayers: PrayerInfo[];
@@ -82,7 +83,7 @@ export function ClassicTheme({
               <div className="w-24 h-1 bg-white mx-auto opacity-60"></div>
             </div>
             <p className="text-lg opacity-90 font-serif">
-              {format(new Date(), 'EEEE, MMMM d, yyyy')}
+              {formatDisplayDate(new Date(), settings.language)}
             </p>
           </div>
         </div>
@@ -101,7 +102,7 @@ export function ClassicTheme({
                 {t.dashboard.currentPrayer}
               </p>
               <div className="mt-4 text-xl font-mono">
-                {format(currentPrayer.time, 'HH:mm')}
+                {formatPrayerTime(currentPrayer.time, settings.language)}
               </div>
             </div>
             
@@ -152,10 +153,10 @@ export function ClassicTheme({
                 
                 <div className="text-right">
                   <p className={`text-xl font-mono font-bold ${themeConfig.colors.text.primary}`}>
-                    {format(prayer.time, 'HH:mm')}
+                    {formatPrayerTime(prayer.time, settings.language)}
                   </p>
                   <p className={`text-sm ${themeConfig.colors.text.secondary}`}>
-                    {format(prayer.time, 'h:mm a')}
+                    {formatPrayerTime(prayer.time, settings.language)}
                   </p>
                 </div>
               </div>
