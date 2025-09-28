@@ -77,7 +77,22 @@ export const ar: Translations = {
     accessDenied: 'تم رفض الوصول للموقع. يرجى تفعيل أذونات الموقع.',
     unavailable: 'الموقع غير متاح. يرجى المحاولة مرة أخرى.',
     timeout: 'انتهت مهلة طلب الموقع. يرجى المحاولة مرة أخرى.',
-    failed: 'فشل في الحصول على موقعك.'
+    failed: 'فشل في الحصول على موقعك.',
+    useCurrentLocation: 'استخدم الموقع الحالي',
+    useCurrentLocationDesc: 'كشف موقعك تلقائياً لأوقات الصلاة الدقيقة',
+    searchLocation: 'ابحث عن الموقع',
+    searchLocationPlaceholder: 'ابحث عن مدينة أو موقع...',
+    selectedLocation: 'الموقع المحدد',
+    saveLocation: 'حفظ الموقع',
+    noLocationsFound: 'لم يتم العثور على مواقع لـ "{searchQuery}"',
+    geolocationNotSupported: 'الموقع الجغرافي غير مدعوم في هذا المتصفح',
+    geolocationErrorUnknown: 'فشل في الحصول على موقعك',
+    geolocationErrorPermissionDenied: 'تم رفض الوصول للموقع. يرجى تفعيل أذونات الموقع.',
+    geolocationErrorUnavailable: 'الموقع غير متاح. يرجى المحاولة مرة أخرى.',
+    geolocationErrorTimeout: 'انتهت مهلة طلب الموقع. يرجى المحاولة مرة أخرى.',
+    noLocationSet: 'لم يتم تعيين الموقع',
+    getLocation: 'الحصول على الموقع',
+    changeLocation: 'تغيير الموقع'
   },
   
   alerts: {

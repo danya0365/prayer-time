@@ -2,6 +2,8 @@
 
 import { MapPin, Navigation, Settings } from 'lucide-react';
 import { useLocationStore } from '../../stores/locationStore';
+import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../hooks/useTranslation';
 
 interface LocationDisplayProps {
   onOpenLocationSelector?: () => void;
@@ -15,6 +17,8 @@ export default function LocationDisplay({
   compact = false 
 }: LocationDisplayProps) {
   const { currentLocation, isLocationLoading, locationError, requestGeolocation } = useLocationStore();
+  const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
 
   const handleGetCurrentLocation = async () => {
     await requestGeolocation();
@@ -24,7 +28,7 @@ export default function LocationDisplay({
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
         <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent"></div>
-        <span className="text-muted">Getting location...</span>
+        <span className="text-muted">{t.location.requestingLocation}</span>
       </div>
     );
   }
@@ -33,12 +37,12 @@ export default function LocationDisplay({
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
         <MapPin className="h-4 w-4 text-error" />
-        <span className="text-error">{locationError}</span>
+        <span className="text-error">{t.location[locationError as keyof typeof t.location]}</span>
         <button
           onClick={handleGetCurrentLocation}
           className="text-primary hover:text-primary-dark text-sm underline"
         >
-          Retry
+          {t.ui.retry}
         </button>
       </div>
     );
@@ -48,12 +52,12 @@ export default function LocationDisplay({
     return (
       <div className={`flex items-center gap-2 ${compact ? 'text-sm' : ''}`}>
         <MapPin className="h-4 w-4 text-muted" />
-        <span className="text-muted">No location set</span>
+        <span className="text-muted">{t.location.noLocationSet}</span>
         <button
           onClick={handleGetCurrentLocation}
           className="text-primary hover:text-primary-dark text-sm underline"
         >
-          Get location
+          {t.location.getLocation}
         </button>
       </div>
     );
@@ -77,7 +81,7 @@ export default function LocationDisplay({
         <button
           onClick={handleGetCurrentLocation}
           className="p-1.5 text-muted hover:text-primary transition-colors rounded-md hover:bg-muted-light"
-          title="Change location"
+          title={t.location.changeLocation}
         >
           <Navigation className="h-4 w-4" />
         </button>
@@ -86,7 +90,7 @@ export default function LocationDisplay({
           <button
             onClick={onOpenLocationSelector}
             className="p-1.5 text-muted hover:text-primary transition-colors rounded-md hover:bg-muted-light"
-            title="Change location"
+            title={t.location.changeLocation}
           >
             <Settings className="h-4 w-4" />
           </button>

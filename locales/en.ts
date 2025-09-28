@@ -77,7 +77,22 @@ export const en: Translations = {
     accessDenied: 'Location access denied. Please enable location permissions.',
     unavailable: 'Location unavailable. Please try again.',
     timeout: 'Location request timed out. Please try again.',
-    failed: 'Failed to get your location.'
+    failed: 'Failed to get your location.',
+    useCurrentLocation: 'Use Current Location',
+    useCurrentLocationDesc: 'Automatically detect your location for accurate prayer times',
+    searchLocation: 'Search Location',
+    searchLocationPlaceholder: 'Search for a city or location...',
+    selectedLocation: 'Selected Location',
+    saveLocation: 'Save Location',
+    noLocationsFound: 'No locations found for "{searchQuery}"',
+    geolocationNotSupported: 'Geolocation is not supported by this browser',
+    geolocationErrorUnknown: 'Failed to get your location',
+    geolocationErrorPermissionDenied: 'Location access denied. Please enable location permissions.',
+    geolocationErrorUnavailable: 'Location unavailable. Please try again.',
+    geolocationErrorTimeout: 'Location request timed out. Please try again.',
+    noLocationSet: 'No location set',
+    getLocation: 'Get location',
+    changeLocation: 'Change location'
   },
   
   alerts: {

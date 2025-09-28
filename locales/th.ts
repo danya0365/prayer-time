@@ -77,7 +77,22 @@ export const th: Translations = {
     accessDenied: 'การเข้าถึงตำแหน่งถูกปฏิเสธ กรุณาเปิดใช้งานสิทธิ์ตำแหน่ง',
     unavailable: 'ไม่สามารถหาตำแหน่งได้ กรุณาลองใหม่อีกครั้ง',
     timeout: 'การขอตำแหน่งหมดเวลา กรุณาลองใหม่อีกครั้ง',
-    failed: 'ไม่สามารถหาตำแหน่งของคุณได้'
+    failed: 'ไม่สามารถหาตำแหน่งของคุณได้',
+    useCurrentLocation: 'ใช้ตำแหน่งปัจจุบัน',
+    useCurrentLocationDesc: 'ตรวจหาตำแหน่งของคุณโดยอัตโนมัติเพื่อเวลาละหมาดที่แม่นยำ',
+    searchLocation: 'ค้นหาตำแหน่ง',
+    searchLocationPlaceholder: 'ค้นหาเมืองหรือตำแหน่ง...',
+    selectedLocation: 'ตำแหน่งที่เลือก',
+    saveLocation: 'บันทึกตำแหน่ง',
+    noLocationsFound: 'ไม่พบตำแหน่งสำหรับ "{searchQuery}"',
+    geolocationNotSupported: 'เบราว์เซอร์นี้ไม่รองรับการระบุตำแหน่ง',
+    geolocationErrorUnknown: 'ไม่สามารถหาตำแหน่งของคุณได้',
+    geolocationErrorPermissionDenied: 'การเข้าถึงตำแหน่งถูกปฏิเสธ กรุณาเปิดใช้งานสิทธิ์ตำแหน่ง',
+    geolocationErrorUnavailable: 'ไม่สามารถหาตำแหน่งได้ กรุณาลองใหม่อีกครั้ง',
+    geolocationErrorTimeout: 'การขอตำแหน่งหมดเวลา กรุณาลองใหม่อีกครั้ง',
+    noLocationSet: 'ไม่ได้ตั้งค่าตำแหน่ง',
+    getLocation: 'ขอตำแหน่ง',
+    changeLocation: 'เปลี่ยนตำแหน่ง'
   },
   
   alerts: {

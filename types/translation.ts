@@ -84,6 +84,21 @@ export interface Translations {
     unavailable: string;
     timeout: string;
     failed: string;
+    useCurrentLocation: string;
+    useCurrentLocationDesc: string;
+    searchLocation: string;
+    searchLocationPlaceholder: string;
+    selectedLocation: string;
+    saveLocation: string;
+    noLocationsFound: string;
+    geolocationNotSupported: string;
+    geolocationErrorUnknown: string;
+    geolocationErrorPermissionDenied: string;
+    geolocationErrorUnavailable: string;
+    geolocationErrorTimeout: string;
+    noLocationSet: string;
+    getLocation: string;
+    changeLocation: string;
   };
 
   // Alerts and confirmations

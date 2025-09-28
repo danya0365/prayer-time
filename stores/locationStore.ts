@@ -65,7 +65,7 @@ export const useLocationStore = create<LocationState>()(
 
       requestGeolocation: async () => {
         if (!navigator.geolocation) {
-          set({ locationError: 'Geolocation is not supported by this browser' });
+          set({ locationError: 'geolocationNotSupported' });
           return;
         }
 
@@ -120,7 +120,19 @@ export const useLocationStore = create<LocationState>()(
             ? error.code
             : 0;
           
-          get().setLocationError(`GEOLOCATION_ERROR_${errorCode}`);
+          let errorMessage = 'geolocationErrorUnknown';
+          switch (errorCode) {
+            case GeolocationPositionError.PERMISSION_DENIED:
+              errorMessage = 'geolocationErrorPermissionDenied';
+              break;
+            case GeolocationPositionError.POSITION_UNAVAILABLE:
+              errorMessage = 'geolocationErrorUnavailable';
+              break;
+            case GeolocationPositionError.TIMEOUT:
+              errorMessage = 'geolocationErrorTimeout';
+              break;
+          }
+          get().setLocationError(errorMessage);
         }
       }
     }),
