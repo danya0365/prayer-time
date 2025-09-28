@@ -1,4 +1,4 @@
-export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange';
+export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange' | 'green';
 
 export interface ThemeConfig {
   id: ThemeType;
@@ -210,6 +210,37 @@ export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
         maghrib: 'bg-gradient-to-r from-orange-500 to-pink-500',
         isha: 'bg-gradient-to-r from-orange-700 to-red-700',
         current: 'bg-gradient-to-r from-orange-500 to-yellow-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-xl',
+      spacing: 'p-6',
+      shadows: 'shadow-lg',
+      animation: 'transition-all duration-300 ease-in-out'
+    }
+  },
+  green: {
+    id: 'green',
+    name: 'Green',
+    description: 'Fresh green theme inspired by nature and tranquility',
+    colors: {
+      primary: 'bg-emerald-600',
+      secondary: 'bg-emerald-50',
+      accent: 'bg-emerald-500',
+      background: 'bg-emerald-25',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-600',
+        accent: 'text-emerald-600'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-emerald-800 to-teal-800',
+        dhuhr: 'bg-gradient-to-r from-lime-400 to-emerald-400',
+        asr: 'bg-gradient-to-r from-emerald-400 to-green-400',
+        maghrib: 'bg-gradient-to-r from-emerald-500 to-cyan-500',
+        isha: 'bg-gradient-to-r from-emerald-700 to-teal-700',
+        current: 'bg-gradient-to-r from-emerald-500 to-lime-500'
       }
     },
     styles: {

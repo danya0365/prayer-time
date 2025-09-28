@@ -5,6 +5,7 @@ import { usePrayerTimes } from '../../hooks/usePrayerTimes';
 import FloatingSettingsButton from '../ui/FloatingSettingsButton';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
+import GreenTheme from './GreenTheme/GreenTheme';
 import MinimalTheme from './MinimalTheme/MinimalTheme';
 import ModernTheme from './ModernTheme/ModernTheme';
 import OrangeTheme from './OrangeTheme/OrangeTheme';
@@ -45,6 +46,8 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
         return <GradientTheme {...themeProps} />;
       case 'orange':
         return <OrangeTheme {...themeProps} />;
+      case 'green':
+        return <GreenTheme {...themeProps} />;
       default:
         return <OriginalTheme />;
     }
