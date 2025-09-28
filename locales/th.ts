@@ -42,7 +42,8 @@ export const th: Translations = {
     futureFeatures: 'คุณสมบัติในอนาคต',
     comingSoon: 'เร็วๆ นี้',
     stayConnected: 'เชื่อมต่อกับการละหมาดประจำวันของคุณ',
-    resetToNow: 'รีเซ็ตเป็นเวลาปัจจุบัน'
+    resetToNow: 'รีเซ็ตเป็นเวลาปัจจุบัน',
+    refresh: 'รีเฟรช'
   },
 
   settings: {

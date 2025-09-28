@@ -42,7 +42,8 @@ export const ar: Translations = {
     futureFeatures: 'ميزات مستقبلية',
     comingSoon: 'قريباً',
     stayConnected: 'ابق متصلاً مع صلواتك اليومية',
-    resetToNow: 'إعادة تعيين إلى الآن'
+    resetToNow: 'إعادة تعيين إلى الآن',
+    refresh: 'تحديث'
   },
   
   settings: {

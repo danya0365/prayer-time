@@ -45,6 +45,7 @@ export interface Translations {
     comingSoon: string;
     stayConnected: string;
     resetToNow: string;
+    refresh: string;
   };
 
   // Settings

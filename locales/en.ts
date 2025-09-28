@@ -42,7 +42,8 @@ export const en: Translations = {
     futureFeatures: 'Future Features',
     comingSoon: 'Coming Soon',
     stayConnected: 'Stay connected with your daily prayers',
-    resetToNow: 'Reset to Now'
+    resetToNow: 'Reset to Now',
+    refresh: 'Refresh'
   },
 
   settings: {
