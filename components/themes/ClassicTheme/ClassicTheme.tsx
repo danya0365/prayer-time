@@ -1,13 +1,15 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
 import { useSettingsStore } from '../../../stores/settingsStore';
+import { useLocationStore } from '../../../stores/locationStore';
 import { formatDisplayDate } from '../../../utils/date-formatting';
 import { formatPrayerTime } from '../../../utils/prayer-utils';
 import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
+import LocationSelector from '../../shared/LocationSelector';
 
 interface ClassicThemeProps {
   prayers: PrayerInfo[];
@@ -28,7 +30,9 @@ export function ClassicTheme({
 }: ClassicThemeProps) {
   const { themeConfig } = useTheme();
   const { settings } = useSettingsStore();
+  const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });
+  const [locationSelectorOpen, setLocationSelectorOpen] = useState(false);
 
   const formatTimeUntil = (milliseconds: number): string => {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -86,6 +90,22 @@ export function ClassicTheme({
             <p className="text-lg opacity-90 font-serif">
               {formatDisplayDate(new Date(), settings.language)}
             </p>
+            
+            {/* Location Display */}
+            {currentLocation && (
+              <div className="mt-4">
+                <button
+                  onClick={() => setLocationSelectorOpen(true)}
+                  className="inline-flex items-center space-x-2 text-white/80 hover:text-white transition-colors duration-200 cursor-pointer bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg border border-white/20 backdrop-blur-sm font-serif"
+                  title="คลิกเพื่อเปลี่ยนตำแหน่ง"
+                >
+                  <span>📍</span>
+                  <span className="text-base">
+                    {currentLocation.city || 'Unknown'}, {currentLocation.country || 'Unknown'}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -165,6 +185,12 @@ export function ClassicTheme({
           </div>
         </div>
       </div>
+
+      {/* Location Selector */}
+      <LocationSelector
+        isOpen={locationSelectorOpen}
+        onClose={() => setLocationSelectorOpen(false)}
+      />
     </div>
   );
 }
