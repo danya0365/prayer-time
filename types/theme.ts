@@ -1,4 +1,4 @@
-export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange' | 'green';
+export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange' | 'green' | 'space';
 
 export interface ThemeConfig {
   id: ThemeType;
@@ -248,6 +248,37 @@ export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
       spacing: 'p-6',
       shadows: 'shadow-lg',
       animation: 'transition-all duration-300 ease-in-out'
+    }
+  },
+  space: {
+    id: 'space',
+    name: 'Space',
+    description: 'Cosmic space theme with stellar design and galactic colors',
+    colors: {
+      primary: 'bg-indigo-600',
+      secondary: 'bg-indigo-50',
+      accent: 'bg-purple-500',
+      background: 'bg-slate-900',
+      surface: 'bg-slate-800',
+      text: {
+        primary: 'text-white',
+        secondary: 'text-slate-300',
+        accent: 'text-purple-400'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-indigo-900 to-purple-900',
+        dhuhr: 'bg-gradient-to-r from-yellow-400 to-orange-400',
+        asr: 'bg-gradient-to-r from-orange-400 to-red-400',
+        maghrib: 'bg-gradient-to-r from-purple-500 to-pink-500',
+        isha: 'bg-gradient-to-r from-indigo-700 to-purple-700',
+        current: 'bg-gradient-to-r from-cyan-400 to-blue-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-2xl',
+      spacing: 'p-6',
+      shadows: 'shadow-2xl',
+      animation: 'transition-all duration-500 ease-out'
     }
   }
 };

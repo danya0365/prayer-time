@@ -10,6 +10,7 @@ import MinimalTheme from './MinimalTheme/MinimalTheme';
 import ModernTheme from './ModernTheme/ModernTheme';
 import OrangeTheme from './OrangeTheme/OrangeTheme';
 import OriginalTheme from './OriginalTheme/OriginalTheme';
+import SpaceTheme from './SpaceTheme/SpaceTheme';
 
 interface ThemedDashboardProps {
   testMode?: boolean;
@@ -48,6 +49,8 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
         return <OrangeTheme {...themeProps} />;
       case 'green':
         return <GreenTheme {...themeProps} />;
+      case 'space':
+        return <SpaceTheme {...themeProps} />;
       default:
         return <OriginalTheme />;
     }
