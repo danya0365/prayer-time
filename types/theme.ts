@@ -1,4 +1,4 @@
-export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange' | 'green' | 'space';
+export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange' | 'green' | 'space' | 'mecca';
 
 export interface ThemeConfig {
   id: ThemeType;
@@ -279,6 +279,37 @@ export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
       spacing: 'p-6',
       shadows: 'shadow-2xl',
       animation: 'transition-all duration-500 ease-out'
+    }
+  },
+  mecca: {
+    id: 'mecca',
+    name: 'Mecca',
+    description: 'Sacred Mecca theme inspired by the holy city and Kaaba',
+    colors: {
+      primary: 'bg-amber-600',
+      secondary: 'bg-amber-50',
+      accent: 'bg-yellow-500',
+      background: 'bg-stone-50',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-stone-900',
+        secondary: 'text-stone-600',
+        accent: 'text-amber-700'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-slate-700 to-stone-700',
+        dhuhr: 'bg-gradient-to-r from-amber-400 to-yellow-400',
+        asr: 'bg-gradient-to-r from-orange-400 to-amber-400',
+        maghrib: 'bg-gradient-to-r from-rose-400 to-pink-400',
+        isha: 'bg-gradient-to-r from-indigo-600 to-purple-600',
+        current: 'bg-gradient-to-r from-amber-500 to-yellow-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-xl',
+      spacing: 'p-6',
+      shadows: 'shadow-lg',
+      animation: 'transition-all duration-300 ease-in-out'
     }
   }
 };

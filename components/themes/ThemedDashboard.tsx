@@ -6,6 +6,7 @@ import FloatingSettingsButton from '../ui/FloatingSettingsButton';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
 import GreenTheme from './GreenTheme/GreenTheme';
+import MeccaTheme from './MeccaTheme/MeccaTheme';
 import MinimalTheme from './MinimalTheme/MinimalTheme';
 import ModernTheme from './ModernTheme/ModernTheme';
 import OrangeTheme from './OrangeTheme/OrangeTheme';
@@ -51,6 +52,8 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
         return <GreenTheme {...themeProps} />;
       case 'space':
         return <SpaceTheme {...themeProps} />;
+      case 'mecca':
+        return <MeccaTheme {...themeProps} />;
       default:
         return <OriginalTheme />;
     }
