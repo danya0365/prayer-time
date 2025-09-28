@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useTheme } from "../../../contexts/ThemeContext";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useSettingsStore } from "../../../stores/settingsStore";
+import { useLocationStore } from "../../../stores/locationStore";
 import { formatDisplayDate } from "../../../utils/date-formatting";
 import { calculatePrayerTimeStatus } from "../../../utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "../../../utils/prayer-utils";
+import LocationSelector from "../../shared/LocationSelector";
 
 interface GradientThemeProps {
   prayers: PrayerInfo[];
@@ -26,7 +29,9 @@ export function GradientTheme({
 }: GradientThemeProps) {
   const { themeConfig } = useTheme();
   const { settings } = useSettingsStore();
+  const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });
+  const [locationSelectorOpen, setLocationSelectorOpen] = useState(false);
 
   const formatTimeUntil = (milliseconds: number): string => {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -95,9 +100,25 @@ export function GradientTheme({
               </h1>
               <div className="h-1 w-32 bg-gradient-to-r from-white/50 to-transparent mx-auto mb-4"></div>
             </div>
-            <p className="text-xl opacity-90 font-light mb-12">
+            <p className="text-xl opacity-90 font-light mb-6">
               {formatDisplayDate(new Date(), settings.language)}
             </p>
+            
+            {/* Location Display */}
+            {currentLocation && (
+              <div className="mb-12">
+                <button
+                  onClick={() => setLocationSelectorOpen(true)}
+                  className="inline-flex items-center space-x-3 text-white/80 hover:text-white transition-all duration-300 cursor-pointer bg-gradient-to-r from-white/10 to-white/20 hover:from-white/20 hover:to-white/30 px-6 py-3 rounded-full backdrop-blur-sm border border-white/20 hover:border-white/40 transform hover:scale-105 hover:rotate-1 font-light"
+                  title="คลิกเพื่อเปลี่ยนตำแหน่ง"
+                >
+                  <span className="text-xl animate-pulse">📍</span>
+                  <span className="text-lg bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent font-medium">
+                    {currentLocation.city || 'Unknown'}, {currentLocation.country || 'Unknown'}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -221,6 +242,12 @@ export function GradientTheme({
           ))}
         </div>
       </div>
+
+      {/* Location Selector */}
+      <LocationSelector
+        isOpen={locationSelectorOpen}
+        onClose={() => setLocationSelectorOpen(false)}
+      />
     </div>
   );
 }
