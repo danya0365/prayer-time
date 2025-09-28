@@ -1,13 +1,13 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { Coordinates } from 'adhan';
+import { Coordinates } from "adhan";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLocationStore } from "../stores/locationStore";
+import { useSettingsStore } from "../stores/settingsStore";
 import {
   getAllPrayerInfo,
   getCurrentAndNextPrayer,
   getPrayerTimes,
-  PrayerInfo
-} from '../utils/prayer-utils';
-import { useLocationStore } from '../stores/locationStore';
-import { useSettingsStore } from '../stores/settingsStore';
+  PrayerInfo,
+} from "../utils/prayer-utils";
 
 interface UsePrayerTimesOptions {
   testMode?: boolean;
@@ -23,9 +23,11 @@ interface UsePrayerTimesReturn {
   error: string | null;
 }
 
-export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTimesReturn {
+export function usePrayerTimes(
+  options: UsePrayerTimesOptions = {}
+): UsePrayerTimesReturn {
   const { testMode = false, testTime } = options;
-  
+
   const [prayers, setPrayers] = useState<PrayerInfo[]>([]);
   const [currentPrayer, setCurrentPrayer] = useState<PrayerInfo | null>(null);
   const [nextPrayer, setNextPrayer] = useState<PrayerInfo | null>(null);
@@ -44,33 +46,45 @@ export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTi
   const calculatePrayerTimes = useCallback(() => {
     try {
       setError(null);
-      
+
       // Use test time if in test mode, otherwise use current time
-      const currentTime = testMode && testTimeRef.current ? testTimeRef.current : new Date();
-      
+      const currentTime =
+        testMode && testTimeRef.current ? testTimeRef.current : new Date();
+
       if (!currentLocation) {
-        setError('Location not available');
+        setError("Location not available");
         setLoading(false);
         return;
       }
 
       // Get prayer times for the current day
-      const coordinates = new Coordinates(currentLocation.latitude, currentLocation.longitude);
-      const prayerTimes = getPrayerTimes(currentTime, coordinates, settings.calculationMethod, settings.adjustments);
+      const coordinates = new Coordinates(
+        currentLocation.latitude,
+        currentLocation.longitude
+      );
+      const prayerTimes = getPrayerTimes(
+        currentTime,
+        coordinates,
+        settings.calculationMethod,
+        settings.adjustments
+      );
 
       // Get all prayer info with colors and names
       const allPrayerInfo = getAllPrayerInfo(prayerTimes, currentTime);
       setPrayers(allPrayerInfo);
 
       // Get current and next prayer
-      const { current, next } = getCurrentAndNextPrayer(prayerTimes, currentTime);
+      const { current, next } = getCurrentAndNextPrayer(
+        prayerTimes,
+        currentTime
+      );
       setCurrentPrayer(current);
       setNextPrayer(next);
 
       setLoading(false);
     } catch (err) {
-      console.error('Error calculating prayer times:', err);
-      setError('Failed to calculate prayer times');
+      console.error("Error calculating prayer times:", err);
+      setError("Failed to calculate prayer times");
       setLoading(false);
     }
   }, [currentLocation, settings, testMode]);
@@ -85,9 +99,16 @@ export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTi
     if (!nextPrayer) return;
 
     const updateCountdown = () => {
-      const now = testMode && testTimeRef.current ? testTimeRef.current : new Date();
+      const now =
+        testMode && testTimeRef.current ? testTimeRef.current : new Date();
       const timeDiff = nextPrayer.time.getTime() - now.getTime();
-      setTimeUntilNext(Math.max(0, timeDiff));
+
+      // If time has passed or reached the next prayer, recalculate prayer times
+      if (timeDiff <= 0) {
+        calculatePrayerTimes();
+      } else {
+        setTimeUntilNext(timeDiff);
+      }
     };
 
     updateCountdown();
@@ -96,7 +117,7 @@ export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTi
       const interval = setInterval(updateCountdown, 1000);
       return () => clearInterval(interval);
     }
-  }, [nextPrayer, testMode]);
+  }, [nextPrayer, testMode, calculatePrayerTimes]);
 
   return {
     prayers,
@@ -104,6 +125,6 @@ export function usePrayerTimes(options: UsePrayerTimesOptions = {}): UsePrayerTi
     nextPrayer,
     timeUntilNext,
     loading,
-    error
+    error,
   };
 }
