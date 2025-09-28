@@ -9,6 +9,7 @@ import GreenTheme from './GreenTheme/GreenTheme';
 import MeccaTheme from './MeccaTheme/MeccaTheme';
 import MinimalTheme from './MinimalTheme/MinimalTheme';
 import ModernTheme from './ModernTheme/ModernTheme';
+import OceanTheme from './OceanTheme/OceanTheme';
 import OrangeTheme from './OrangeTheme/OrangeTheme';
 import OriginalTheme from './OriginalTheme/OriginalTheme';
 import SpaceTheme from './SpaceTheme/SpaceTheme';
@@ -54,6 +55,8 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
         return <SpaceTheme {...themeProps} />;
       case 'mecca':
         return <MeccaTheme {...themeProps} />;
+      case 'ocean':
+        return <OceanTheme {...themeProps} />;
       default:
         return <OriginalTheme />;
     }

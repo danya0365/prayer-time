@@ -4,6 +4,7 @@ export type ThemeType =
   | "green"
   | "space"
   | "mecca"
+  | "ocean"
   | "modern"
   | "classic"
   | "minimal"
@@ -195,6 +196,37 @@ export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
       spacing: "p-6",
       shadows: "shadow-lg",
       animation: "transition-all duration-300 ease-in-out",
+    },
+  },
+  ocean: {
+    id: "ocean",
+    name: "Ocean",
+    description: "Deep ocean theme with flowing waves and marine life",
+    colors: {
+      primary: "bg-blue-600",
+      secondary: "bg-cyan-50",
+      accent: "bg-teal-500",
+      background: "bg-blue-50",
+      surface: "bg-white",
+      text: {
+        primary: "text-slate-900",
+        secondary: "text-slate-600",
+        accent: "text-blue-700",
+      },
+      prayer: {
+        fajr: "bg-gradient-to-r from-slate-600 to-blue-800",
+        dhuhr: "bg-gradient-to-r from-cyan-400 to-blue-400",
+        asr: "bg-gradient-to-r from-blue-400 to-teal-400",
+        maghrib: "bg-gradient-to-r from-purple-500 to-blue-500",
+        isha: "bg-gradient-to-r from-indigo-700 to-blue-800",
+        current: "bg-gradient-to-r from-teal-400 to-cyan-400",
+      },
+    },
+    styles: {
+      borderRadius: "rounded-2xl",
+      spacing: "p-6",
+      shadows: "shadow-xl",
+      animation: "transition-all duration-500 ease-in-out",
     },
   },
   modern: {
