@@ -1,13 +1,11 @@
 "use client";
 
-import React from 'react';
-import { PrayerInfo } from '../../../utils/prayer-utils';
-import { useTheme } from '../../../contexts/ThemeContext';
-import { useTranslation } from '../../../hooks/useTranslation';
-import { useSettingsStore } from '../../../stores/settingsStore';
-import { formatDisplayDate } from '../../../utils/date-formatting';
-import { formatPrayerTime } from '../../../utils/prayer-utils';
-import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
+import { useTheme } from "../../../contexts/ThemeContext";
+import { useTranslation } from "../../../hooks/useTranslation";
+import { useSettingsStore } from "../../../stores/settingsStore";
+import { formatDisplayDate } from "../../../utils/date-formatting";
+import { calculatePrayerTimeStatus } from "../../../utils/prayer-time-status";
+import { formatPrayerTime, PrayerInfo } from "../../../utils/prayer-utils";
 
 interface GradientThemeProps {
   prayers: PrayerInfo[];
@@ -24,7 +22,7 @@ export function GradientTheme({
   nextPrayer,
   timeUntilNext,
   loading,
-  error
+  error,
 }: GradientThemeProps) {
   const { themeConfig } = useTheme();
   const { settings } = useSettingsStore();
@@ -37,15 +35,21 @@ export function GradientTheme({
     const seconds = totalSeconds % 60;
 
     if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
     }
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
   if (loading) {
     return (
-      <div className={`min-h-screen ${themeConfig.colors.background} flex items-center justify-center`}>
-        <div className={`${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.spacing} ${themeConfig.styles.shadows}`}>
+      <div
+        className={`min-h-screen ${themeConfig.colors.background} flex items-center justify-center`}
+      >
+        <div
+          className={`${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.spacing} ${themeConfig.styles.shadows}`}
+        >
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-transparent bg-gradient-to-r from-purple-600 to-blue-600 rounded-full">
             <div className="h-full w-full bg-white rounded-full border-2 border-transparent"></div>
           </div>
@@ -56,8 +60,12 @@ export function GradientTheme({
 
   if (error) {
     return (
-      <div className={`min-h-screen ${themeConfig.colors.background} flex items-center justify-center`}>
-        <div className={`${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.spacing} ${themeConfig.styles.shadows} text-center border border-red-200`}>
+      <div
+        className={`min-h-screen ${themeConfig.colors.background} flex items-center justify-center`}
+      >
+        <div
+          className={`${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.spacing} ${themeConfig.styles.shadows} text-center border border-red-200`}
+        >
           <div className="text-red-500 text-xl mb-2">⚠️</div>
           <p className={themeConfig.colors.text.primary}>{error}</p>
         </div>
@@ -68,14 +76,16 @@ export function GradientTheme({
   return (
     <div className={`min-h-screen ${themeConfig.colors.background}`}>
       {/* Gradient Hero Section */}
-      <div className={`${themeConfig.colors.primary} text-white relative overflow-hidden`}>
+      <div
+        className={`${themeConfig.colors.primary} text-white relative overflow-hidden`}
+      >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute top-32 right-20 w-24 h-24 bg-white/10 rounded-full blur-lg animate-pulse delay-300"></div>
           <div className="absolute bottom-20 left-1/3 w-40 h-40 bg-white/10 rounded-full blur-2xl animate-pulse delay-700"></div>
         </div>
-        
+
         <div className={`relative ${themeConfig.styles.spacing} text-center`}>
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
@@ -85,7 +95,7 @@ export function GradientTheme({
               </h1>
               <div className="h-1 w-32 bg-gradient-to-r from-white/50 to-transparent mx-auto mb-4"></div>
             </div>
-            <p className="text-xl opacity-90 font-light">
+            <p className="text-xl opacity-90 font-light mb-12">
               {formatDisplayDate(new Date(), settings.language)}
             </p>
           </div>
@@ -95,13 +105,23 @@ export function GradientTheme({
       <div className="max-w-7xl mx-auto p-6">
         {/* Floating Current Prayer Card */}
         {currentPrayer && (
-          <div className={`-mt-16 relative z-10 ${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.shadows} border border-white/20 overflow-hidden mb-8`}>
-            <div className={`${currentPrayer.color} p-8 text-white text-center relative overflow-hidden`}>
+          <div
+            className={`-mt-16 relative z-10 ${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.shadows} border border-white/20 overflow-hidden mb-8`}
+          >
+            <div
+              className={`${currentPrayer.color} p-8 text-white text-center relative overflow-hidden`}
+            >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
               <div className="relative z-10">
-                <div className="text-5xl mb-4 animate-pulse">{currentPrayer.emoji}</div>
+                <div className="text-5xl mb-4 animate-pulse">
+                  {currentPrayer.emoji}
+                </div>
                 <h2 className="text-3xl font-bold mb-2">
-                  {t.prayers[currentPrayer.name.toLowerCase() as keyof typeof t.prayers]}
+                  {
+                    t.prayers[
+                      currentPrayer.name.toLowerCase() as keyof typeof t.prayers
+                    ]
+                  }
                 </h2>
                 <p className="text-lg opacity-90 mb-4">
                   {t.dashboard.currentPrayer}
@@ -111,12 +131,21 @@ export function GradientTheme({
                 </div>
               </div>
             </div>
-            
+
             {nextPrayer && (
               <div className="p-6 text-center bg-gradient-to-r from-gray-50 to-white">
-                <p className={`text-lg mb-3 ${themeConfig.colors.text.secondary}`}>
-                  {t.dashboard.nextPrayer}: <span className={`font-bold ${themeConfig.colors.text.accent}`}>
-                    {t.prayers[nextPrayer.name.toLowerCase() as keyof typeof t.prayers]}
+                <p
+                  className={`text-lg mb-3 ${themeConfig.colors.text.secondary}`}
+                >
+                  {t.dashboard.nextPrayer}:{" "}
+                  <span
+                    className={`font-bold ${themeConfig.colors.text.accent}`}
+                  >
+                    {
+                      t.prayers[
+                        nextPrayer.name.toLowerCase() as keyof typeof t.prayers
+                      ]
+                    }
                   </span>
                 </p>
                 <div className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
@@ -136,30 +165,51 @@ export function GradientTheme({
               key={prayer.name}
               className={`${themeConfig.colors.surface} ${themeConfig.styles.borderRadius} ${themeConfig.styles.shadows} overflow-hidden ${themeConfig.styles.animation} hover:scale-105 hover:rotate-1 border border-white/20`}
               style={{
-                animationDelay: `${index * 100}ms`
+                animationDelay: `${index * 100}ms`,
               }}
             >
-              <div className={`${prayer.color} p-6 text-white text-center relative overflow-hidden`}>
+              <div
+                className={`${prayer.color} p-6 text-white text-center relative overflow-hidden`}
+              >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
                 <div className="relative z-10">
-                  <div className="text-4xl mb-3 animate-bounce" style={{ animationDelay: `${index * 200}ms` }}>
+                  <div
+                    className="text-4xl mb-3 animate-bounce"
+                    style={{ animationDelay: `${index * 200}ms` }}
+                  >
                     {prayer.emoji}
                   </div>
                   <h3 className="text-xl font-bold mb-2">
-                    {t.prayers[prayer.name.toLowerCase() as keyof typeof t.prayers]}
+                    {
+                      t.prayers[
+                        prayer.name.toLowerCase() as keyof typeof t.prayers
+                      ]
+                    }
                   </h3>
                   <div className="w-12 h-0.5 bg-white/50 mx-auto"></div>
                 </div>
               </div>
-              
-              <div className={`${themeConfig.styles.spacing} text-center bg-gradient-to-b from-white to-gray-50`}>
-                <p className={`text-3xl font-mono font-bold ${themeConfig.colors.text.primary} mb-2`}>
+
+              <div
+                className={`${themeConfig.styles.spacing} text-center bg-gradient-to-b from-white to-gray-50`}
+              >
+                <p
+                  className={`text-3xl font-mono font-bold ${themeConfig.colors.text.primary} mb-2`}
+                >
                   {formatPrayerTime(prayer.time, settings.language)}
                 </p>
-                <p className={`text-sm ${themeConfig.colors.text.secondary} mb-3`}>
-                  {calculatePrayerTimeStatus(prayer, currentPrayer, settings.language).displayText}
+                <p
+                  className={`text-sm ${themeConfig.colors.text.secondary} mb-3`}
+                >
+                  {
+                    calculatePrayerTimeStatus(
+                      prayer,
+                      currentPrayer,
+                      settings.language
+                    ).displayText
+                  }
                 </p>
-                
+
                 {prayer.isCurrent && (
                   <div className="inline-flex items-center px-4 py-2 rounded-full text-xs font-bold bg-gradient-to-r from-green-400 to-blue-500 text-white animate-pulse">
                     <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping"></div>
