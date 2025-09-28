@@ -1,4 +1,4 @@
-export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient';
+export type ThemeType = 'original' | 'modern' | 'classic' | 'minimal' | 'gradient' | 'orange';
 
 export interface ThemeConfig {
   id: ThemeType;
@@ -186,6 +186,37 @@ export const AVAILABLE_THEMES: Record<ThemeType, ThemeConfig> = {
       spacing: 'p-8',
       shadows: 'shadow-2xl',
       animation: 'transition-all duration-500 ease-out'
+    }
+  },
+  orange: {
+    id: 'orange',
+    name: 'Orange',
+    description: 'Warm orange theme with vibrant sunset colors',
+    colors: {
+      primary: 'bg-orange-600',
+      secondary: 'bg-orange-50',
+      accent: 'bg-orange-500',
+      background: 'bg-orange-25',
+      surface: 'bg-white',
+      text: {
+        primary: 'text-gray-900',
+        secondary: 'text-gray-600',
+        accent: 'text-orange-600'
+      },
+      prayer: {
+        fajr: 'bg-gradient-to-r from-orange-800 to-red-800',
+        dhuhr: 'bg-gradient-to-r from-yellow-400 to-orange-400',
+        asr: 'bg-gradient-to-r from-orange-400 to-red-400',
+        maghrib: 'bg-gradient-to-r from-orange-500 to-pink-500',
+        isha: 'bg-gradient-to-r from-orange-700 to-red-700',
+        current: 'bg-gradient-to-r from-orange-500 to-yellow-500'
+      }
+    },
+    styles: {
+      borderRadius: 'rounded-xl',
+      spacing: 'p-6',
+      shadows: 'shadow-lg',
+      animation: 'transition-all duration-300 ease-in-out'
     }
   }
 };

@@ -7,6 +7,7 @@ import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
 import MinimalTheme from './MinimalTheme/MinimalTheme';
 import ModernTheme from './ModernTheme/ModernTheme';
+import OrangeTheme from './OrangeTheme/OrangeTheme';
 import OriginalTheme from './OriginalTheme/OriginalTheme';
 
 interface ThemedDashboardProps {
@@ -42,6 +43,8 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
         return <MinimalTheme {...themeProps} />;
       case 'gradient':
         return <GradientTheme {...themeProps} />;
+      case 'orange':
+        return <OrangeTheme {...themeProps} />;
       default:
         return <OriginalTheme />;
     }
