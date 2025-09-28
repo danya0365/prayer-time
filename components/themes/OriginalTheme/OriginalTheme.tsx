@@ -7,7 +7,6 @@ import { usePrayerTimes } from "../../../hooks/usePrayerTimes";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useLocationStore } from "../../../stores/locationStore";
 import { useSettingsStore } from "../../../stores/settingsStore";
-import SettingsPanel from "../../shared/SettingsPanel";
 import { AdditionalFeatures } from "./partials/AdditionalFeatures";
 import { FutureFeatures } from "./partials/FutureFeatures";
 import HeroSection from "./partials/HeroSection";
@@ -15,7 +14,6 @@ import { MockupShowcase } from "./partials/MockupShowcase";
 import PrayerTimesDisplay from "./partials/PrayerTimesDisplay";
 
 export default function OriginalTheme() {
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [locationSelectorOpen, setLocationSelectorOpen] =
     useState<boolean>(false);
   const [showAdditionalFeatures, setShowAdditionalFeatures] =
@@ -60,7 +58,6 @@ export default function OriginalTheme() {
         currentPrayer={currentPrayer}
         nextPrayer={nextPrayer}
         timeUntilNext={timeUntilNext}
-        onSettingsClick={() => setSettingsOpen(true)}
         onLocationClick={() => setLocationSelectorOpen(true)}
         language={settings.language}
       />
@@ -138,11 +135,6 @@ export default function OriginalTheme() {
           <FutureFeatures />
         </div>
       )}
-
-      <SettingsPanel
-        isOpen={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-      />
 
       <LocationSelector
         isOpen={locationSelectorOpen}
