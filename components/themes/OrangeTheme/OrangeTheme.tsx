@@ -90,17 +90,17 @@ export function OrangeTheme({
       </div>
 
       {/* Header Section */}
-      <div className="relative z-10 pt-8 pb-6">
-        <div className="max-w-6xl mx-auto px-6">
+      <div className="relative z-10 pt-4 sm:pt-8 pb-3 sm:pb-6">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6">
           {/* Title & Date */}
           <div className="text-center mb-2">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full mb-6 shadow-lg">
-              <span className="text-3xl">🕌</span>
+            <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full mb-3 sm:mb-6 shadow-lg">
+              <span className="text-2xl sm:text-3xl">🕌</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-3">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-2 sm:mb-3">
               {t.dashboard.title}
             </h1>
-            <p className="text-lg text-orange-700 font-medium">
+            <p className="text-sm sm:text-lg text-orange-700 font-medium">
               {formatDisplayDate(new Date(), settings.language)}
             </p>
           </div>
@@ -110,13 +110,13 @@ export function OrangeTheme({
             <div className="flex justify-center">
               <button
                 onClick={() => setLocationSelectorOpen(true)}
-                className="group flex items-center space-x-3 bg-white/70 hover:bg-white/90 backdrop-blur-sm px-6 py-3 rounded-2xl shadow-lg border border-orange-200 hover:border-orange-300 transition-all duration-300"
+                className="group flex items-center space-x-2 sm:space-x-3 bg-white/70 hover:bg-white/90 backdrop-blur-sm px-3 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg border border-orange-200 hover:border-orange-300 transition-all duration-300"
                 title="คลิกเพื่อเปลี่ยนตำแหน่ง"
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-white text-sm">📍</span>
+                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-orange-400 to-amber-400 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-white text-xs sm:text-sm">📍</span>
                 </div>
-                <span className="text-orange-800 font-medium">
+                <span className="text-orange-800 font-medium text-sm sm:text-base">
                   {currentLocation.city || "Unknown"},{" "}
                   {currentLocation.country || "Unknown"}
                 </span>
@@ -127,30 +127,30 @@ export function OrangeTheme({
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pb-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 pb-6 sm:pb-12">
         {/* Current Prayer & Next Prayer Section */}
         {currentPrayer && (
-          <div className="mb-12">
-            <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-orange-200/50">
-              <div className="grid md:grid-cols-2 gap-2 md:gap-8 items-center">
+          <div className="mb-6 sm:mb-12">
+            <div className="bg-white/60 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl border border-orange-200/50">
+              <div className="grid md:grid-cols-2 gap-4 md:gap-8 items-center">
                 {/* Current Prayer */}
                 <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full mb-4 shadow-xl">
-                    <span className="text-4xl">{currentPrayer.emoji}</span>
+                  <div className="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-orange-500 to-amber-500 rounded-full mb-3 sm:mb-4 shadow-xl">
+                    <span className="text-3xl sm:text-4xl">{currentPrayer.emoji}</span>
                   </div>
-                  <h2 className="text-2xl font-bold text-orange-800 mb-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-orange-800 mb-2">
                     {
                       t.prayers[
                         currentPrayer.name.toLowerCase() as keyof typeof t.prayers
                       ]
                     }
                   </h2>
-                  <p className="text-orange-600 mb-4">
+                  <p className="text-orange-600 mb-3 sm:mb-4 text-sm sm:text-base">
                     {t.dashboard.currentPrayer}
                   </p>
-                  <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full border border-orange-300">
-                    <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
-                    <span className="text-orange-800 font-medium text-sm">
+                  <div className="inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-orange-100 to-amber-100 rounded-full border border-orange-300">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-orange-500 rounded-full mr-1 sm:mr-2 animate-pulse"></div>
+                    <span className="text-orange-800 font-medium text-xs sm:text-sm">
                       กำลังดำเนินการ
                     </span>
                   </div>
@@ -159,21 +159,21 @@ export function OrangeTheme({
                 {/* Next Prayer Countdown */}
                 {nextPrayer && (
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold text-orange-700 mb-2">
+                    <h3 className="text-base sm:text-lg font-semibold text-orange-700 mb-2">
                       {t.dashboard.nextPrayer}
                     </h3>
-                    <p className="text-xl font-bold text-orange-800 mb-4">
+                    <p className="text-lg sm:text-xl font-bold text-orange-800 mb-3 sm:mb-4">
                       {
                         t.prayers[
                           nextPrayer.name.toLowerCase() as keyof typeof t.prayers
                         ]
                       }
                     </p>
-                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl p-6 text-white shadow-lg">
-                      <div className="text-4xl font-mono font-bold mb-2">
+                    <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg">
+                      <div className="text-2xl sm:text-4xl font-mono font-bold mb-1 sm:mb-2">
                         {formatTimeUntil(timeUntilNext)}
                       </div>
-                      <p className="text-orange-100 text-sm">เหลือเวลา</p>
+                      <p className="text-orange-100 text-xs sm:text-sm">เหลือเวลา</p>
                     </div>
                   </div>
                 )}
@@ -183,7 +183,7 @@ export function OrangeTheme({
         )}
 
         {/* Prayer Times Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-6">
           {prayers.map((prayer) => (
             <div
               key={prayer.name}
@@ -207,7 +207,7 @@ export function OrangeTheme({
               )}
 
               {/* Prayer Icon Section */}
-              <div className="relative p-8 text-center">
+              <div className="relative p-4 sm:p-8 text-center">
                 {/* Background Decoration */}
                 <div className="absolute inset-0 opacity-20">
                   <div className="absolute top-2 right-2 w-16 h-16 bg-orange-300 rounded-full blur-2xl"></div>
@@ -216,20 +216,20 @@ export function OrangeTheme({
 
                 {/* Icon Container */}
                 <div
-                  className={`relative z-10 inline-flex items-center justify-center w-20 h-20 ${
+                  className={`relative z-10 inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 ${
                     prayer.isCurrent
                       ? "bg-white/30 border-2 border-white/50"
                       : "bg-gradient-to-br from-orange-100 to-amber-100 border-2 border-orange-200"
-                  } rounded-full mb-4 shadow-lg group-hover:scale-125 transition-transform duration-500`}
+                  } rounded-full mb-3 sm:mb-4 shadow-lg group-hover:scale-125 transition-transform duration-500`}
                 >
-                  <span className="text-4xl filter drop-shadow-sm">
+                  <span className="text-3xl sm:text-4xl filter drop-shadow-sm">
                     {prayer.emoji}
                   </span>
                 </div>
 
                 {/* Prayer Name */}
                 <h3
-                  className={`font-bold text-lg mb-2 ${
+                  className={`font-bold text-base sm:text-lg mb-1 sm:mb-2 ${
                     prayer.isCurrent ? "text-white" : "text-orange-800"
                   } group-hover:text-orange-900 transition-colors duration-300`}
                 >
@@ -242,7 +242,7 @@ export function OrangeTheme({
 
                 {/* Prayer Time */}
                 <div
-                  className={`text-3xl font-mono font-black mb-3 ${
+                  className={`text-2xl sm:text-3xl font-mono font-black mb-2 sm:mb-3 ${
                     prayer.isCurrent
                       ? "text-white drop-shadow-md"
                       : "bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent"
@@ -253,14 +253,14 @@ export function OrangeTheme({
 
                 {/* Status Text */}
                 <div
-                  className={`inline-flex items-center px-4 py-2 rounded-full text-xs font-semibold ${
+                  className={`inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs font-semibold ${
                     prayer.isCurrent
                       ? "bg-white/20 text-white border border-white/30"
                       : "bg-orange-100 text-orange-700 border border-orange-200"
                   } backdrop-blur-sm`}
                 >
                   {prayer.isCurrent && (
-                    <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>
+                    <div className="w-1 h-1 sm:w-2 sm:h-2 bg-white rounded-full mr-1 sm:mr-2 animate-pulse"></div>
                   )}
                   {
                     calculatePrayerTimeStatus(
