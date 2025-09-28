@@ -70,6 +70,8 @@ export interface Translations {
     inProgress: string;
     completed: string;
     in: string;
+    untilPrayer: string;
+    timeRemaining: string;
   };
   
   // Location

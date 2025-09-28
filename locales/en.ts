@@ -64,7 +64,9 @@ export const en: Translations = {
     remaining: 'remaining',
     inProgress: 'in progress',
     completed: 'completed',
-    in: 'in'
+    in: 'in',
+    untilPrayer: 'until {prayerName}',
+    timeRemaining: 'remaining'
   },
   
   location: {

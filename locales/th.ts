@@ -64,7 +64,9 @@ export const th: Translations = {
     remaining: 'เหลือ',
     inProgress: 'กำลังดำเนินการ',
     completed: 'เสร็จสิ้น',
-    in: 'ใน'
+    in: 'ใน',
+    untilPrayer: 'จนถึง{prayerName}',
+    timeRemaining: 'เหลือ'
   },
   
   location: {

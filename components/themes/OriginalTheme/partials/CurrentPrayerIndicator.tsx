@@ -24,6 +24,11 @@ export default function CurrentPrayerIndicator({
   const { t } = useTranslation({ language });
   const [timeUntilNext, setTimeUntilNext] = useState(initialTimeUntilNext);
   
+  // Helper function to replace template variables
+  const replaceTemplate = (template: string, variables: Record<string, string>) => {
+    return template.replace(/{(\w+)}/g, (match, key) => variables[key] || match);
+  };
+  
   // Update countdown every minute (only in normal mode)
   useEffect(() => {
     if (testMode) {
@@ -59,24 +64,25 @@ export default function CurrentPrayerIndicator({
 
   if (currentPrayer) {
     return (
-      <div className={`${getPrayerColors()} rounded-2xl p-6 text-white`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="text-4xl">{currentPrayer.emoji}</div>
-            <div>
-              <h3 className="text-xl font-semibold">{t.prayers[currentPrayer.name as keyof typeof t.prayers]}</h3>
-              <p className="text-white/80">{t.dashboard.currentPrayer}</p>
+      <div className={`${getPrayerColors()} rounded-2xl p-4 sm:p-6 text-white`}>
+        {/* Mobile: Stack vertically, Desktop: Side by side */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="text-3xl sm:text-4xl flex-shrink-0">{currentPrayer.emoji}</div>
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl font-semibold truncate">{t.prayers[currentPrayer.name as keyof typeof t.prayers]}</h3>
+              <p className="text-white/80 text-sm">{t.dashboard.currentPrayer}</p>
             </div>
           </div>
-          <div className="text-right">
-            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
+          <div className="text-center sm:text-right">
+            <p className="text-xl sm:text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
               hour: t.ui.hour,
               hours: t.ui.hours,
               minute: t.ui.minute,
               minutes: t.ui.minutes,
               and: t.ui.and
             })}</p>
-            <p className="text-white/80 text-sm">until {t.prayers[nextPrayer.name as keyof typeof t.prayers]}</p>
+            <p className="text-white/80 text-xs sm:text-sm">{replaceTemplate(t.time.untilPrayer, { prayerName: t.prayers[nextPrayer.name as keyof typeof t.prayers] })}</p>
           </div>
         </div>
       </div>
@@ -84,25 +90,26 @@ export default function CurrentPrayerIndicator({
   }
 
   return (
-    <div className={`${getPrayerColors()} rounded-2xl p-6 text-white`}>
-      <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="text-4xl">{nextPrayer.emoji}</div>
-            <div>
-              <h3 className="text-xl font-semibold">{t.prayers[nextPrayer.name as keyof typeof t.prayers]}</h3>
-              <p className="text-white/80">{t.dashboard.nextPrayer}</p>
-            </div>
+    <div className={`${getPrayerColors()} rounded-2xl p-4 sm:p-6 text-white`}>
+      {/* Mobile: Stack vertically, Desktop: Side by side */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+        <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="text-3xl sm:text-4xl flex-shrink-0">{nextPrayer.emoji}</div>
+          <div className="min-w-0">
+            <h3 className="text-lg sm:text-xl font-semibold truncate">{t.prayers[nextPrayer.name as keyof typeof t.prayers]}</h3>
+            <p className="text-white/80 text-sm">{t.dashboard.nextPrayer}</p>
           </div>
-          <div className="text-right">
-            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
-              hour: t.ui.hour,
-              hours: t.ui.hours,
-              minute: t.ui.minute,
-              minutes: t.ui.minutes,
-              and: t.ui.and
-            })}</p>
-            <p className="text-white/80 text-sm">remaining</p>
-          </div>
+        </div>
+        <div className="text-center sm:text-right">
+          <p className="text-xl sm:text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
+            hour: t.ui.hour,
+            hours: t.ui.hours,
+            minute: t.ui.minute,
+            minutes: t.ui.minutes,
+            and: t.ui.and
+          })}</p>
+          <p className="text-white/80 text-xs sm:text-sm">{t.time.timeRemaining}</p>
+        </div>
       </div>
     </div>
   );
