@@ -69,7 +69,13 @@ export default function CurrentPrayerIndicator({
             </div>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext)}</p>
+            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
+              hour: t.ui.hour,
+              hours: t.ui.hours,
+              minute: t.ui.minute,
+              minutes: t.ui.minutes,
+              and: t.ui.and
+            })}</p>
             <p className="text-white/80 text-sm">until {t.prayers[nextPrayer.name as keyof typeof t.prayers]}</p>
           </div>
         </div>
@@ -88,7 +94,13 @@ export default function CurrentPrayerIndicator({
             </div>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext)}</p>
+            <p className="text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
+              hour: t.ui.hour,
+              hours: t.ui.hours,
+              minute: t.ui.minute,
+              minutes: t.ui.minutes,
+              and: t.ui.and
+            })}</p>
             <p className="text-white/80 text-sm">remaining</p>
           </div>
       </div>

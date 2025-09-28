@@ -80,7 +80,13 @@ export default function CurrentPrayerIndicator({
           </p>
           <div className="bg-white/20 rounded-xl px-6 py-4 backdrop-blur-sm border border-white/20">
             <p className="text-3xl font-bold text-white">
-              {formatTimeUntilNextPrayer(timeUntilNext)}
+              {formatTimeUntilNextPrayer(timeUntilNext, {
+                hour: t.ui.hour,
+                hours: t.ui.hours,
+                minute: t.ui.minute,
+                minutes: t.ui.minutes,
+                and: t.ui.and
+              })}
             </p>
           </div>
         </div>
@@ -88,8 +94,20 @@ export default function CurrentPrayerIndicator({
         <div className="mt-4 text-center">
           <p className="text-lg opacity-90">
             {currentPrayer 
-              ? `${t.ui.nextPrayer}: ${t.prayers[nextPrayer.name as keyof typeof t.prayers]} ${t.time.in} ${formatTimeUntilNextPrayer(timeUntilNext)}` 
-              : `${t.time.until} ${t.prayers[nextPrayer.name as keyof typeof t.prayers]}: ${formatTimeUntilNextPrayer(timeUntilNext)}`}
+              ? `${t.ui.nextPrayer}: ${t.prayers[nextPrayer.name as keyof typeof t.prayers]} ${t.time.in} ${formatTimeUntilNextPrayer(timeUntilNext, {
+                hour: t.ui.hour,
+                hours: t.ui.hours,
+                minute: t.ui.minute,
+                minutes: t.ui.minutes,
+                and: t.ui.and
+              })}` 
+              : `${t.time.until} ${t.prayers[nextPrayer.name as keyof typeof t.prayers]}: ${formatTimeUntilNextPrayer(timeUntilNext, {
+                hour: t.ui.hour,
+                hours: t.ui.hours,
+                minute: t.ui.minute,
+                minutes: t.ui.minutes,
+                and: t.ui.and
+              })}`}
           </p>
           <p className="mt-2 text-sm opacity-80">
             {new Date(Date.now() + timeUntilNext).toLocaleTimeString([], { 

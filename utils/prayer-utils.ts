@@ -231,13 +231,24 @@ export function getCurrentAndNextPrayer(prayerTimes: PrayerTimes, currentTime: D
 /**
  * Format time until next prayer in a readable format
  */
-export function formatTimeUntilNextPrayer(timeInMs: number): string {
+export function formatTimeUntilNextPrayer(
+  timeInMs: number,
+  translations: {
+    hour: string;
+    hours: string;
+    minute: string;
+    minutes: string;
+    and: string;
+  }
+): string {
   const hours = Math.floor(timeInMs / (1000 * 60 * 60));
   const minutes = Math.floor((timeInMs % (1000 * 60 * 60)) / (1000 * 60));
   
-  if (hours > 0) {
-    return `${hours}h ${minutes}m`;
+  if (hours > 0 && minutes > 0) {
+    return `${hours} ${hours === 1 ? translations.hour : translations.hours} ${translations.and} ${minutes} ${minutes === 1 ? translations.minute : translations.minutes}`;
+  } else if (hours > 0) {
+    return `${hours} ${hours === 1 ? translations.hour : translations.hours}`;
   }
   
-  return `${minutes}m`;
+  return `${minutes} ${minutes === 1 ? translations.minute : translations.minutes}`;
 }
