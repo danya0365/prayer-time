@@ -33,7 +33,7 @@ export default function HeroSection({
   };
 
   return (
-    <section className="w-full max-w-4xl mx-auto px-4">
+    <section className="w-full max-w-4xl mx-auto">
       {/* Header with gradient background */}
       <div className="relative bg-hero-gradient rounded-3xl p-4 sm:p-6 md:p-8 mb-8 text-white overflow-hidden">
         {/* Decorative elements - hide on mobile */}
@@ -45,8 +45,12 @@ export default function HeroSection({
           {/* Header - responsive layout */}
           <div className="mb-4 sm:mb-6">
             <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{t.dashboard.title}</h1>
-              <p className="text-white/80 text-base sm:text-lg">{formattedDate}</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
+                {t.dashboard.title}
+              </h1>
+              <p className="text-white/80 text-base sm:text-lg">
+                {formattedDate}
+              </p>
             </div>
           </div>
 
@@ -75,7 +79,9 @@ export default function HeroSection({
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span className="text-xs sm:text-sm truncate max-w-[200px] sm:max-w-none">{getLocationDisplayText()}</span>
+              <span className="text-xs sm:text-sm truncate max-w-[200px] sm:max-w-none">
+                {getLocationDisplayText()}
+              </span>
             </button>
           </div>
 

@@ -55,6 +55,7 @@
   --color-border: #e5e7eb;
   --color-border-light: #f3f4f6;
   --color-border-dark: #374151;
+  --color-card-border: rgba(0, 0, 0, 0.1);
 
   /* Primary brand colors */
   --color-primary: #10b981;
