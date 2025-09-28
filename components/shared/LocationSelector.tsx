@@ -1,20 +1,30 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { X, Search, MapPin, Navigation } from 'lucide-react';
-import { useLocationStore, LocationData } from '../../stores/locationStore';
+import { MapPin, Navigation, Search, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
+import { LocationData, useLocationStore } from "../../stores/locationStore";
+import { useSettingsStore } from "../../stores/settingsStore";
 
 interface LocationSelectorProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function LocationSelector({ isOpen, onClose }: LocationSelectorProps) {
-  const { currentLocation, setLocation, requestGeolocation } = useLocationStore();
-  const [searchQuery, setSearchQuery] = useState('');
+export default function LocationSelector({
+  isOpen,
+  onClose,
+}: LocationSelectorProps) {
+  const { currentLocation, setLocation, requestGeolocation } =
+    useLocationStore();
+  const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<LocationData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(currentLocation);
+  const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(
+    currentLocation
+  );
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Search for locations using a geocoding service
@@ -29,32 +39,123 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
       // For demo purposes, we'll use a simple search that returns some common cities
       // In a real app, you'd use a proper geocoding service like Google Maps, Mapbox, etc.
       const commonCities = [
-        { latitude: 13.7563, longitude: 100.5018, address: 'Bangkok, Thailand', city: 'Bangkok', country: 'Thailand' },
-        { latitude: 21.0285, longitude: 105.8542, address: 'Hanoi, Vietnam', city: 'Hanoi', country: 'Vietnam' },
-        { latitude: 1.3521, longitude: 103.8198, address: 'Singapore', city: 'Singapore', country: 'Singapore' },
-        { latitude: 3.1390, longitude: 101.6869, address: 'Kuala Lumpur, Malaysia', city: 'Kuala Lumpur', country: 'Malaysia' },
-        { latitude: -6.2088, longitude: 106.8456, address: 'Jakarta, Indonesia', city: 'Jakarta', country: 'Indonesia' },
-        { latitude: 14.5995, longitude: 120.9842, address: 'Manila, Philippines', city: 'Manila', country: 'Philippines' },
-        { latitude: 35.6762, longitude: 139.6503, address: 'Tokyo, Japan', city: 'Tokyo', country: 'Japan' },
-        { latitude: 37.5665, longitude: 126.9780, address: 'Seoul, South Korea', city: 'Seoul', country: 'South Korea' },
-        { latitude: 39.9042, longitude: 116.4074, address: 'Beijing, China', city: 'Beijing', country: 'China' },
-        { latitude: 28.6139, longitude: 77.2090, address: 'New Delhi, India', city: 'New Delhi', country: 'India' },
-        { latitude: 24.7136, longitude: 46.6753, address: 'Riyadh, Saudi Arabia', city: 'Riyadh', country: 'Saudi Arabia' },
-        { latitude: 25.2048, longitude: 55.2708, address: 'Dubai, UAE', city: 'Dubai', country: 'UAE' },
-        { latitude: 51.5074, longitude: -0.1278, address: 'London, UK', city: 'London', country: 'UK' },
-        { latitude: 48.8566, longitude: 2.3522, address: 'Paris, France', city: 'Paris', country: 'France' },
-        { latitude: 40.7128, longitude: -74.0060, address: 'New York, USA', city: 'New York', country: 'USA' }
+        {
+          latitude: 13.7563,
+          longitude: 100.5018,
+          address: "Bangkok, Thailand",
+          city: "Bangkok",
+          country: "Thailand",
+        },
+        {
+          latitude: 21.0285,
+          longitude: 105.8542,
+          address: "Hanoi, Vietnam",
+          city: "Hanoi",
+          country: "Vietnam",
+        },
+        {
+          latitude: 1.3521,
+          longitude: 103.8198,
+          address: "Singapore",
+          city: "Singapore",
+          country: "Singapore",
+        },
+        {
+          latitude: 3.139,
+          longitude: 101.6869,
+          address: "Kuala Lumpur, Malaysia",
+          city: "Kuala Lumpur",
+          country: "Malaysia",
+        },
+        {
+          latitude: -6.2088,
+          longitude: 106.8456,
+          address: "Jakarta, Indonesia",
+          city: "Jakarta",
+          country: "Indonesia",
+        },
+        {
+          latitude: 14.5995,
+          longitude: 120.9842,
+          address: "Manila, Philippines",
+          city: "Manila",
+          country: "Philippines",
+        },
+        {
+          latitude: 35.6762,
+          longitude: 139.6503,
+          address: "Tokyo, Japan",
+          city: "Tokyo",
+          country: "Japan",
+        },
+        {
+          latitude: 37.5665,
+          longitude: 126.978,
+          address: "Seoul, South Korea",
+          city: "Seoul",
+          country: "South Korea",
+        },
+        {
+          latitude: 39.9042,
+          longitude: 116.4074,
+          address: "Beijing, China",
+          city: "Beijing",
+          country: "China",
+        },
+        {
+          latitude: 28.6139,
+          longitude: 77.209,
+          address: "New Delhi, India",
+          city: "New Delhi",
+          country: "India",
+        },
+        {
+          latitude: 24.7136,
+          longitude: 46.6753,
+          address: "Riyadh, Saudi Arabia",
+          city: "Riyadh",
+          country: "Saudi Arabia",
+        },
+        {
+          latitude: 25.2048,
+          longitude: 55.2708,
+          address: "Dubai, UAE",
+          city: "Dubai",
+          country: "UAE",
+        },
+        {
+          latitude: 51.5074,
+          longitude: -0.1278,
+          address: "London, UK",
+          city: "London",
+          country: "UK",
+        },
+        {
+          latitude: 48.8566,
+          longitude: 2.3522,
+          address: "Paris, France",
+          city: "Paris",
+          country: "France",
+        },
+        {
+          latitude: 40.7128,
+          longitude: -74.006,
+          address: "New York, USA",
+          city: "New York",
+          country: "USA",
+        },
       ];
 
-      const filtered = commonCities.filter(city => 
-        city.address.toLowerCase().includes(query.toLowerCase()) ||
-        city.city.toLowerCase().includes(query.toLowerCase()) ||
-        city.country.toLowerCase().includes(query.toLowerCase())
+      const filtered = commonCities.filter(
+        (city) =>
+          city.address.toLowerCase().includes(query.toLowerCase()) ||
+          city.city.toLowerCase().includes(query.toLowerCase()) ||
+          city.country.toLowerCase().includes(query.toLowerCase())
       );
 
       setSearchResults(filtered);
     } catch (error) {
-      console.error('Error searching locations:', error);
+      console.error("Error searching locations:", error);
       setSearchResults([]);
     } finally {
       setIsSearching(false);
@@ -102,7 +203,7 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-xl font-semibold text-foreground">
-            Select Prayer Times Location
+            {t.location.selectLocation}
           </h2>
           <button
             onClick={onClose}
@@ -121,29 +222,30 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
           >
             <Navigation className="h-5 w-5 text-primary" />
             <div className="text-left">
-              <p className="font-medium text-foreground">Use Current Location</p>
+              <p className="font-medium text-foreground">
+                {t.location.useCurrentLocation}
+              </p>
               <p className="text-sm text-muted">
-                Automatically detect your location for accurate prayer times
+                {t.location.useCurrentLocationDesc}
               </p>
             </div>
           </button>
 
-          {/* Search */}
-          <div className="space-y-4">
+          <div className="space-y-4 hidden">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted" />
               <input
                 type="text"
-                placeholder="Search for a city or location..."
+                placeholder={t.location.searchLocationPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder-muted focus:ring-2 focus:ring-primary focus:border-primary"
+                className="w-full pl-10 pr-4 py-3 border border-primary-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>
 
             {/* Search Results */}
             {isSearching && (
-              <div className="flex items-center justify-center py-8">
+              <div className="flex justify-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-2 border-primary border-t-transparent"></div>
               </div>
             )}
@@ -155,9 +257,10 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
                     key={index}
                     onClick={() => handleLocationSelect(location)}
                     className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left ${
-                      selectedLocation?.latitude === location.latitude && selectedLocation?.longitude === location.longitude
-                        ? 'border-primary bg-primary-light/20'
-                        : 'border-border hover:bg-muted-light'
+                      selectedLocation?.latitude === location.latitude &&
+                      selectedLocation?.longitude === location.longitude
+                        ? "border-primary bg-primary-light/20"
+                        : "border-border hover:bg-muted-light"
                     }`}
                   >
                     <MapPin className="h-4 w-4 text-muted flex-shrink-0" />
@@ -166,7 +269,8 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
                         {location.address}
                       </p>
                       <p className="text-sm text-muted truncate">
-                        {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+                        {location.latitude.toFixed(4)},{" "}
+                        {location.longitude.toFixed(4)}
                       </p>
                     </div>
                   </button>
@@ -176,7 +280,10 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
 
             {searchQuery && !isSearching && searchResults.length === 0 && (
               <div className="text-center py-8 text-muted">
-                No locations found for &quot;{searchQuery}&quot;
+                {t.location.noLocationsFound.replace(
+                  "{searchQuery}",
+                  searchQuery
+                )}
               </div>
             )}
           </div>
@@ -184,13 +291,16 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
           {/* Selected Location */}
           {selectedLocation && (
             <div className="border border-border rounded-lg p-4">
-              <h3 className="font-medium text-foreground mb-2">Selected Location</h3>
+              <h3 className="font-medium text-foreground mb-2">
+                {t.location.selectedLocation}
+              </h3>
               <div className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 text-primary" />
                 <div>
                   <p className="text-foreground">{selectedLocation.address}</p>
                   <p className="text-sm text-muted">
-                    {selectedLocation.latitude.toFixed(4)}, {selectedLocation.longitude.toFixed(4)}
+                    {selectedLocation.latitude.toFixed(4)},{" "}
+                    {selectedLocation.longitude.toFixed(4)}
                   </p>
                 </div>
               </div>
@@ -204,14 +314,14 @@ export default function LocationSelector({ isOpen, onClose }: LocationSelectorPr
             onClick={onClose}
             className="px-4 py-2 text-muted-dark hover:text-foreground transition-colors"
           >
-            Cancel
+            {t.ui.cancel}
           </button>
           <button
             onClick={handleSaveLocation}
             disabled={!selectedLocation}
             className="px-6 py-2 bg-primary hover:bg-primary-dark disabled:bg-muted disabled:cursor-not-allowed text-white rounded-lg transition-colors"
           >
-            Save Location
+            {t.location.saveLocation}
           </button>
         </div>
       </div>

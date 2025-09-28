@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSettingsStore } from "../../stores/settingsStore";
+import LocationSelector from "../shared/LocationSelector";
 import SettingsPanel from "../shared/SettingsPanel";
-import LocationSelector from "./LocationSelector";
 
 export default function FloatingSettingsButton() {
   const { settings } = useSettingsStore();
@@ -30,14 +30,16 @@ export default function FloatingSettingsButton() {
             onClick={() => setIsExpanded(false)}
           />
         )}
-        
+
         <div className="relative z-30 flex flex-col items-end space-y-4">
           {/* Action Buttons - Only show when expanded */}
-          <div className={`flex flex-col space-y-3 transition-all duration-300 ease-in-out ${
-            isExpanded 
-              ? 'opacity-100 translate-y-0 pointer-events-auto' 
-              : 'opacity-0 translate-y-4 pointer-events-none'
-          }`}>
+          <div
+            className={`flex flex-col space-y-3 transition-all duration-300 ease-in-out ${
+              isExpanded
+                ? "opacity-100 translate-y-0 pointer-events-auto"
+                : "opacity-0 translate-y-4 pointer-events-none"
+            }`}
+          >
             {/* Refresh Button */}
             <div className="relative group">
               <button
@@ -149,13 +151,13 @@ export default function FloatingSettingsButton() {
             <button
               onClick={toggleExpanded}
               className={`w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center backdrop-blur-sm border-2 border-white/30 ring-4 ring-purple-500/20 ${
-                isExpanded ? 'rotate-45' : 'rotate-0'
+                isExpanded ? "rotate-45" : "rotate-0"
               }`}
               aria-label={isExpanded ? "ปิดเมนู" : "เปิดเมนู"}
             >
               <svg
                 className={`w-6 h-6 transition-transform duration-300 ${
-                  isExpanded ? 'rotate-180' : 'rotate-0'
+                  isExpanded ? "rotate-180" : "rotate-0"
                 }`}
                 fill="none"
                 stroke="currentColor"

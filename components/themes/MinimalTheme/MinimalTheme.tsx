@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PrayerInfo } from '../../../utils/prayer-utils';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
@@ -10,6 +10,7 @@ import { formatDisplayDate, formatTimeWithLocale } from '../../../utils/date-for
 import { formatPrayerTime } from '../../../utils/prayer-utils';
 import { getCalculationMethodInfo } from '../../../constants/calculationMethods';
 import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
+import LocationSelector from '../../shared/LocationSelector';
 
 interface MinimalThemeProps {
   prayers: PrayerInfo[];
@@ -32,6 +33,7 @@ export function MinimalTheme({
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });
+  const [locationSelectorOpen, setLocationSelectorOpen] = useState(false);
   
   const calculationMethodInfo = getCalculationMethodInfo(settings.calculationMethod);
 
@@ -92,9 +94,14 @@ export function MinimalTheme({
           <div className="flex items-center justify-between text-xs">
             <div className={`${themeConfig.colors.text.secondary}`}>
               {currentLocation && (
-                <span>
-                  📍 {currentLocation.city || 'Unknown'}, {currentLocation.country || 'Unknown'}
-                </span>
+                <button
+                  onClick={() => setLocationSelectorOpen(true)}
+                  className={`${themeConfig.colors.text.secondary} hover:text-blue-600 transition-colors duration-200 cursor-pointer flex items-center space-x-1`}
+                  title="คลิกเพื่อเปลี่ยนตำแหน่ง"
+                >
+                  <span>📍</span>
+                  <span>{currentLocation.city || 'Unknown'}, {currentLocation.country || 'Unknown'}</span>
+                </button>
               )}
             </div>
             <div className={`${themeConfig.colors.text.secondary}`}>
@@ -289,6 +296,12 @@ export function MinimalTheme({
           </div>
         </div>
       </div>
+
+      {/* Location Selector */}
+      <LocationSelector
+        isOpen={locationSelectorOpen}
+        onClose={() => setLocationSelectorOpen(false)}
+      />
     </div>
   );
 }
