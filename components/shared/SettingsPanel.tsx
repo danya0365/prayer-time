@@ -62,13 +62,13 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
 
           {/* Theme Selector */}
           <div className="mb-8">
-            <ThemeSelector />
+            <ThemeSelector onThemeChange={onClose} />
           </div>
 
           {/* Theme Toggle */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-medium text-foreground">Theme</span>
-            <ThemeToggle />
+            <ThemeToggle onThemeChange={onClose} />
           </div>
 
           {/* Notifications */}

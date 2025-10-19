@@ -6,7 +6,11 @@ import { useTranslation } from '../../hooks/useTranslation';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { ThemeType } from '../../types/theme';
 
-export default function ThemeSelector() {
+interface ThemeSelectorProps {
+  onThemeChange?: () => void;
+}
+
+export default function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
   const { currentTheme, setTheme, getAvailableThemes } = useTheme();
   const { settings } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
@@ -15,6 +19,7 @@ export default function ThemeSelector() {
 
   const handleThemeChange = (themeId: ThemeType) => {
     setTheme(themeId);
+    onThemeChange?.();
   };
 
   return (

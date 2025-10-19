@@ -3,7 +3,11 @@
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  onThemeChange?: () => void
+}
+
+export function ThemeToggle({ onThemeChange }: ThemeToggleProps) {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 
@@ -30,6 +34,7 @@ export function ThemeToggle() {
     } else {
       setTheme('light')
     }
+    onThemeChange?.()
   }
 
   const getIcon = () => {
