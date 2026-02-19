@@ -41,9 +41,10 @@ export const en: Translations = {
     additionalFeatures: 'Additional Features',
     futureFeatures: 'Future Features',
     comingSoon: 'Coming Soon',
-    stayConnected: 'Stay connected with your daily prayers',
     resetToNow: 'Reset to Now',
-    refresh: 'Refresh'
+    refresh: 'Refresh',
+    localTime: 'Local Time',
+    yourTime: 'Your Time'
   },
 
   settings: {

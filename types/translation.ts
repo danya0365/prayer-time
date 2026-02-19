@@ -46,6 +46,8 @@ export interface Translations {
     stayConnected: string;
     resetToNow: string;
     refresh: string;
+    localTime: string;
+    yourTime: string;
   };
 
   // Settings

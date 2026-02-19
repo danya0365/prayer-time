@@ -1,7 +1,9 @@
 "use client";
 
 import { City } from "@/constants/cities";
-import { formatPrayerTime, getPrayerTimes } from "@/utils/prayer-utils";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useSettingsStore } from "@/stores/settingsStore";
+import { getPrayerTimes } from "@/utils/prayer-utils";
 import { Coordinates } from "adhan";
 import { Clock, CloudSun, MapPin, Moon, Sun, Sunrise, Sunset, X } from "lucide-react";
 import { useMemo } from "react";
@@ -20,10 +22,25 @@ const PRAYER_CONFIG = [
 ] as const;
 
 export default function CityPrayerPopup({ city, onClose }: CityPrayerPopupProps) {
+  const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
+  
+  const userTimezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, []);
+  const cityTimezone = city.timezone || "UTC";
+
   const prayerTimes = useMemo(() => {
     const coords = new Coordinates(city.lat, city.lon);
     return getPrayerTimes(new Date(), coords);
   }, [city]);
+
+  const formatWithTimezone = (date: Date, timezone: string) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: timezone,
+    });
+  };
 
   const times = useMemo(
     () => ({
@@ -75,11 +92,16 @@ export default function CityPrayerPopup({ city, onClose }: CityPrayerPopupProps)
           <X size={18} className="text-slate-400" />
         </button>
 
-        <div className="flex items-center gap-2 mb-1">
-          <MapPin size={16} className="text-emerald-400" />
-          <h2 className="text-xl font-bold text-white">
-            {city.name}
-          </h2>
+        <div className="flex flex-col gap-1">
+          <p className="text-[10px] text-emerald-300/60 uppercase tracking-wider font-bold">
+            Target Location
+          </p>
+          <div className="flex items-center gap-2 mb-1">
+            <MapPin size={16} className="text-emerald-400" />
+            <h2 className="text-xl font-bold text-white">
+              {city.name}
+            </h2>
+          </div>
         </div>
 
         {city.nameLocal && (
@@ -87,9 +109,13 @@ export default function CityPrayerPopup({ city, onClose }: CityPrayerPopupProps)
             {city.nameLocal}
           </p>
         )}
-        <p className="text-xs text-slate-400">
-          {city.country} · {city.lat.toFixed(2)}°, {city.lon.toFixed(2)}°
-        </p>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>{city.country}</span>
+          <span className="opacity-40">|</span>
+          <span>{city.lat.toFixed(2)}°, {city.lon.toFixed(2)}°</span>
+          <span className="opacity-40">|</span>
+          <span className="text-emerald-400/80 font-mono">{cityTimezone}</span>
+        </div>
       </div>
 
       {/* Date & Time */}
@@ -116,7 +142,7 @@ export default function CityPrayerPopup({ city, onClose }: CityPrayerPopupProps)
           return (
             <div
               key={key}
-              className={`relative flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 ${
+              className={`relative flex flex-col gap-2 p-3.5 rounded-xl transition-all duration-300 ${
                 isCurrent ? "ring-1 ring-emerald-500/40" : ""
               }`}
               style={{
@@ -128,38 +154,47 @@ export default function CityPrayerPopup({ city, onClose }: CityPrayerPopupProps)
                 }`,
               }}
             >
-              {/* Prayer icon */}
-              <div
-                className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-gradient-to-br ${gradient}`}
-                style={{
-                  boxShadow: isCurrent
-                    ? "0 4px 15px rgba(16, 185, 129, 0.3)"
-                    : "none",
-                }}
-              >
-                <Icon size={18} className="text-white" />
-              </div>
-
-              {/* Prayer name */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-white text-sm">
-                    {label}
-                  </span>
-                  <span className="text-xs text-slate-500">{labelAr}</span>
-                  {isCurrent && (
-                    <span className="ml-auto px-2 py-0.5 text-[10px] rounded-full font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/20">
-                      NOW
+              {/* Prayer Header: Icon + Name */}
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br ${gradient}`}
+                  style={{
+                    boxShadow: isCurrent
+                      ? "0 4px 12px rgba(16, 185, 129, 0.3)"
+                      : "none",
+                  }}
+                >
+                  <Icon size={16} className="text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-white text-sm">
+                      {label}
                     </span>
-                  )}
+                    <span className="text-[10px] text-slate-500">{labelAr}</span>
+                    {isCurrent && (
+                      <span className="ml-auto px-2 py-0.5 text-[9px] rounded-full font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/20">
+                        NOW
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Time */}
-              <div className="text-right">
-                <span className="font-mono text-base font-bold text-white tabular-nums">
-                  {formatPrayerTime(time)}
-                </span>
+              {/* Times: Local vs User */}
+              <div className="grid grid-cols-2 gap-2 mt-1">
+                <div className="bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="text-[9px] text-slate-500 uppercase tracking-tighter mb-0.5">{t.ui.localTime}</div>
+                  <div className="font-mono text-sm font-bold text-white tabular-nums">
+                    {formatWithTimezone(time, cityTimezone)}
+                  </div>
+                </div>
+                <div className="bg-emerald-500/5 rounded-lg p-2 border border-emerald-500/10">
+                  <div className="text-[9px] text-emerald-500/70 uppercase tracking-tighter mb-0.5 font-bold">{t.ui.yourTime}</div>
+                  <div className="font-mono text-sm font-bold text-emerald-400 tabular-nums">
+                    {formatWithTimezone(time, userTimezone)}
+                  </div>
+                </div>
               </div>
             </div>
           );

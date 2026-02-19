@@ -41,9 +41,10 @@ export const ar: Translations = {
     additionalFeatures: "ميزات إضافية",
     futureFeatures: "ميزات مستقبلية",
     comingSoon: "قريباً",
-    stayConnected: "ابق متصلاً مع صلواتك اليومية",
     resetToNow: "إعادة تعيين إلى الآن",
     refresh: "تحديث",
+    localTime: "التوقيت المحلي",
+    yourTime: "توقيتك",
   },
 
   settings: {
