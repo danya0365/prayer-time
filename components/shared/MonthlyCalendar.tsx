@@ -3,26 +3,56 @@
 import { format, getDay, isSameDay } from "date-fns";
 import { enUS, th } from "date-fns/locale";
 import {
-    Calendar,
-    ChevronLeft,
-    ChevronRight,
-    ExternalLink,
-    LayoutGrid,
-    List,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  LayoutGrid,
+  List,
+  Moon,
+  Sun,
 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useMonthlyPrayerTimes } from "../../hooks/useMonthlyPrayerTimes";
 import { useTranslation } from "../../hooks/useTranslation";
 import { Language } from "../../types/translation";
 
 type DisplayMode = "grid" | "list";
+type CalendarType = "gregorian" | "hijri";
 
 interface MonthlyCalendarProps {
   language?: Language;
 }
 
 const localeMap = { en: enUS, th: th, ar: enUS } as const;
+const hijriLocaleMap = { en: "en", th: "th", ar: "ar" } as const;
+
+/* ───────── Hijri date helpers using Intl.DateTimeFormat ───────── */
+
+function getHijriDay(date: Date): string {
+  return new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", {
+    day: "numeric",
+  }).format(date);
+}
+
+function getHijriMonthYear(date: Date, lang: Language): string {
+  const locale = hijriLocaleMap[lang];
+  return new Intl.DateTimeFormat(`${locale}-u-ca-islamic-umalqura`, {
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+function getHijriFullDate(date: Date, lang: Language): string {
+  const locale = hijriLocaleMap[lang];
+  return new Intl.DateTimeFormat(`${locale}-u-ca-islamic-umalqura`, {
+    day: "numeric",
+    month: "short",
+  }).format(date);
+}
+
+/* ───────────────────────────────────────────────────────────────── */
 
 export default function MonthlyCalendar({
   language = "en",
@@ -31,6 +61,7 @@ export default function MonthlyCalendar({
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const [displayMode, setDisplayMode] = useState<DisplayMode>("grid");
+  const [calendarType, setCalendarType] = useState<CalendarType>("gregorian");
   const { t } = useTranslation({ language });
 
   const days = useMonthlyPrayerTimes({ year, month, language });
@@ -65,6 +96,14 @@ export default function MonthlyCalendar({
     locale: localeMap[language],
   });
 
+  // Get Hijri month range label for the header
+  const hijriMonthLabel = useMemo(() => {
+    if (days.length === 0) return "";
+    const first = getHijriMonthYear(days[0].date, language);
+    const last = getHijriMonthYear(days[days.length - 1].date, language);
+    return first === last ? first : `${first} – ${last}`;
+  }, [days, language]);
+
   const dayHeaders = [
     t.calendar.sun,
     t.calendar.mon,
@@ -88,6 +127,8 @@ export default function MonthlyCalendar({
   const isCurrentMonth =
     year === today.getFullYear() && month === today.getMonth();
 
+  const showHijri = calendarType === "hijri";
+
   return (
     <section className="w-full max-w-6xl mx-auto mt-10">
       {/* Header */}
@@ -109,8 +150,36 @@ export default function MonthlyCalendar({
           </Link>
         </div>
 
-        <div className="flex items-center gap-2">
-          {/* Display mode toggle */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Calendar type toggle (Gregorian / Hijri) */}
+          <div className="flex items-center rounded-lg border border-border overflow-hidden">
+            <button
+              onClick={() => setCalendarType("gregorian")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
+                calendarType === "gregorian"
+                  ? "bg-blue-600 text-white"
+                  : "card-bg text-muted hover:text-foreground"
+              }`}
+              aria-label={t.calendar.gregorianCalendar}
+            >
+              <Sun className="w-3.5 h-3.5" />
+              {t.calendar.gregorianCalendar}
+            </button>
+            <button
+              onClick={() => setCalendarType("hijri")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
+                calendarType === "hijri"
+                  ? "bg-emerald-700 text-white"
+                  : "card-bg text-muted hover:text-foreground"
+              }`}
+              aria-label={t.calendar.hijriCalendar}
+            >
+              <Moon className="w-3.5 h-3.5" />
+              {t.calendar.hijriCalendar}
+            </button>
+          </div>
+
+          {/* Display mode toggle (Grid / List) */}
           <div className="flex items-center rounded-lg border border-border overflow-hidden">
             <button
               onClick={() => setDisplayMode("grid")}
@@ -167,6 +236,16 @@ export default function MonthlyCalendar({
         </div>
       </div>
 
+      {/* Hijri month subtitle when Hijri mode is active */}
+      {showHijri && hijriMonthLabel && (
+        <div className="flex items-center justify-center gap-2 mb-4 py-2 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40">
+          <span className="text-lg">☪</span>
+          <span className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
+            {hijriMonthLabel}
+          </span>
+        </div>
+      )}
+
       {/* ═══════════════════════  GRID MODE  ═══════════════════════ */}
       {displayMode === "grid" && (
         <>
@@ -206,15 +285,22 @@ export default function MonthlyCalendar({
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span
-                        className={`text-sm font-bold leading-none ${
-                          isToday
-                            ? "bg-primary text-white w-7 h-7 rounded-full flex items-center justify-center"
-                            : "text-foreground"
-                        }`}
-                      >
-                        {format(day.date, "d")}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={`text-sm font-bold leading-none ${
+                            isToday
+                              ? "bg-primary text-white w-7 h-7 rounded-full flex items-center justify-center"
+                              : "text-foreground"
+                          }`}
+                        >
+                          {format(day.date, "d")}
+                        </span>
+                        {showHijri && (
+                          <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded">
+                            {getHijriFullDate(day.date, language)}
+                          </span>
+                        )}
+                      </div>
                       {isToday && (
                         <span className="text-[9px] font-semibold text-primary uppercase tracking-wide">
                           {t.calendar.today}
@@ -267,9 +353,16 @@ export default function MonthlyCalendar({
                       >
                         {format(day.date, "d")}
                       </span>
-                      <span className="text-sm text-muted capitalize">
-                        {dayName}
-                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-sm text-muted capitalize">
+                          {dayName}
+                        </span>
+                        {showHijri && (
+                          <span className="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                            {getHijriFullDate(day.date, language)}
+                          </span>
+                        )}
+                      </div>
                     </div>
                     {isToday && (
                       <span className="text-xs font-semibold bg-primary text-white px-2.5 py-0.5 rounded-full">
@@ -310,7 +403,6 @@ export default function MonthlyCalendar({
                 "linear-gradient(135deg, #1a472a 0%, #0d3320 40%, #1a472a 60%, #2d5a3e 100%)",
             }}
           >
-            {/* Geometric Islamic pattern overlay */}
             <div
               className="absolute inset-0 opacity-[0.08]"
               style={{
@@ -318,7 +410,6 @@ export default function MonthlyCalendar({
                 backgroundSize: "60px 60px",
               }}
             />
-            {/* Crescent & Star decoration */}
             <div className="text-3xl mb-1">☪</div>
             <h3
               className="text-xl md:text-2xl font-bold text-amber-100 capitalize tracking-wide"
@@ -326,20 +417,26 @@ export default function MonthlyCalendar({
             >
               {monthLabel}
             </h3>
+            {showHijri && hijriMonthLabel && (
+              <p
+                className="text-amber-200 text-base font-semibold mt-1"
+                style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
+              >
+                {hijriMonthLabel}
+              </p>
+            )}
             <p
               className="text-amber-200/70 text-sm mt-1"
               style={{ textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}
             >
               {t.calendar.monthlyCalendar}
             </p>
-            {/* Gold decorative border at bottom */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
           </div>
 
           {/* Table */}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
-              {/* Column header */}
               <thead>
                 <tr
                   style={{
@@ -350,8 +447,17 @@ export default function MonthlyCalendar({
                   <th className="py-3 px-3 text-center text-xs font-bold uppercase tracking-wider text-amber-900/80 border-b-2 border-amber-700/30 w-12">
                     #
                   </th>
+                  {showHijri && (
+                    <th className="py-3 px-3 text-center text-xs font-bold uppercase tracking-wider text-emerald-800 border-b-2 border-amber-700/30 w-16">
+                      ☪
+                    </th>
+                  )}
                   <th className="py-3 px-3 text-center text-xs font-bold uppercase tracking-wider text-amber-900/80 border-b-2 border-amber-700/30 w-16">
-                    {language === "th" ? "วัน" : language === "ar" ? "يوم" : "Day"}
+                    {language === "th"
+                      ? "วัน"
+                      : language === "ar"
+                      ? "يوم"
+                      : "Day"}
                   </th>
                   {prayerLabels.map((p) => (
                     <th
@@ -411,6 +517,15 @@ export default function MonthlyCalendar({
                         </span>
                       </td>
 
+                      {/* Hijri date column */}
+                      {showHijri && (
+                        <td className="py-2.5 px-2 text-center border-r border-amber-700/10">
+                          <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                            {getHijriFullDate(day.date, language)}
+                          </span>
+                        </td>
+                      )}
+
                       {/* Day name */}
                       <td
                         className={`py-2.5 px-3 text-center text-xs font-medium capitalize border-r border-amber-700/10 ${
@@ -451,7 +566,7 @@ export default function MonthlyCalendar({
             </table>
           </div>
 
-          {/* Footer with Islamic decorative border */}
+          {/* Footer */}
           <div
             className="py-3 px-4 text-center"
             style={{

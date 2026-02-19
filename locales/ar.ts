@@ -114,6 +114,8 @@ export const ar: Translations = {
     viewFullCalendar: 'عرض التقويم الكامل',
     listView: 'قائمة',
     gridView: 'شبكة',
+    hijriCalendar: 'هجري',
+    gregorianCalendar: 'ميلادي',
     sun: 'أحد',
     mon: 'إثن',
     tue: 'ثلا',

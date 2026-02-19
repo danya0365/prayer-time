@@ -121,6 +121,8 @@ export interface Translations {
     viewFullCalendar: string;
     listView: string;
     gridView: string;
+    hijriCalendar: string;
+    gregorianCalendar: string;
     sun: string;
     mon: string;
     tue: string;

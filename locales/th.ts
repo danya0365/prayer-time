@@ -116,6 +116,8 @@ export const th: Translations = {
     viewFullCalendar: 'ดูปฏิทินเต็ม',
     listView: 'รายการ',
     gridView: 'ตาราง',
+    hijriCalendar: 'ฮิจเราะห์',
+    gregorianCalendar: 'สากล',
     sun: 'อา.',
     mon: 'จ.',
     tue: 'อ.',

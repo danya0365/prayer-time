@@ -113,6 +113,8 @@ export const en: Translations = {
     viewFullCalendar: 'View Full Calendar',
     listView: 'List',
     gridView: 'Grid',
+    hijriCalendar: 'Hijri',
+    gregorianCalendar: 'Gregorian',
     sun: 'Sun',
     mon: 'Mon',
     tue: 'Tue',
