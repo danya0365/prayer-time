@@ -7,6 +7,7 @@ import { usePrayerTimes } from "../../../hooks/usePrayerTimes";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useLocationStore } from "../../../stores/locationStore";
 import { useSettingsStore } from "../../../stores/settingsStore";
+import MonthlyCalendar from "../../shared/MonthlyCalendar";
 import { AdditionalFeatures } from "./partials/AdditionalFeatures";
 import { FutureFeatures } from "./partials/FutureFeatures";
 import HeroSection from "./partials/HeroSection";
@@ -67,6 +68,9 @@ export default function OriginalTheme() {
         currentPrayer={currentPrayer}
         language={settings.language}
       />
+
+      {/* Monthly Prayer Times Calendar */}
+      <MonthlyCalendar language={settings.language} />
 
       {/* Additional Features Toggle */}
       {!showAdditionalFeatures && (

@@ -104,6 +104,20 @@ export const en: Translations = {
     featureComingSoon: 'will be available soon! 🚀',
     thankYou: 'Thank you for your interest! We will develop these features soon 🙏'
   },
+
+  calendar: {
+    monthlyCalendar: 'Monthly Prayer Times',
+    previousMonth: 'Previous Month',
+    nextMonth: 'Next Month',
+    today: 'Today',
+    sun: 'Sun',
+    mon: 'Mon',
+    tue: 'Tue',
+    wed: 'Wed',
+    thu: 'Thu',
+    fri: 'Fri',
+    sat: 'Sat',
+  },
   
   calculationMethods: {
     MoonsightingCommittee: {

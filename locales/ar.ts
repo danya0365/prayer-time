@@ -106,6 +106,20 @@ export const ar: Translations = {
     thankYou: "شكراً لاهتمامك! سنطور هذه الميزات قريباً 🙏",
   },
 
+  calendar: {
+    monthlyCalendar: 'مواقيت الصلاة الشهرية',
+    previousMonth: 'الشهر السابق',
+    nextMonth: 'الشهر التالي',
+    today: 'اليوم',
+    sun: 'أحد',
+    mon: 'إثن',
+    tue: 'ثلا',
+    wed: 'أرب',
+    thu: 'خمي',
+    fri: 'جمع',
+    sat: 'سبت',
+  },
+
   calculationMethods: {
     MoonsightingCommittee: {
       name: "لجنة رؤية الهلال",

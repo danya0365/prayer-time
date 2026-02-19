@@ -112,6 +112,21 @@ export interface Translations {
     thankYou: string;
   };
   
+  // Calendar
+  calendar: {
+    monthlyCalendar: string;
+    previousMonth: string;
+    nextMonth: string;
+    today: string;
+    sun: string;
+    mon: string;
+    tue: string;
+    wed: string;
+    thu: string;
+    fri: string;
+    sat: string;
+  };
+
   // Calculation methods
   calculationMethods: {
     MoonsightingCommittee: {
