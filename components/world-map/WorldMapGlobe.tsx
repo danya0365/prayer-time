@@ -18,11 +18,23 @@ interface WorldTopology extends Topology {
   };
 }
 
+const CONTINENTS = [
+  { name: "AFRICA", coords: [20, 10] as [number, number] },
+  { name: "ASIA", coords: [90, 35] as [number, number] },
+  { name: "EUROPE", coords: [15, 50] as [number, number] },
+  { name: "NORTH AMERICA", coords: [-100, 45] as [number, number] },
+  { name: "SOUTH AMERICA", coords: [-60, -20] as [number, number] },
+  { name: "OCEANIA", coords: [135, -25] as [number, number] },
+  { name: "ANTARCTICA", coords: [0, -80] as [number, number] },
+];
+
+
 export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGlobeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
+  const [hoveredProvince, setHoveredProvince] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   
   // Use refs to avoid re-rendering the entire D3 scene when these change
@@ -106,8 +118,19 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
         
         // Province boundaries: scale stroke and fade in based on zoom
         g.selectAll(".province-path")
-          .style("stroke-width", `${0.4 / k}px`)
-          .style("opacity", Math.min(0.25 + (k - 1) * 0.15, 0.9));
+          .style("stroke-width", `${0.8 / k}px`)
+          .style("opacity", k < 6 ? 0 : Math.min(0.2 + (k - 6) * 0.2, 0.8))
+          .style("display", (k < 5.8 ? "none" : "inline") as any);
+
+        // Dynamic labels visibility
+        g.selectAll(".continent-label")
+          .style("opacity", Math.max(0, 1 - (k - 1) * 1.5))
+          .style("display", (k > 2 ? "none" : null) as any);
+
+        g.selectAll(".country-label")
+          .style("opacity", k < 1.5 ? 0 : Math.min((k - 1.5) * 1.5, 1))
+          .style("display", (k < 1.4 || k > 8 ? "none" : null) as any)
+          .style("font-size", `${Math.max(2, 8 / k)}px`);
       });
 
     svg.call(zoom);
@@ -159,23 +182,73 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
           d3.select(this).attr("fill", "#162a47");
         });
 
+      // ── Render continent labels ───────────────────────────
+      const labelsGroup = g.append("g").attr("class", "labels-layer");
+      
+      labelsGroup.selectAll(".continent-label")
+        .data(CONTINENTS)
+        .enter()
+        .append("text")
+        .attr("class", "continent-label")
+        .attr("x", d => projection(d.coords)?.[0] || 0)
+        .attr("y", d => projection(d.coords)?.[1] || 0)
+        .attr("text-anchor", "middle")
+        .attr("fill", "rgba(255, 255, 255, 0.4)")
+        .style("font-size", "14px")
+        .style("font-weight", "600")
+        .style("letter-spacing", "0.2em")
+        .style("pointer-events", "none")
+        .text(d => d.name);
+
+      // ── Render country labels ─────────────────────────────
+      labelsGroup.selectAll(".country-label")
+        .data((countries as any).features)
+        .enter()
+        .append("text")
+        .attr("class", "country-label")
+        .attr("x", (d: any) => path.centroid(d)[0])
+        .attr("y", (d: any) => path.centroid(d)[1])
+        .attr("text-anchor", "middle")
+        .attr("fill", "rgba(255, 255, 255, 0.6)")
+        .style("font-size", "11px")
+        .style("pointer-events", "none")
+        .style("opacity", 0)
+        .style("display", "none")
+        .text((d: any) => d.properties.name);
+
       // ── Render province boundaries (AFTER countries so they draw on top) ──
       const provincesGroup = g.append("g").attr("class", "provinces-layer");
       
       const renderProvinces = (data: GeoJSON.FeatureCollection | undefined | null) => {
         if (!data || !data.features) return;
+        
+        const uniqueId = Math.random().toString(36).substr(2, 9);
+
+        // Province Boundaries
         provincesGroup
-          .selectAll(".province-path-item") // Changed class name for selection to be distinct
+          .selectAll(`.province-path-${uniqueId}`)
           .data(data.features)
           .enter()
           .append("path")
           .attr("class", "province-path province-path-item")
           .attr("d", path as never)
-          .attr("fill", "none")
-          .attr("stroke", "rgba(180, 220, 255, 0.45)")
-          .attr("stroke-width", 0.4)
-          .style("opacity", 0.25)
-          .style("pointer-events", "none");
+          .attr("fill", "rgba(255, 255, 255, 0)") // Transparent fill for hover detection
+          .attr("stroke", "rgba(255, 255, 255, 0.7)")
+          .attr("stroke-width", 1.0)
+          .style("opacity", 0)
+          .style("display", "none")
+          .style("pointer-events", "auto")
+          .on("mouseover", (event, d: any) => {
+             const name = d.properties.name || d.properties.name_en || d.properties.NAME_1;
+             setHoveredProvince(name);
+             setTooltipPos({ x: event.clientX, y: event.clientY });
+          })
+          .on("mousemove", (event) => {
+             setTooltipPos({ x: event.clientX, y: event.clientY });
+          })
+          .on("mouseout", () => {
+             setHoveredProvince(null);
+          });
       };
 
       renderProvinces(provincesData);
@@ -183,11 +256,12 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
 
       // ── Render city markers ───────────────────────────────
       const cityGroup = g.append("g").attr("class", "cities-layer");
+      const capitalCities = WORLD_CITIES.filter(c => c.isCapital);
 
       // Pulse rings (animated)
       cityGroup
         .selectAll(".city-pulse")
-        .data(WORLD_CITIES)
+        .data(capitalCities)
         .enter()
         .append("circle")
         .attr("class", "city-pulse")
@@ -208,7 +282,7 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
       // City dots
       cityGroup
         .selectAll<SVGCircleElement, City>(".city-marker")
-        .data(WORLD_CITIES)
+        .data(capitalCities)
         .enter()
         .append("circle")
         .attr("class", "city-marker")
@@ -296,6 +370,23 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
             <span className="font-semibold text-white">{hoveredCity.name}</span>
           </div>
           <div className="text-xs opacity-70 mt-0.5">{hoveredCity.country}</div>
+        </div>
+      )}
+
+      {/* Province Hover Tooltip */}
+      {hoveredProvince && !hoveredCity && (
+        <div
+          className="fixed z-50 pointer-events-none px-2 py-1 rounded text-xs font-semibold shadow-lg"
+          style={{
+            left: tooltipPos.x + 12,
+            top: tooltipPos.y - 12,
+            background: "rgba(30, 41, 59, 0.85)",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(140, 200, 255, 0.3)",
+            color: "#cbd5e1",
+          }}
+        >
+          {hoveredProvince}
         </div>
       )}
 
