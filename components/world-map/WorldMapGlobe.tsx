@@ -65,12 +65,12 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
     return () => observer.disconnect();
   }, []);
 
-  // D3 map rendering — only depends on dimensions (not selectedCity/onCitySelect)
+  // D3 map rendering — only depends on dimensions
   useEffect(() => {
     if (!svgRef.current || dimensions.width === 0 || dimensions.height === 0) return;
 
     const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove(); // Clear previous render
+    svg.selectAll("*").remove();
 
     const { width, height } = dimensions;
 
@@ -87,20 +87,27 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
 
     // Zoom behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 12])
+      .scaleExtent([1, 20])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
+        const k = event.transform.k;
+        
         // Scale markers inversely so they stay the same visual size
         g.selectAll<SVGCircleElement, City>(".city-marker")
-          .attr("r", (d) => getMarkerRadius(d.population) / event.transform.k);
+          .attr("r", (d) => getMarkerRadius(d.population) / k);
         g.selectAll<SVGCircleElement, City>(".city-pulse")
-          .attr("r", (d) => (getMarkerRadius(d.population) + 3) / event.transform.k);
+          .attr("r", (d) => (getMarkerRadius(d.population) + 3) / k);
         g.selectAll(".city-marker, .city-pulse")
-          .style("stroke-width", `${1 / event.transform.k}px`);
+          .style("stroke-width", `${1 / k}px`);
         g.selectAll(".country-path")
-          .style("stroke-width", `${0.5 / event.transform.k}px`);
+          .style("stroke-width", `${0.5 / k}px`);
         g.selectAll(".graticule")
-          .style("stroke-width", `${0.3 / event.transform.k}px`);
+          .style("stroke-width", `${0.3 / k}px`);
+        
+        // Province boundaries: scale stroke and fade in based on zoom
+        g.selectAll(".province-path")
+          .style("stroke-width", `${0.4 / k}px`)
+          .style("opacity", Math.min(0.25 + (k - 1) * 0.15, 0.9));
       });
 
     svg.call(zoom);
@@ -123,118 +130,142 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
       .attr("stroke", "rgba(100, 160, 255, 0.08)")
       .attr("stroke-width", 0.3);
 
-    // Fetch world topology data
-    d3.json<WorldTopology>("https://unpkg.com/world-atlas@2/countries-110m.json").then(
-      (world) => {
-        if (!world) return;
+    // Load both countries and provinces data in parallel
+    Promise.all([
+      d3.json<WorldTopology>("https://unpkg.com/world-atlas@2/countries-50m.json"),
+      d3.json<GeoJSON.FeatureCollection>("/data/provinces-50m.geojson"),
+      d3.json<GeoJSON.FeatureCollection>("/data/thailand-provinces.geojson"),
+    ]).then(([world, provincesData, thailandProvincesData]) => {
+      if (!world) return;
 
-        const countries = feature(world, world.objects.countries);
+      const countries = feature(world, world.objects.countries);
 
-        // Render countries
-        g.selectAll(".country-path")
-          .data((countries as GeoJSON.FeatureCollection).features)
+      // ── Render countries ──────────────────────────────────
+      g.selectAll(".country-path")
+        .data((countries as GeoJSON.FeatureCollection).features)
+        .enter()
+        .append("path")
+        .attr("class", "country-path")
+        .attr("d", path as never)
+        .attr("fill", "#162a47")
+        .attr("stroke", "#1e4976")
+        .attr("stroke-width", 0.5)
+        .style("cursor", "default")
+        .style("transition", "fill 0.2s ease")
+        .on("mouseover", function () {
+          d3.select(this).attr("fill", "#1e3a5c");
+        })
+        .on("mouseout", function () {
+          d3.select(this).attr("fill", "#162a47");
+        });
+
+      // ── Render province boundaries (AFTER countries so they draw on top) ──
+      const provincesGroup = g.append("g").attr("class", "provinces-layer");
+      
+      const renderProvinces = (data: GeoJSON.FeatureCollection | undefined | null) => {
+        if (!data || !data.features) return;
+        provincesGroup
+          .selectAll(".province-path-item") // Changed class name for selection to be distinct
+          .data(data.features)
           .enter()
           .append("path")
-          .attr("class", "country-path")
+          .attr("class", "province-path province-path-item")
           .attr("d", path as never)
-          .attr("fill", "#162a47")
-          .attr("stroke", "#1e4976")
-          .attr("stroke-width", 0.5)
-          .style("cursor", "default")
-          .style("transition", "fill 0.2s ease")
-          .on("mouseover", function () {
-            d3.select(this).attr("fill", "#1e3a5c");
-          })
-          .on("mouseout", function () {
-            d3.select(this).attr("fill", "#162a47");
-          });
-
-        // Render city markers
-        const cityGroup = g.append("g").attr("class", "cities-layer");
-
-        // Pulse rings (animated)
-        cityGroup
-          .selectAll(".city-pulse")
-          .data(WORLD_CITIES)
-          .enter()
-          .append("circle")
-          .attr("class", "city-pulse")
-          .attr("cx", (d) => {
-            const coords = projection([d.lon, d.lat]);
-            return coords ? coords[0] : 0;
-          })
-          .attr("cy", (d) => {
-            const coords = projection([d.lon, d.lat]);
-            return coords ? coords[1] : 0;
-          })
-          .attr("r", (d) => getMarkerRadius(d.population) + 3)
           .attr("fill", "none")
-          .attr("stroke", "rgba(16, 185, 129, 0.3)")
-          .attr("stroke-width", 1)
-          .style("opacity", 0);
+          .attr("stroke", "rgba(180, 220, 255, 0.45)")
+          .attr("stroke-width", 0.4)
+          .style("opacity", 0.25)
+          .style("pointer-events", "none");
+      };
 
-        // City dots
-        cityGroup
-          .selectAll<SVGCircleElement, City>(".city-marker")
-          .data(WORLD_CITIES)
-          .enter()
-          .append("circle")
-          .attr("class", "city-marker")
-          .attr("cx", (d) => {
-            const coords = projection([d.lon, d.lat]);
-            return coords ? coords[0] : 0;
-          })
-          .attr("cy", (d) => {
-            const coords = projection([d.lon, d.lat]);
-            return coords ? coords[1] : 0;
-          })
-          .attr("r", (d) => getMarkerRadius(d.population))
-          .attr("fill", (d) =>
-            selectedCityRef.current && d.name === selectedCityRef.current.name
-              ? "#10b981"
-              : "#34d399"
-          )
-          .attr("stroke", "#0e2e1f")
-          .attr("stroke-width", 1)
-          .style("cursor", "pointer")
-          .style("filter", "drop-shadow(0 0 4px rgba(16, 185, 129, 0.5))")
-          .on("mouseover", function (event, d) {
-            d3.select(this)
-              .transition()
-              .duration(200)
-              .attr("r", getMarkerRadius(d.population) * 1.8)
-              .attr("fill", "#6ee7b7");
+      renderProvinces(provincesData);
+      renderProvinces(thailandProvincesData);
 
-            setHoveredCity(d);
-            setTooltipPos({ x: event.clientX, y: event.clientY });
-          })
-          .on("mousemove", function (event) {
-            setTooltipPos({ x: event.clientX, y: event.clientY });
-          })
-          .on("mouseout", function (event, d) {
-            const currentZoom = d3.zoomTransform(svgRef.current!);
-            d3.select(this)
-              .transition()
-              .duration(200)
-              .attr(
-                "r",
-                getMarkerRadius(d.population) / currentZoom.k
-              )
-              .attr("fill",
-                selectedCityRef.current && d.name === selectedCityRef.current.name
-                  ? "#10b981"
-                  : "#34d399"
-              );
-            setHoveredCity(null);
-          })
-          .on("click", function (event, d) {
-            event.stopPropagation();
-            // Clear tooltip immediately on click
-            setHoveredCity(null);
-            onCitySelectRef.current(d);
-          });
-      }
-    );
+      // ── Render city markers ───────────────────────────────
+      const cityGroup = g.append("g").attr("class", "cities-layer");
+
+      // Pulse rings (animated)
+      cityGroup
+        .selectAll(".city-pulse")
+        .data(WORLD_CITIES)
+        .enter()
+        .append("circle")
+        .attr("class", "city-pulse")
+        .attr("cx", (d) => {
+          const coords = projection([d.lon, d.lat]);
+          return coords ? coords[0] : 0;
+        })
+        .attr("cy", (d) => {
+          const coords = projection([d.lon, d.lat]);
+          return coords ? coords[1] : 0;
+        })
+        .attr("r", (d) => getMarkerRadius(d.population) + 3)
+        .attr("fill", "none")
+        .attr("stroke", "rgba(16, 185, 129, 0.3)")
+        .attr("stroke-width", 1)
+        .style("opacity", 0);
+
+      // City dots
+      cityGroup
+        .selectAll<SVGCircleElement, City>(".city-marker")
+        .data(WORLD_CITIES)
+        .enter()
+        .append("circle")
+        .attr("class", "city-marker")
+        .attr("cx", (d) => {
+          const coords = projection([d.lon, d.lat]);
+          return coords ? coords[0] : 0;
+        })
+        .attr("cy", (d) => {
+          const coords = projection([d.lon, d.lat]);
+          return coords ? coords[1] : 0;
+        })
+        .attr("r", (d) => getMarkerRadius(d.population))
+        .attr("fill", (d) =>
+          selectedCityRef.current && d.name === selectedCityRef.current.name
+            ? "#10b981"
+            : "#34d399"
+        )
+        .attr("stroke", "#0e2e1f")
+        .attr("stroke-width", 1)
+        .style("cursor", "pointer")
+        .style("filter", "drop-shadow(0 0 4px rgba(16, 185, 129, 0.5))")
+        .on("mouseover", function (event, d) {
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr("r", getMarkerRadius(d.population) * 1.8)
+            .attr("fill", "#6ee7b7");
+
+          setHoveredCity(d);
+          setTooltipPos({ x: event.clientX, y: event.clientY });
+        })
+        .on("mousemove", function (event) {
+          setTooltipPos({ x: event.clientX, y: event.clientY });
+        })
+        .on("mouseout", function (event, d) {
+          const currentZoom = d3.zoomTransform(svgRef.current!);
+          d3.select(this)
+            .transition()
+            .duration(200)
+            .attr(
+              "r",
+              getMarkerRadius(d.population) / currentZoom.k
+            )
+            .attr("fill",
+              selectedCityRef.current && d.name === selectedCityRef.current.name
+                ? "#10b981"
+                : "#34d399"
+            );
+          setHoveredCity(null);
+        })
+        .on("click", function (event, d) {
+          event.stopPropagation();
+          // Clear tooltip immediately on click
+          setHoveredCity(null);
+          onCitySelectRef.current(d);
+        });
+    });
   }, [dimensions]); // Only re-render when dimensions change
 
   return (
