@@ -114,6 +114,8 @@ export const th: Translations = {
     nextMonth: 'เดือนถัดไป',
     today: 'วันนี้',
     viewFullCalendar: 'ดูปฏิทินเต็ม',
+    listView: 'รายการ',
+    gridView: 'ตาราง',
     sun: 'อา.',
     mon: 'จ.',
     tue: 'อ.',

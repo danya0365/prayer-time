@@ -111,6 +111,8 @@ export const en: Translations = {
     nextMonth: 'Next Month',
     today: 'Today',
     viewFullCalendar: 'View Full Calendar',
+    listView: 'List',
+    gridView: 'Grid',
     sun: 'Sun',
     mon: 'Mon',
     tue: 'Tue',

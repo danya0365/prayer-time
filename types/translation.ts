@@ -119,6 +119,8 @@ export interface Translations {
     nextMonth: string;
     today: string;
     viewFullCalendar: string;
+    listView: string;
+    gridView: string;
     sun: string;
     mon: string;
     tue: string;

@@ -112,6 +112,8 @@ export const ar: Translations = {
     nextMonth: 'الشهر التالي',
     today: 'اليوم',
     viewFullCalendar: 'عرض التقويم الكامل',
+    listView: 'قائمة',
+    gridView: 'شبكة',
     sun: 'أحد',
     mon: 'إثن',
     tue: 'ثلا',
