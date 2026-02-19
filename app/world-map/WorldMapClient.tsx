@@ -1,5 +1,6 @@
 "use client";
 
+import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
 import CityPrayerPopup from "@/components/world-map/CityPrayerPopup";
 import { City } from "@/constants/cities";
 import { ArrowLeft, Globe } from "lucide-react";
@@ -84,6 +85,8 @@ export default function WorldMapClient() {
       {selectedCity && (
         <CityPrayerPopup city={selectedCity} onClose={handleClose} />
       )}
+
+      <FloatingSettingsButton />
     </div>
   );
 }

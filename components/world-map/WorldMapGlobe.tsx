@@ -248,6 +248,28 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
           })
           .on("mouseout", () => {
              setHoveredProvince(null);
+          })
+          .on("click", (event, d: any) => {
+             event.stopPropagation();
+             const centroid = path.centroid(d);
+             const coords = projection.invert!([centroid[0], centroid[1]]);
+             if (!coords) return;
+
+             const name = d.properties.name || d.properties.name_en || d.properties.NAME_1;
+             const admin = d.properties.admin || d.properties.country;
+             // If admin is missing, we check if it's from the Thailand dataset (often NAME_1)
+             const countryName = admin || (d.properties.NAME_1 ? "Thailand" : "Unknown");
+
+             const virtualCity: City = {
+               name: name,
+               country: countryName,
+               lat: coords[1],
+               lon: coords[0],
+               population: 0,
+               timezone: countryName === "Thailand" ? "Asia/Bangkok" : "UTC",
+             };
+
+             onCitySelectRef.current(virtualCity);
           });
       };
 
