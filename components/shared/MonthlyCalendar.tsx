@@ -2,7 +2,8 @@
 
 import { format, getDay, isSameDay } from "date-fns";
 import { enUS, th } from "date-fns/locale";
-import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import { useMonthlyPrayerTimes } from "../../hooks/useMonthlyPrayerTimes";
 import { useTranslation } from "../../hooks/useTranslation";
@@ -89,6 +90,14 @@ export default function MonthlyCalendar({
           <h2 className="text-xl md:text-2xl font-bold text-foreground">
             {t.calendar.monthlyCalendar}
           </h2>
+          <Link
+            href="/calendar"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                       bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            {t.calendar.viewFullCalendar}
+            <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
         <div className="flex items-center gap-2">

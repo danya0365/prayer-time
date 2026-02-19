@@ -113,6 +113,7 @@ export const th: Translations = {
     previousMonth: 'เดือนก่อนหน้า',
     nextMonth: 'เดือนถัดไป',
     today: 'วันนี้',
+    viewFullCalendar: 'ดูปฏิทินเต็ม',
     sun: 'อา.',
     mon: 'จ.',
     tue: 'อ.',

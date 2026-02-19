@@ -111,6 +111,7 @@ export const ar: Translations = {
     previousMonth: 'الشهر السابق',
     nextMonth: 'الشهر التالي',
     today: 'اليوم',
+    viewFullCalendar: 'عرض التقويم الكامل',
     sun: 'أحد',
     mon: 'إثن',
     tue: 'ثلا',

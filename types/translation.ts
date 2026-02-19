@@ -118,6 +118,7 @@ export interface Translations {
     previousMonth: string;
     nextMonth: string;
     today: string;
+    viewFullCalendar: string;
     sun: string;
     mon: string;
     tue: string;

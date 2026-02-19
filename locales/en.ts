@@ -110,6 +110,7 @@ export const en: Translations = {
     previousMonth: 'Previous Month',
     nextMonth: 'Next Month',
     today: 'Today',
+    viewFullCalendar: 'View Full Calendar',
     sun: 'Sun',
     mon: 'Mon',
     tue: 'Tue',
