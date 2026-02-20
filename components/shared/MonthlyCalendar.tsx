@@ -30,11 +30,6 @@ const hijriLocaleMap = { en: "en", th: "th", ar: "ar" } as const;
 
 /* ───────── Hijri date helpers using Intl.DateTimeFormat ───────── */
 
-function getHijriDay(date: Date): string {
-  return new Intl.DateTimeFormat("en-u-ca-islamic-umalqura", {
-    day: "numeric",
-  }).format(date);
-}
 
 function getHijriMonthYear(date: Date, lang: Language): string {
   const locale = hijriLocaleMap[lang];

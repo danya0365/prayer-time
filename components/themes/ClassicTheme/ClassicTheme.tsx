@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
-import { PrayerInfo } from '../../../utils/prayer-utils';
+import { useState } from 'react';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { useSettingsStore } from '../../../stores/settingsStore';
 import { useLocationStore } from '../../../stores/locationStore';
+import { useSettingsStore } from '../../../stores/settingsStore';
 import { formatDisplayDate } from '../../../utils/date-formatting';
-import { formatPrayerTime } from '../../../utils/prayer-utils';
 import { calculatePrayerTimeStatus } from '../../../utils/prayer-time-status';
+import { formatPrayerTime, PrayerInfo } from '../../../utils/prayer-utils';
 import LocationSelector from '../../shared/LocationSelector';
 
 interface ClassicThemeProps {
@@ -149,7 +148,7 @@ export function ClassicTheme({
           </div>
           
           <div className="divide-y divide-emerald-100">
-            {prayers.map((prayer, index) => (
+            {prayers.map((prayer) => (
               <div
                 key={prayer.name}
                 className={`p-4 flex items-center justify-between ${themeConfig.styles.animation} hover:bg-emerald-50 ${

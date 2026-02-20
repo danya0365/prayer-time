@@ -41,6 +41,7 @@ export const en: Translations = {
     additionalFeatures: 'Additional Features',
     futureFeatures: 'Future Features',
     comingSoon: 'Coming Soon',
+    stayConnected: 'Stay Connected',
     resetToNow: 'Reset to Now',
     refresh: 'Refresh',
     localTime: 'Local Time',

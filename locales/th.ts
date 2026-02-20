@@ -41,6 +41,7 @@ export const th: Translations = {
     additionalFeatures: "คุณสมบัติเพิ่มเติม",
     futureFeatures: "คุณสมบัติในอนาคต",
     comingSoon: "เร็วๆ นี้",
+    stayConnected: "ติดตามข่าวสาร",
     resetToNow: "รีเซ็ตเป็นเวลาปัจจุบัน",
     refresh: "รีเฟรช",
     localTime: "เวลาท้องถิ่น",

@@ -117,19 +117,19 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
           .style("stroke-width", `${0.3 / k}px`);
         
         // Province boundaries: scale stroke and fade in based on zoom
-        g.selectAll(".province-path")
+        g.selectAll<SVGPathElement, unknown>(".province-path")
           .style("stroke-width", `${0.8 / k}px`)
           .style("opacity", k < 6 ? 0 : Math.min(0.2 + (k - 6) * 0.2, 0.8))
-          .style("display", (k < 5.8 ? "none" : "inline") as any);
+          .style("display", k < 5.8 ? "none" : ("inline" as string));
 
         // Dynamic labels visibility
-        g.selectAll(".continent-label")
+        g.selectAll<SVGTextElement, unknown>(".continent-label")
           .style("opacity", Math.max(0, 1 - (k - 1) * 1.5))
-          .style("display", (k > 2 ? "none" : null) as any);
+          .style("display", k > 2 ? "none" : "");
 
-        g.selectAll(".country-label")
+        g.selectAll<SVGTextElement, unknown>(".country-label")
           .style("opacity", k < 1.5 ? 0 : Math.min((k - 1.5) * 1.5, 1))
-          .style("display", (k < 1.4 || k > 8 ? "none" : null) as any)
+          .style("display", k < 1.4 || k > 8 ? "none" : "")
           .style("font-size", `${Math.max(2, 8 / k)}px`);
       });
 
@@ -201,20 +201,20 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
         .text(d => d.name);
 
       // ── Render country labels ─────────────────────────────
-      labelsGroup.selectAll(".country-label")
-        .data((countries as any).features)
+      labelsGroup.selectAll<SVGTextElement, GeoJSON.Feature>(".country-label")
+        .data((countries as GeoJSON.FeatureCollection).features)
         .enter()
         .append("text")
         .attr("class", "country-label")
-        .attr("x", (d: any) => path.centroid(d)[0])
-        .attr("y", (d: any) => path.centroid(d)[1])
+        .attr("x", (d) => path.centroid(d)[0])
+        .attr("y", (d) => path.centroid(d)[1])
         .attr("text-anchor", "middle")
         .attr("fill", "rgba(255, 255, 255, 0.6)")
         .style("font-size", "11px")
         .style("pointer-events", "none")
         .style("opacity", 0)
         .style("display", "none")
-        .text((d: any) => d.properties.name);
+        .text((d) => (d.properties?.name as string) || "");
 
       // ── Render province boundaries (AFTER countries so they draw on top) ──
       const provincesGroup = g.append("g").attr("class", "provinces-layer");
@@ -238,8 +238,9 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
           .style("opacity", 0)
           .style("display", "none")
           .style("pointer-events", "auto")
-          .on("mouseover", (event, d: any) => {
-             const name = d.properties.name || d.properties.name_en || d.properties.NAME_1;
+          .on("mouseover", (event, d: GeoJSON.Feature) => {
+             const props = d.properties || {};
+             const name = (props.name || props.name_en || props.NAME_1) as string;
              setHoveredProvince(name);
              setTooltipPos({ x: event.clientX, y: event.clientY });
           })
@@ -249,16 +250,17 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
           .on("mouseout", () => {
              setHoveredProvince(null);
           })
-          .on("click", (event, d: any) => {
+          .on("click", (event, d: GeoJSON.Feature) => {
              event.stopPropagation();
              const centroid = path.centroid(d);
              const coords = projection.invert!([centroid[0], centroid[1]]);
              if (!coords) return;
 
-             const name = d.properties.name || d.properties.name_en || d.properties.NAME_1;
-             const admin = d.properties.admin || d.properties.country;
+             const props = d.properties || {};
+             const name = (props.name || props.name_en || props.NAME_1) as string;
+             const admin = (props.admin || props.country) as string;
              // If admin is missing, we check if it's from the Thailand dataset (often NAME_1)
-             const countryName = admin || (d.properties.NAME_1 ? "Thailand" : "Unknown");
+             const countryName = admin || (props.NAME_1 ? "Thailand" : "Unknown");
 
              const virtualCity: City = {
                name: name,
