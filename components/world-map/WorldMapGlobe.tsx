@@ -246,17 +246,20 @@ export default forwardRef<WorldMapGlobeRef, WorldMapGlobeProps>(function WorldMa
           .style("opacity", 0)
           .style("display", "none")
           .style("pointer-events", "auto")
+          .style("transition", "fill 0.2s ease")
           .on("mouseover", (event, d: GeoJSON.Feature) => {
              const props = d.properties || {};
              const name = (props.name || props.name_en || props.NAME_1) as string;
              setHoveredProvince(name);
              setTooltipPos({ x: event.clientX, y: event.clientY });
+             d3.select(event.currentTarget).attr("fill", "rgba(52, 211, 153, 0.15)");
           })
           .on("mousemove", (event) => {
              setTooltipPos({ x: event.clientX, y: event.clientY });
           })
-          .on("mouseout", () => {
+          .on("mouseout", (event) => {
              setHoveredProvince(null);
+             d3.select(event.currentTarget).attr("fill", "rgba(255, 255, 255, 0)");
           })
           .on("click", (event, d: GeoJSON.Feature) => {
              event.stopPropagation();
