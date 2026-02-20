@@ -2,11 +2,15 @@
 
 import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
 import CityPrayerPopup from "@/components/world-map/CityPrayerPopup";
+import { WorldMapGlobeRef } from "@/components/world-map/WorldMapGlobe";
 import { City } from "@/constants/cities";
-import { ArrowLeft, Globe } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useLocationStore } from "@/stores/locationStore";
+import { useSettingsStore } from "@/stores/settingsStore";
+import { ArrowLeft, Globe, Navigation } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 // Dynamic import to avoid SSR issues with D3
 const WorldMapGlobe = dynamic(
@@ -25,7 +29,12 @@ const WorldMapGlobe = dynamic(
 );
 
 export default function WorldMapClient() {
+  const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
+  const { requestGeolocation, currentLocation } = useLocationStore();
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const globeRef = useRef<WorldMapGlobeRef>(null);
+  const [isLocating, setIsLocating] = useState(false);
 
   const handleCitySelect = useCallback((city: City) => {
     setSelectedCity(city);
@@ -34,6 +43,26 @@ export default function WorldMapClient() {
   const handleClose = useCallback(() => {
     setSelectedCity(null);
   }, []);
+
+  const handleGoToMyLocation = async () => {
+    setIsLocating(true);
+    try {
+      // 1. Request/Refresh geolocation (this updates the store)
+      await requestGeolocation();
+      
+      // 2. Access fresh location from store state
+      const location = useLocationStore.getState().currentLocation;
+      
+      // 3. Zoom to the returned location
+      if (location && globeRef.current) {
+        globeRef.current.zoomTo(location.longitude, location.latitude, 10);
+      }
+    } catch (error) {
+      console.error("Failed to get location:", error);
+    } finally {
+      setIsLocating(false);
+    }
+  };
 
   return (
     <div className="relative w-screen h-screen overflow-hidden" style={{ background: "#0a0f1c" }}>
@@ -76,9 +105,30 @@ export default function WorldMapClient() {
       {/* Map */}
       <div className="w-full h-full">
         <WorldMapGlobe
+          ref={globeRef}
           onCitySelect={handleCitySelect}
           selectedCity={selectedCity}
         />
+      </div>
+
+      {/* Floating Controls */}
+      <div className="absolute bottom-6 right-24 z-30 flex flex-col gap-4">
+        <button
+          onClick={handleGoToMyLocation}
+          disabled={isLocating}
+          className={`w-12 h-12 rounded-full shadow-lg border border-white/20 backdrop-blur-md flex items-center justify-center transition-all hover:scale-110 active:scale-95 ${
+            isLocating 
+              ? "bg-slate-800 text-slate-500 cursor-not-allowed" 
+              : "bg-emerald-500/90 hover:bg-emerald-500 text-white"
+          }`}
+          title={t.ui.goToMyLocation}
+        >
+          {isLocating ? (
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Navigation size={20} fill="currentColor" />
+          )}
+        </button>
       </div>
 
       {/* City prayer popup */}

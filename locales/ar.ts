@@ -46,6 +46,7 @@ export const ar: Translations = {
     refresh: "تحديث",
     localTime: "التوقيت المحلي",
     yourTime: "توقيتك",
+    goToMyLocation: "الذهاب إلى موقعي",
   },
 
   settings: {

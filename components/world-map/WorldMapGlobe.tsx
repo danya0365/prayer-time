@@ -2,13 +2,17 @@
 
 import { City, WORLD_CITIES } from "@/constants/cities";
 import * as d3 from "d3";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
 interface WorldMapGlobeProps {
   onCitySelect: (city: City) => void;
   selectedCity: City | null;
+}
+
+export interface WorldMapGlobeRef {
+  zoomTo: (lon: number, lat: number, k?: number) => void;
 }
 
 interface WorldTopology extends Topology {
@@ -29,7 +33,7 @@ const CONTINENTS = [
 ];
 
 
-export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGlobeProps) {
+export default forwardRef<WorldMapGlobeRef, WorldMapGlobeProps>(function WorldMapGlobe({ onCitySelect, selectedCity }, ref) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -40,6 +44,8 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
   // Use refs to avoid re-rendering the entire D3 scene when these change
   const selectedCityRef = useRef<City | null>(selectedCity);
   const onCitySelectRef = useRef(onCitySelect);
+  const projectionRef = useRef<d3.GeoProjection | null>(null);
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   
   // Keep refs in sync
   useEffect(() => {
@@ -134,6 +140,8 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
       });
 
     svg.call(zoom);
+    projectionRef.current = projection;
+    zoomRef.current = zoom;
 
     // Ocean background
     g.append("path")
@@ -366,6 +374,28 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
     });
   }, [dimensions]); // Only re-render when dimensions change
 
+  // Expose zoomTo method at Top Level
+  useImperativeHandle(ref, () => ({
+    zoomTo: (lon: number, lat: number, k: number = 8) => {
+      if (!svgRef.current || !projectionRef.current || !zoomRef.current) return;
+      const svg = d3.select(svgRef.current);
+      const { width, height } = dimensions;
+      
+      const coords = projectionRef.current([lon, lat]);
+      if (!coords) return;
+      
+      svg.transition()
+        .duration(1000)
+        .call(
+          zoomRef.current.transform,
+          d3.zoomIdentity
+            .translate(width / 2, height / 2)
+            .scale(k)
+            .translate(-coords[0], -coords[1])
+        );
+    }
+  }), [dimensions]);
+
   return (
     <div ref={containerRef} className="relative w-full h-full">
       <svg
@@ -435,7 +465,7 @@ export default function WorldMapGlobe({ onCitySelect, selectedCity }: WorldMapGl
       </div>
     </div>
   );
-}
+});
 
 function getMarkerRadius(population: number): number {
   if (population >= 15_000_000) return 5;

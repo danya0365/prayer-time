@@ -48,6 +48,7 @@ export interface Translations {
     refresh: string;
     localTime: string;
     yourTime: string;
+    goToMyLocation: string;
   };
 
   // Settings

@@ -46,6 +46,7 @@ export const th: Translations = {
     refresh: "รีเฟรช",
     localTime: "เวลาท้องถิ่น",
     yourTime: "เวลาของคุณ",
+    goToMyLocation: "ไปยังตำแหน่งของฉัน",
   },
 
   settings: {

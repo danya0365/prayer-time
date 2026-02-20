@@ -45,7 +45,8 @@ export const en: Translations = {
     resetToNow: 'Reset to Now',
     refresh: 'Refresh',
     localTime: 'Local Time',
-    yourTime: 'Your Time'
+    yourTime: 'Your Time',
+    goToMyLocation: 'Go to My Location'
   },
 
   settings: {
