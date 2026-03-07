@@ -1,6 +1,6 @@
 "use client";
 
-import { City, WORLD_CITIES } from "@/constants/cities";
+import { City, WORLD_CITIES } from "@/src/domain/constants/cities";
 import * as d3 from "d3";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { feature } from "topojson-client";

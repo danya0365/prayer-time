@@ -1,4 +1,4 @@
-import { DEFAULT_CALCULATION_METHOD } from '@/constants/calculationMethods';
+import { DEFAULT_CALCULATION_METHOD } from '@/src/domain/constants/calculationMethods';
 import { Language } from '@/src/domain/types/translation';
 import { CalculationMethodType } from '@/utils/prayer-utils';
 import { create } from 'zustand';

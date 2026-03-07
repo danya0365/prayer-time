@@ -1,6 +1,6 @@
 "use client";
 
-import { City } from "@/constants/cities";
+import { City } from "@/src/domain/constants/cities";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { getPrayerTimes } from "@/utils/prayer-utils";

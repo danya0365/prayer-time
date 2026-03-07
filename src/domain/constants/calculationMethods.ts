@@ -1,4 +1,4 @@
-import { CalculationMethodType } from '../utils/prayer-utils';
+import { CalculationMethodType } from '@/utils/prayer-utils';
 
 export interface CalculationMethodInfo {
   key: CalculationMethodType;

@@ -3,7 +3,7 @@
 import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
 import CityPrayerPopup from "@/components/world-map/CityPrayerPopup";
 import { WorldMapGlobeRef } from "@/components/world-map/WorldMapGlobe";
-import { City } from "@/constants/cities";
+import { City } from "@/src/domain/constants/cities";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
