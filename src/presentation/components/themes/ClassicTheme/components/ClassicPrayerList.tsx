@@ -1,5 +1,5 @@
 import { useTranslation } from '@/hooks/useTranslation';
-import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
+import { useThemeStore } from '@/stores/themeStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';
 import { formatPrayerTime, PrayerInfo } from '@/utils/prayer-utils';
@@ -10,7 +10,7 @@ interface ClassicPrayerListProps {
 }
 
 export function ClassicPrayerList({ prayers, currentPrayer }: ClassicPrayerListProps) {
-  const { themeConfig } = usePrayerDashboardTheme();
+  const { themeConfig } = useThemeStore();
   const { settings } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
 

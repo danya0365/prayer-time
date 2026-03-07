@@ -1,4 +1,3 @@
-import { PrayerDashboardThemeProvider } from "@/src/presentation/contexts/PrayerDashboardThemeContext";
 import type { Metadata } from "next";
 import WorldMapClient from "./WorldMapClient";
 
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
 
 export default function WorldMapPage() {
   return (
-    <PrayerDashboardThemeProvider>
       <WorldMapClient />
-    </PrayerDashboardThemeProvider>
   );
 }

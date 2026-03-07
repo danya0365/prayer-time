@@ -3,7 +3,7 @@
 import LocationSelector from '@/components/shared/LocationSelector';
 import { getCalculationMethodInfo } from '@/constants/calculationMethods';
 import { useTranslation } from '@/hooks/useTranslation';
-import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
+import { useThemeStore } from '@/stores/themeStore';
 import { useLocationStore } from '@/stores/locationStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { formatDisplayDate, formatTimeWithLocale } from '@/utils/date-formatting';
@@ -28,7 +28,7 @@ export function MinimalTheme({
   loading,
   error
 }: MinimalThemeProps) {
-  const { themeConfig } = usePrayerDashboardTheme();
+  const { themeConfig } = useThemeStore();
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });

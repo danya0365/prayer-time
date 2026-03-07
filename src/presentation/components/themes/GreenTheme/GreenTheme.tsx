@@ -2,7 +2,7 @@
 
 import LocationSelector from "@/components/shared/LocationSelector";
 import { useTranslation } from "@/hooks/useTranslation";
-import { usePrayerDashboardTheme } from "@/src/presentation/contexts/PrayerDashboardThemeContext";
+import { useThemeStore } from '@/stores/themeStore';
 import { useLocationStore } from "@/stores/locationStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { formatDisplayDate } from "@/utils/date-formatting";
@@ -27,7 +27,7 @@ export function GreenTheme({
   loading,
   error,
 }: GreenThemeProps) {
-  const {} = usePrayerDashboardTheme();
+  const {} = useThemeStore();
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });

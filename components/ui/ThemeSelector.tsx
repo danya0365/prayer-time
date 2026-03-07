@@ -1,6 +1,6 @@
 "use client";
 
-import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
+import { useThemeStore } from '@/stores/themeStore';
 import { useTranslation } from '../../hooks/useTranslation';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { ThemeType } from '../../types/theme';
@@ -10,7 +10,7 @@ interface ThemeSelectorProps {
 }
 
 export default function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
-  const { currentTheme, setTheme, getAvailableThemes } = usePrayerDashboardTheme();
+  const { currentTheme, setTheme, getAvailableThemes } = useThemeStore();
   const { settings } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
   
