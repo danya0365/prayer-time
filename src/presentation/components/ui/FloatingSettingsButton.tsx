@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import LocationSelector from "../shared/LocationSelector";
 import SettingsPanel from "../shared/SettingsPanel";
 
@@ -135,6 +135,37 @@ export default function FloatingSettingsButton() {
               {/* Tooltip */}
               <div className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                 World Map
+                <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
+              </div>
+            </div>
+
+            {/* Monthly Calendar Button */}
+            <div className="relative group">
+              <button
+                onClick={() => {
+                  router.push("/calendar");
+                  setIsExpanded(false);
+                }}
+                className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center backdrop-blur-sm border border-white/20"
+                aria-label={t.calendar.monthlyCalendar}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+              {/* Tooltip */}
+              <div className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                {t.calendar.monthlyCalendar}
                 <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
               </div>
             </div>

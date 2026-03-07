@@ -1,7 +1,6 @@
 "use client";
 
 import LocationSelector from "@/src/presentation/components/shared/LocationSelector";
-import MonthlyCalendar from "@/src/presentation/components/shared/MonthlyCalendar";
 import { useNotifications } from "@/src/presentation/hooks/useNotifications";
 import { usePrayerTimes } from "@/src/presentation/hooks/usePrayerTimes";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
@@ -77,11 +76,6 @@ export default function OriginalTheme() {
           onLocationClick={() => setLocationSelectorOpen(true)}
           language={settings.language}
         />
-
-        {/* Monthly Prayer Times Calendar */}
-        <div className="w-full max-w-4xl mt-12 bg-[#064e3b]/30 backdrop-blur-md rounded-3xl border border-[#D4AF37]/20 p-1 shadow-2xl">
-          <MonthlyCalendar language={settings.language} />
-        </div>
 
         {/* Additional Features Toggle */}
         {!showAdditionalFeatures && (
