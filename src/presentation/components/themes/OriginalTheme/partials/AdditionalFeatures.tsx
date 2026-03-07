@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { cn } from '@/utils/cn'
-import { QiblaCompass } from '@/components/ui/QiblaCompass'
-import { IslamicCalendar } from '@/components/ui/IslamicCalendar'
+import { QiblaCompass } from '@/src/presentation/components/ui/QiblaCompass'
+import { IslamicCalendar } from '@/src/presentation/components/ui/IslamicCalendar'
 
 interface AdditionalFeaturesProps {
   latitude?: number

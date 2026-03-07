@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { PrayerInfo, formatTimeUntilNextPrayer } from '../../utils/prayer-utils';
-import { useTranslation } from '../../src/presentation/hooks/useTranslation';
+import { PrayerInfo, formatTimeUntilNextPrayer } from '@/utils/prayer-utils';
+import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { Language } from '@/src/domain/types/translation';
 
 interface CurrentPrayerIndicatorProps {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '../../utils/cn'
+import { cn } from '@/utils/cn'
 import { 
   gregorianToHijri, 
   formatHijriDate, 
@@ -9,7 +9,7 @@ import {
   getDaysUntilRamadan,
   HijriDate,
   IslamicEvent
-} from '../../utils/islamic-calendar'
+} from '@/utils/islamic-calendar'
 
 interface IslamicCalendarProps {
   className?: string

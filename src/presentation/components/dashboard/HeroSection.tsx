@@ -1,8 +1,8 @@
 import { format } from "date-fns";
-import { useTranslation } from "../../src/presentation/hooks/useTranslation";
-import { useLocationStore } from "../../src/presentation/stores/locationStore";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
+import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { Language } from "@/src/domain/types/translation";
-import { PrayerInfo } from "../../utils/prayer-utils";
+import { PrayerInfo } from "@/utils/prayer-utils";
 import { SettingsButton } from "../ui/SettingsButton";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
 

@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { cn } from '@/utils/cn'
-import { PrayerTrackerMockup } from '@/components/mockups/PrayerTrackerMockup'
-import { QuranReaderMockup } from '@/components/mockups/QuranReaderMockup'
-import { TasbihCounterMockup } from '@/components/mockups/TasbihCounterMockup'
+import { PrayerTrackerMockup } from '@/src/presentation/components/mockups/PrayerTrackerMockup'
+import { QuranReaderMockup } from '@/src/presentation/components/mockups/QuranReaderMockup'
+import { TasbihCounterMockup } from '@/src/presentation/components/mockups/TasbihCounterMockup'
 
 interface MockupShowcaseProps {
   className?: string

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { cn } from '../../utils/cn'
+import { cn } from '@/utils/cn'
 import { PrayerTrackerMockup } from './PrayerTrackerMockup'
 import { QuranReaderMockup } from './QuranReaderMockup'
 import { TasbihCounterMockup } from './TasbihCounterMockup'

@@ -1,8 +1,8 @@
 "use client";
 
-import LocationSelector from "@/components/shared/LocationSelector";
-import MonthlyCalendar from "@/components/shared/MonthlyCalendar";
-import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
+import LocationSelector from "@/src/presentation/components/shared/LocationSelector";
+import MonthlyCalendar from "@/src/presentation/components/shared/MonthlyCalendar";
+import FloatingSettingsButton from "@/src/presentation/components/ui/FloatingSettingsButton";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";

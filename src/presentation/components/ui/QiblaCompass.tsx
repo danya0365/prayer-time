@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '../../utils/cn'
-import { calculateQiblaDirection, getCompassDirection, QiblaInfo } from '../../utils/qibla-utils'
+import { cn } from '@/utils/cn'
+import { calculateQiblaDirection, getCompassDirection, QiblaInfo } from '@/utils/qibla-utils'
 
 interface QiblaCompassProps {
   latitude?: number

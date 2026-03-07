@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { cn } from '../../utils/cn'
-import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
-import { useTranslation } from '../../src/presentation/hooks/useTranslation'
+import { cn } from '@/utils/cn'
+import { useSettingsStore } from '@/src/presentation/stores/settingsStore'
+import { useTranslation } from '@/src/presentation/hooks/useTranslation'
 
 interface NotificationButtonProps {
   onPermissionChange?: (granted: boolean) => void

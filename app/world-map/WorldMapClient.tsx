@@ -1,8 +1,8 @@
 "use client";
 
-import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
-import CityPrayerPopup from "@/components/world-map/CityPrayerPopup";
-import { WorldMapGlobeRef } from "@/components/world-map/WorldMapGlobe";
+import FloatingSettingsButton from "@/src/presentation/components/ui/FloatingSettingsButton";
+import CityPrayerPopup from "@/src/presentation/components/world-map/CityPrayerPopup";
+import { WorldMapGlobeRef } from "@/src/presentation/components/world-map/WorldMapGlobe";
 import { City } from "@/src/domain/constants/cities";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
@@ -14,7 +14,7 @@ import { useCallback, useRef, useState } from "react";
 
 // Dynamic import to avoid SSR issues with D3
 const WorldMapGlobe = dynamic(
-  () => import("@/components/world-map/WorldMapGlobe"),
+  () => import("@/src/presentation/components/world-map/WorldMapGlobe"),
   {
     ssr: false,
     loading: () => (

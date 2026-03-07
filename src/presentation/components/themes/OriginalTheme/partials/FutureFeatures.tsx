@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { cn } from '@/utils/cn'
-import { ComingSoonCard } from '@/components/ui/ComingSoonCard'
+import { ComingSoonCard } from '@/src/presentation/components/ui/ComingSoonCard'
 import { useSettingsStore } from '@/src/presentation/stores/settingsStore'
 import { useTranslation } from '@/src/presentation/hooks/useTranslation'
 

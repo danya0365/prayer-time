@@ -1,6 +1,6 @@
 "use client";
 
-import LocationSelector from '@/components/shared/LocationSelector';
+import LocationSelector from '@/src/presentation/components/shared/LocationSelector';
 import { getCalculationMethodInfo } from '@/src/domain/constants/calculationMethods';
 import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { useLocationStore } from '@/src/presentation/stores/locationStore';

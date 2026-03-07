@@ -1,6 +1,6 @@
 "use client";
 
-import FloatingSettingsButton from '@/components/ui/FloatingSettingsButton';
+import FloatingSettingsButton from '@/src/presentation/components/ui/FloatingSettingsButton';
 import { usePrayerTimes } from '@/src/presentation/hooks/usePrayerTimes';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import ClassicTheme from './ClassicTheme/ClassicTheme';

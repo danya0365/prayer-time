@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useNotifications } from "../../src/presentation/hooks/useNotifications";
-import { useTranslation } from "../../src/presentation/hooks/useTranslation";
-import { useLocationStore } from "../../src/presentation/stores/locationStore";
-import { useSettingsStore } from "../../src/presentation/stores/settingsStore";
+import { useNotifications } from "@/src/presentation/hooks/useNotifications";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
+import { useLocationStore } from "@/src/presentation/stores/locationStore";
+import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import {
   getAllPrayerInfo,
   getCurrentAndNextPrayer,
   getPrayerTimes,
   PrayerInfo,
-} from "../../utils/prayer-utils";
+} from "@/utils/prayer-utils";
 import { MockupShowcase } from "../mockups/MockupShowcase";
 import LocationSelector from "../shared/LocationSelector";
 import SettingsPanel from "../shared/SettingsPanel";

@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { cn } from '../../utils/cn'
+import { cn } from '@/utils/cn'
 import { ComingSoonCard } from '../ui/ComingSoonCard'
-import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
-import { useTranslation } from '../../src/presentation/hooks/useTranslation'
+import { useSettingsStore } from '@/src/presentation/stores/settingsStore'
+import { useTranslation } from '@/src/presentation/hooks/useTranslation'
 
 interface FutureFeaturesProps {
   className?: string
