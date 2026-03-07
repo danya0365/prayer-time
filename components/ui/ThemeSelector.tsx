@@ -1,8 +1,8 @@
 "use client";
 
-import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
+import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import { useTranslation } from '../../hooks/useTranslation';
-import { useSettingsStore } from '../../stores/settingsStore';
+import { useSettingsStore } from '../../src/presentation/stores/settingsStore';
 import { ThemeType } from '../../types/theme';
 
 interface ThemeSelectorProps {

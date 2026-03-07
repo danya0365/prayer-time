@@ -1,5 +1,5 @@
 import { useTranslation } from "@/hooks/useTranslation";
-import { useLocationStore } from "@/stores/locationStore";
+import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { Language } from "@/types/translation";
 import { formatDisplayDate } from "@/utils/date-formatting";
 import { PrayerInfo } from "@/utils/prayer-utils";

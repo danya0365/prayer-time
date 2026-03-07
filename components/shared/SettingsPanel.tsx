@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useTranslation } from '../../hooks/useTranslation'
-import { useSettingsStore } from '../../stores/settingsStore'
+import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
 import { Language } from '../../types/translation'
 import { CalculationMethodType } from '../../utils/prayer-utils'
 import { CALCULATION_METHODS, getCalculationMethodInfo } from '../../constants/calculationMethods'

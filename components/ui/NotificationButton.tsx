@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { cn } from '../../utils/cn'
-import { useSettingsStore } from '../../stores/settingsStore'
+import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
 import { useTranslation } from '../../hooks/useTranslation'
 
 interface NotificationButtonProps {

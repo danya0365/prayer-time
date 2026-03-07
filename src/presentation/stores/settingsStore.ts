@@ -1,8 +1,8 @@
+import { DEFAULT_CALCULATION_METHOD } from '@/constants/calculationMethods';
+import { Language } from '@/types/translation';
+import { CalculationMethodType } from '@/utils/prayer-utils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Language } from '../types/translation';
-import { CalculationMethodType } from '../utils/prayer-utils';
-import { DEFAULT_CALCULATION_METHOD } from '../constants/calculationMethods';
 
 export interface PrayerSettings {
   calculationMethod: CalculationMethodType;

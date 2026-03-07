@@ -2,7 +2,7 @@
 
 import FloatingSettingsButton from '@/components/ui/FloatingSettingsButton';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
-import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
+import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
 import GreenTheme from './GreenTheme/GreenTheme';

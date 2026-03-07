@@ -7,8 +7,8 @@ import {
     startOfMonth,
 } from "date-fns";
 import { useMemo } from "react";
-import { useLocationStore } from "../stores/locationStore";
-import { useSettingsStore } from "../stores/settingsStore";
+import { useLocationStore } from "../src/presentation/stores/locationStore";
+import { useSettingsStore } from "../src/presentation/stores/settingsStore";
 import { Language } from "../types/translation";
 import { formatTimeWithLocale } from "../utils/date-formatting";
 import { getPrayerTimes } from "../utils/prayer-utils";

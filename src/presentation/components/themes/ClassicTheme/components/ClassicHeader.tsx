@@ -1,7 +1,7 @@
 import { useTranslation } from '@/hooks/useTranslation';
-import { useLocationStore } from '@/stores/locationStore';
-import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
-import { useSettingsStore } from '@/stores/settingsStore';
+import { useLocationStore } from '@/src/presentation/stores/locationStore';
+import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
+import { useSettingsStore } from '@/src/presentation/stores/settingsStore';
 import { formatDisplayDate } from '@/utils/date-formatting';
 
 interface ClassicHeaderProps {

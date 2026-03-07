@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
-import { useSettingsStore } from "../../stores/settingsStore";
+import { useSettingsStore } from "../../src/presentation/stores/settingsStore";
 import LocationSelector from "../shared/LocationSelector";
 import SettingsPanel from "../shared/SettingsPanel";
 

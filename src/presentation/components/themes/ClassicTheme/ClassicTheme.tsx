@@ -1,7 +1,7 @@
 "use client";
 
 import LocationSelector from '@/components/shared/LocationSelector';
-import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
+import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import { PrayerInfo } from '@/utils/prayer-utils';
 import { useState } from 'react';
 import { ClassicCurrentPrayer } from './components/ClassicCurrentPrayer';

@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin, Navigation, Settings } from 'lucide-react';
-import { useLocationStore } from '../../stores/locationStore';
-import { useSettingsStore } from '../../stores/settingsStore';
+import { useLocationStore } from '../../src/presentation/stores/locationStore';
+import { useSettingsStore } from '../../src/presentation/stores/settingsStore';
 import { useTranslation } from '../../hooks/useTranslation';
 
 interface LocationDisplayProps {

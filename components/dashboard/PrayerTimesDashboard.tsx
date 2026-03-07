@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useNotifications } from "../../hooks/useNotifications";
 import { useTranslation } from "../../hooks/useTranslation";
-import { useLocationStore } from "../../stores/locationStore";
-import { useSettingsStore } from "../../stores/settingsStore";
+import { useLocationStore } from "../../src/presentation/stores/locationStore";
+import { useSettingsStore } from "../../src/presentation/stores/settingsStore";
 import {
   getAllPrayerInfo,
   getCurrentAndNextPrayer,

@@ -1,7 +1,7 @@
 import { Coordinates } from "adhan";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useLocationStore } from "../stores/locationStore";
-import { useSettingsStore } from "../stores/settingsStore";
+import { useLocationStore } from "../src/presentation/stores/locationStore";
+import { useSettingsStore } from "../src/presentation/stores/settingsStore";
 import {
   getAllPrayerInfo,
   getCurrentAndNextPrayer,

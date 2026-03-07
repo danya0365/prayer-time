@@ -1,6 +1,6 @@
+import { AVAILABLE_THEMES, ThemeConfig, ThemeType } from '@/types/theme';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AVAILABLE_THEMES, ThemeConfig, ThemeType } from '../types/theme';
 
 interface ThemeState {
   currentTheme: ThemeType;

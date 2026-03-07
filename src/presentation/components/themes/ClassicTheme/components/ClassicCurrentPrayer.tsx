@@ -1,6 +1,6 @@
 import { useTranslation } from '@/hooks/useTranslation';
-import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
-import { useSettingsStore } from '@/stores/settingsStore';
+import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
+import { useSettingsStore } from '@/src/presentation/stores/settingsStore';
 import { formatPrayerTime, PrayerInfo } from '@/utils/prayer-utils';
 
 interface ClassicCurrentPrayerProps {

@@ -2,7 +2,7 @@
 
 import { City } from "@/constants/cities";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useSettingsStore } from "@/stores/settingsStore";
+import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { getPrayerTimes } from "@/utils/prayer-utils";
 import { Coordinates } from "adhan";
 import { Clock, CloudSun, MapPin, Moon, Sun, Sunrise, Sunset, X } from "lucide-react";
