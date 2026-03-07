@@ -1,7 +1,7 @@
 "use client";
 
 import LocationSelector from '@/components/shared/LocationSelector';
-import { useThemeStore } from '@/stores/themeStore';
+import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
 import { PrayerInfo } from '@/utils/prayer-utils';
 import { useState } from 'react';
 import { ClassicCurrentPrayer } from './components/ClassicCurrentPrayer';
@@ -25,7 +25,7 @@ export function ClassicTheme({
   loading,
   error
 }: ClassicThemeProps) {
-  const { themeConfig } = useThemeStore();
+  const { themeConfig } = usePrayerDashboardThemeStore();
   const [locationSelectorOpen, setLocationSelectorOpen] = useState(false);
 
   if (loading) {

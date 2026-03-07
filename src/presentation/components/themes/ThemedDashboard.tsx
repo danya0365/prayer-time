@@ -2,7 +2,7 @@
 
 import FloatingSettingsButton from '@/components/ui/FloatingSettingsButton';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
-import { useThemeStore } from '@/stores/themeStore';
+import { usePrayerDashboardThemeStore } from '@/stores/prayerDashboardThemeStore';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
 import GreenTheme from './GreenTheme/GreenTheme';
@@ -20,7 +20,7 @@ interface ThemedDashboardProps {
 }
 
 export function ThemedDashboard({ testMode = false, testTime = new Date() }: ThemedDashboardProps) {
-  const { currentTheme } = useThemeStore();
+  const { currentTheme } = usePrayerDashboardThemeStore();
   const { prayers, currentPrayer, nextPrayer, timeUntilNext, loading, error } = usePrayerTimes({
     testMode,
     testTime

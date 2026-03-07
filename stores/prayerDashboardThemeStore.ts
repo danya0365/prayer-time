@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ThemeType, ThemeConfig, AVAILABLE_THEMES } from '../types/theme';
+import { AVAILABLE_THEMES, ThemeConfig, ThemeType } from '../types/theme';
 
 interface ThemeState {
   currentTheme: ThemeType;
@@ -9,7 +9,7 @@ interface ThemeState {
   getAvailableThemes: () => Record<ThemeType, ThemeConfig>;
 }
 
-export const useThemeStore = create<ThemeState>()(
+export const usePrayerDashboardThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
       currentTheme: 'original',
