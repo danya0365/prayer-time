@@ -12,7 +12,6 @@ import { AdditionalFeatures } from "./partials/AdditionalFeatures";
 import { FutureFeatures } from "./partials/FutureFeatures";
 import HeroSection from "./partials/HeroSection";
 import { MockupShowcase } from "./partials/MockupShowcase";
-import PrayerTimesDisplay from "./partials/PrayerTimesDisplay";
 
 export default function OriginalTheme() {
   const [locationSelectorOpen, setLocationSelectorOpen] =
@@ -71,16 +70,11 @@ export default function OriginalTheme() {
 
       <div className="relative z-10 w-full flex flex-col items-center">
         <HeroSection
+          prayers={prayers}
           currentPrayer={currentPrayer}
           nextPrayer={nextPrayer}
           timeUntilNext={timeUntilNext}
           onLocationClick={() => setLocationSelectorOpen(true)}
-          language={settings.language}
-        />
-
-        <PrayerTimesDisplay
-          prayers={prayers}
-          currentPrayer={currentPrayer}
           language={settings.language}
         />
 
