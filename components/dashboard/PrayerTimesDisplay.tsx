@@ -1,6 +1,6 @@
 import { cn } from '../../utils/cn';
 import { PrayerInfo, formatPrayerTime } from '../../utils/prayer-utils';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../src/presentation/hooks/useTranslation';
 import { Language } from '../../types/translation';
 
 interface PrayerTimesDisplayProps {

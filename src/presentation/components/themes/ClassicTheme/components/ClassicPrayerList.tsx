@@ -1,4 +1,4 @@
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import { useSettingsStore } from '@/src/presentation/stores/settingsStore';
 import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';

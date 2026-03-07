@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { useMonthlyPrayerTimes } from "../../hooks/useMonthlyPrayerTimes";
-import { useTranslation } from "../../hooks/useTranslation";
+import { useMonthlyPrayerTimes } from "../../src/presentation/hooks/useMonthlyPrayerTimes";
+import { useTranslation } from "../../src/presentation/hooks/useTranslation";
 import { Language } from "../../types/translation";
 
 type DisplayMode = "grid" | "list";

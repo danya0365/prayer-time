@@ -1,6 +1,6 @@
+import { getTranslation } from '@/locales';
+import { Language } from '@/types/translation';
 import { useMemo } from 'react';
-import { Language } from '../types/translation';
-import { getTranslation } from '../locales';
 
 interface UseTranslationProps {
   language: Language;

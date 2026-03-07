@@ -1,4 +1,4 @@
-import { useTranslation } from "@/hooks/useTranslation";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { Language } from "@/types/translation";
 import { cn } from "@/utils/cn";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";

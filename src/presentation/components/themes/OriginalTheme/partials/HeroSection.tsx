@@ -1,4 +1,4 @@
-import { useTranslation } from "@/hooks/useTranslation";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { Language } from "@/types/translation";
 import { formatDisplayDate } from "@/utils/date-formatting";

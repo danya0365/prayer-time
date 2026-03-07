@@ -2,9 +2,9 @@
 
 import LocationSelector from "@/components/shared/LocationSelector";
 import { useState } from "react";
-import { useNotifications } from "@/hooks/useNotifications";
-import { usePrayerTimes } from "@/hooks/usePrayerTimes";
-import { useTranslation } from "@/hooks/useTranslation";
+import { useNotifications } from "@/src/presentation/hooks/useNotifications";
+import { usePrayerTimes } from "@/src/presentation/hooks/usePrayerTimes";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import MonthlyCalendar from "@/components/shared/MonthlyCalendar";

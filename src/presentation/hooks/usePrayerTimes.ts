@@ -1,13 +1,13 @@
-import { Coordinates } from "adhan";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useLocationStore } from "../src/presentation/stores/locationStore";
-import { useSettingsStore } from "../src/presentation/stores/settingsStore";
+import { useLocationStore } from '@/src/presentation/stores/locationStore';
+import { useSettingsStore } from '@/src/presentation/stores/settingsStore';
 import {
   getAllPrayerInfo,
   getCurrentAndNextPrayer,
   getPrayerTimes,
   PrayerInfo,
-} from "../utils/prayer-utils";
+} from "@/utils/prayer-utils";
+import { Coordinates } from "adhan";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UsePrayerTimesOptions {
   testMode?: boolean;

@@ -2,7 +2,7 @@
 
 import { MapPin, Navigation, Search, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "../../hooks/useTranslation";
+import { useTranslation } from "../../src/presentation/hooks/useTranslation";
 import { LocationData, useLocationStore } from "../../src/presentation/stores/locationStore";
 import { useSettingsStore } from "../../src/presentation/stores/settingsStore";
 

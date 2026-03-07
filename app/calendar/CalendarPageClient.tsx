@@ -3,7 +3,7 @@
 import LocationSelector from "@/components/shared/LocationSelector";
 import MonthlyCalendar from "@/components/shared/MonthlyCalendar";
 import FloatingSettingsButton from "@/components/ui/FloatingSettingsButton";
-import { useTranslation } from "@/hooks/useTranslation";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { ArrowLeft, MapPin } from "lucide-react";

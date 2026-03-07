@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useTranslation } from '../../hooks/useTranslation'
+import { useTranslation } from '../../src/presentation/hooks/useTranslation'
 import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
 import { Language } from '../../types/translation'
 import { CalculationMethodType } from '../../utils/prayer-utils'

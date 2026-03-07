@@ -1,17 +1,17 @@
 "use client";
 
+import { useLocationStore } from "@/src/presentation/stores/locationStore";
+import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
+import { Language } from "@/types/translation";
+import { formatTimeWithLocale } from "@/utils/date-formatting";
+import { getPrayerTimes } from "@/utils/prayer-utils";
 import { Coordinates } from "adhan";
 import {
-    eachDayOfInterval,
-    endOfMonth,
-    startOfMonth,
+  eachDayOfInterval,
+  endOfMonth,
+  startOfMonth,
 } from "date-fns";
 import { useMemo } from "react";
-import { useLocationStore } from "../src/presentation/stores/locationStore";
-import { useSettingsStore } from "../src/presentation/stores/settingsStore";
-import { Language } from "../types/translation";
-import { formatTimeWithLocale } from "../utils/date-formatting";
-import { getPrayerTimes } from "../utils/prayer-utils";
 
 export interface DayPrayerTimes {
   date: Date;

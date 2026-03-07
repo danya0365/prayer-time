@@ -1,7 +1,7 @@
 "use client";
 
 import { City } from "@/constants/cities";
-import { useTranslation } from "@/hooks/useTranslation";
+import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { getPrayerTimes } from "@/utils/prayer-utils";
 import { Coordinates } from "adhan";

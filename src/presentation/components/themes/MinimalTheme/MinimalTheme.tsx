@@ -2,7 +2,7 @@
 
 import LocationSelector from '@/components/shared/LocationSelector';
 import { getCalculationMethodInfo } from '@/constants/calculationMethods';
-import { useTranslation } from '@/hooks/useTranslation';
+import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { useLocationStore } from '@/src/presentation/stores/locationStore';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import { useSettingsStore } from '@/src/presentation/stores/settingsStore';

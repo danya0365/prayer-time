@@ -1,7 +1,7 @@
 "use client";
 
 import FloatingSettingsButton from '@/components/ui/FloatingSettingsButton';
-import { usePrayerTimes } from '@/hooks/usePrayerTimes';
+import { usePrayerTimes } from '@/src/presentation/hooks/usePrayerTimes';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';

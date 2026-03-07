@@ -1,7 +1,7 @@
 'use client'
 
+import { PrayerInfo } from '@/utils/prayer-utils'
 import { useEffect, useRef } from 'react'
-import { PrayerInfo } from '../utils/prayer-utils'
 
 interface UseNotificationsProps {
   enabled: boolean

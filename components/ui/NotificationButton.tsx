@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { cn } from '../../utils/cn'
 import { useSettingsStore } from '../../src/presentation/stores/settingsStore'
-import { useTranslation } from '../../hooks/useTranslation'
+import { useTranslation } from '../../src/presentation/hooks/useTranslation'
 
 interface NotificationButtonProps {
   onPermissionChange?: (granted: boolean) => void
