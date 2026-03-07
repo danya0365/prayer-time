@@ -1,4 +1,4 @@
-import { getTranslation } from '@/locales';
+import { getTranslation } from '@/src/presentation/locales';
 import { Language } from '@/src/domain/types/translation';
 import { useMemo } from 'react';
 
