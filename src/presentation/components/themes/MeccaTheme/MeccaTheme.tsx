@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { useTheme } from "@/contexts/ThemeContext";
+import LocationSelector from "@/components/shared/LocationSelector";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePrayerDashboardTheme } from "@/src/presentation/contexts/PrayerDashboardThemeContext";
 import { useLocationStore } from "@/stores/locationStore";
 import { useSettingsStore } from "@/stores/settingsStore";
 import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
-import LocationSelector from "@/components/shared/LocationSelector";
+import { useState } from "react";
 
 interface MeccaThemeProps {
   prayers: PrayerInfo[];
@@ -27,7 +27,7 @@ export function MeccaTheme({
   loading,
   error,
 }: MeccaThemeProps) {
-  const {} = useTheme();
+  const {} = usePrayerDashboardTheme();
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });

@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { PrayerDashboardThemeProvider } from "@/src/presentation/contexts/PrayerDashboardThemeContext";
 import type { Metadata } from "next";
 import CalendarPageClient from "./CalendarPageClient";
 
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 
 export default function CalendarPage() {
   return (
-    <ThemeProvider>
+    <PrayerDashboardThemeProvider>
       <CalendarPageClient />
-    </ThemeProvider>
+    </PrayerDashboardThemeProvider>
   );
 }

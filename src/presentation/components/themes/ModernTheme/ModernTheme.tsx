@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState } from 'react';
-import { PrayerInfo } from '@/utils/prayer-utils';
-import { useTheme } from '@/contexts/ThemeContext';
-import { useTranslation } from '@/hooks/useTranslation';
-import { useSettingsStore } from '@/stores/settingsStore';
-import { useLocationStore } from '@/stores/locationStore';
-import { formatDisplayDate } from '@/utils/date-formatting';
-import { formatPrayerTime } from '@/utils/prayer-utils';
-import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';
 import LocationSelector from '@/components/shared/LocationSelector';
+import { useTranslation } from '@/hooks/useTranslation';
+import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
+import { useLocationStore } from '@/stores/locationStore';
+import { useSettingsStore } from '@/stores/settingsStore';
+import { formatDisplayDate } from '@/utils/date-formatting';
+import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';
+import { formatPrayerTime, PrayerInfo } from '@/utils/prayer-utils';
+import { useState } from 'react';
 
 interface ModernThemeProps {
   prayers: PrayerInfo[];
@@ -28,7 +27,7 @@ export function ModernTheme({
   loading,
   error
 }: ModernThemeProps) {
-  const { themeConfig } = useTheme();
+  const { themeConfig } = usePrayerDashboardTheme();
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });

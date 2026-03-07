@@ -1,8 +1,8 @@
 "use client";
 
 import FloatingSettingsButton from '@/components/ui/FloatingSettingsButton';
-import { useTheme } from '@/contexts/ThemeContext';
 import { usePrayerTimes } from '@/hooks/usePrayerTimes';
+import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
 import ClassicTheme from './ClassicTheme/ClassicTheme';
 import GradientTheme from './GradientTheme/GradientTheme';
 import GreenTheme from './GreenTheme/GreenTheme';
@@ -20,7 +20,7 @@ interface ThemedDashboardProps {
 }
 
 export function ThemedDashboard({ testMode = false, testTime = new Date() }: ThemedDashboardProps) {
-  const { currentTheme } = useTheme();
+  const { currentTheme } = usePrayerDashboardTheme();
   const { prayers, currentPrayer, nextPrayer, timeUntilNext, loading, error } = usePrayerTimes({
     testMode,
     testTime

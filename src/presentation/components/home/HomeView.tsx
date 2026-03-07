@@ -1,7 +1,7 @@
 "use client";
 
-import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ThemedDashboard } from "@/src/presentation/components/themes/ThemedDashboard";
+import { PrayerDashboardThemeProvider } from "@/src/presentation/contexts/PrayerDashboardThemeContext";
 import { HomeViewModel } from "@/src/presentation/presenters/home/HomePresenter";
 import { useHomePresenter } from "@/src/presentation/presenters/home/useHomePresenter";
 import { useState } from "react";
@@ -49,9 +49,9 @@ export function HomeView({ initialViewModel }: HomeViewProps) {
 
   // The existing application view
   const dashboardView = (
-    <ThemeProvider>
+    <PrayerDashboardThemeProvider>
       <ThemedDashboard />
-    </ThemeProvider>
+    </PrayerDashboardThemeProvider>
   );
 
   if (state.loading && !viewModel) {

@@ -1,5 +1,5 @@
-import { useTheme } from '@/contexts/ThemeContext';
 import { useTranslation } from '@/hooks/useTranslation';
+import { usePrayerDashboardTheme } from '@/src/presentation/contexts/PrayerDashboardThemeContext';
 import { useLocationStore } from '@/stores/locationStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { formatDisplayDate } from '@/utils/date-formatting';
@@ -9,7 +9,7 @@ interface ClassicHeaderProps {
 }
 
 export function ClassicHeader({ onLocationClick }: ClassicHeaderProps) {
-  const { themeConfig } = useTheme();
+  const { themeConfig } = usePrayerDashboardTheme();
   const { settings } = useSettingsStore();
   const { currentLocation } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });
