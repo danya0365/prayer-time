@@ -1,4 +1,4 @@
-import { Translations } from "../types/translation";
+import { Translations } from "@/src/domain/types/translation";
 
 export const th: Translations = {
   prayers: {

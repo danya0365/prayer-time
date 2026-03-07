@@ -1,4 +1,4 @@
-import { AVAILABLE_THEMES, ThemeConfig, ThemeType } from '@/types/theme';
+import { AVAILABLE_THEMES, ThemeConfig, ThemeType } from '@/src/presentation/types/theme';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

@@ -1,5 +1,5 @@
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
-import { Language } from "@/types/translation";
+import { Language } from "@/src/domain/types/translation";
 import { cn } from "@/utils/cn";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { PrayerInfo, formatPrayerTime } from "@/utils/prayer-utils";

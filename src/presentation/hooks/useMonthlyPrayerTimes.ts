@@ -2,7 +2,7 @@
 
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
-import { Language } from "@/types/translation";
+import { Language } from "@/src/domain/types/translation";
 import { formatTimeWithLocale } from "@/utils/date-formatting";
 import { getPrayerTimes } from "@/utils/prayer-utils";
 import { Coordinates } from "adhan";

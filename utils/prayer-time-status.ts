@@ -1,5 +1,5 @@
 import { PrayerInfo } from './prayer-utils';
-import { Language } from '../types/translation';
+import { Language } from '@/src/domain/types/translation';
 
 /**
  * Prayer time status types

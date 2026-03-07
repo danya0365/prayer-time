@@ -1,6 +1,6 @@
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
-import { Language } from "@/types/translation";
+import { Language } from "@/src/domain/types/translation";
 import { formatDisplayDate } from "@/utils/date-formatting";
 import { PrayerInfo } from "@/utils/prayer-utils";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";

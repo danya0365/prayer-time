@@ -1,4 +1,4 @@
-import { Language, Translations } from '../types/translation';
+import { Language, Translations } from '@/src/domain/types/translation';
 import { en } from './en';
 import { th } from './th';
 import { ar } from './ar';

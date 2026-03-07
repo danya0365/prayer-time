@@ -1,5 +1,5 @@
 import { DEFAULT_CALCULATION_METHOD } from '@/constants/calculationMethods';
-import { Language } from '@/types/translation';
+import { Language } from '@/src/domain/types/translation';
 import { CalculationMethodType } from '@/utils/prayer-utils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
