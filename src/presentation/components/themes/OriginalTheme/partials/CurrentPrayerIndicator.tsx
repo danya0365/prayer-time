@@ -2,7 +2,7 @@
 
 import { Language } from '@/src/domain/types/translation';
 import { useTranslation } from '@/src/presentation/hooks/useTranslation';
-import { PrayerInfo } from '@/utils/prayer-utils';
+import { PrayerInfo, formatPrayerTime } from '@/utils/prayer-utils';
 import { useEffect, useState } from 'react';
 
 interface CurrentPrayerIndicatorProps {
@@ -94,8 +94,11 @@ export default function CurrentPrayerIndicator({
           </div>
           
           <div className="min-w-0">
-            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1 flex items-baseline gap-3">
               {t.prayers[(currentPrayer || nextPrayer).name as keyof typeof t.prayers]}
+              <span className="text-xs sm:text-sm font-medium text-white/40 tabular-nums">
+                ({formatPrayerTime((currentPrayer || nextPrayer)!.time, language)})
+              </span>
             </h3>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-[#D4AF37]" />
@@ -114,11 +117,16 @@ export default function CurrentPrayerIndicator({
           <p className="text-3xl sm:text-4xl font-mono font-black text-white drop-shadow-lg tabular-nums">
             {formatTimeUntil(timeUntilNext)}
           </p>
-          <p className="text-white/50 text-[10px] sm:text-xs mt-1 italic font-medium">
-             {currentPrayer 
-               ? replaceTemplate(t.time.untilPrayer, { prayerName: t.prayers[nextPrayer.name as keyof typeof t.prayers] })
-               : t.time.timeRemaining}
-          </p>
+          <div className="flex flex-col items-center sm:items-end mt-1">
+            <p className="text-white/50 text-[10px] sm:text-xs italic font-medium">
+               {currentPrayer 
+                 ? replaceTemplate(t.time.untilPrayer, { prayerName: t.prayers[nextPrayer.name as keyof typeof t.prayers] })
+                 : t.time.timeRemaining}
+            </p>
+            <p className="text-[#D4AF37]/60 text-[10px] sm:text-xs font-bold tabular-nums">
+              Starts @ {formatPrayerTime(nextPrayer.time, language)}
+            </p>
+          </div>
         </div>
       </div>
     </div>
