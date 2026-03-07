@@ -6,6 +6,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { PrayerInfo, formatPrayerTime } from "@/utils/prayer-utils";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
+import PrayerCarousel from "./PrayerCarousel";
 
 interface HeroSectionProps {
   prayers: PrayerInfo[];
@@ -37,7 +38,7 @@ export default function HeroSection({
   };
 
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+    <section className="w-full max-w-6xl mx-auto px-0 sm:px-6">
       <div className="relative group perspective-1000">
         <div className="relative bg-[#064e3b] rounded-[3rem] p-1 shadow-2xl overflow-hidden transition-all duration-700 hover:shadow-[0_0_60px_rgba(212,175,55,0.15)] border border-[#D4AF37]/20">
           
@@ -101,66 +102,78 @@ export default function HeroSection({
               />
             </div>
 
-            {/* 3. BOTTOM: Integrated Prayer Times Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 sm:gap-6 animate-fade-in-up">
-              {prayers.map((prayer) => {
-                const isCurrent = currentPrayer?.name === prayer.name;
+            {/* 3. BOTTOM: Integrated Prayer Times */}
+            <div className="w-full animate-fade-in-up">
+              {/* Desktop Grid: Show all times at once */}
+              <div className="hidden md:grid grid-cols-5 gap-6">
+                {prayers.map((prayer) => {
+                  const isCurrent = currentPrayer?.name === prayer.name;
 
-                return (
-                  <div
-                    key={prayer.name}
-                    className={cn(
-                      "relative group/card rounded-3xl p-5 transition-all duration-500 overflow-hidden",
-                      isCurrent
-                        ? "bg-[#022c22] border-[1px] border-[#D4AF37]/60 shadow-[0_0_20px_rgba(212,175,55,0.1)]"
-                        : "bg-[#022c22]/30 border border-[#D4AF37]/5 hover:border-[#D4AF37]/20 hover:bg-[#022c22]/50"
-                    )}
-                  >
-                    <div className="absolute inset-0 opacity-[0.02] pointer-events-none group-hover/card:opacity-[0.04]">
-                        <div 
-                         className="absolute inset-0"
-                         style={{
-                           backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23D4AF37'/%3E%3C/svg%3E")`,
-                         }}
-                       />
-                    </div>
-
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className={cn(
-                        "w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-all duration-500",
-                        isCurrent 
-                          ? "bg-[#D4AF37]/10 border border-[#D4AF37]/30" 
-                          : "bg-[#022c22] border border-white/5"
-                      )}>
-                        <span className="text-2xl drop-shadow-sm">{prayer.emoji}</span>
+                  return (
+                    <div
+                      key={prayer.name}
+                      className={cn(
+                        "relative group/card rounded-3xl p-5 transition-all duration-500 overflow-hidden",
+                        isCurrent
+                          ? "bg-[#022c22] border-[1px] border-[#D4AF37]/60 shadow-[0_0_20px_rgba(212,175,55,0.1)]"
+                          : "bg-[#022c22]/30 border border-[#D4AF37]/5 hover:border-[#D4AF37]/20 hover:bg-[#022c22]/50"
+                      )}
+                    >
+                      <div className="absolute inset-0 opacity-[0.02] pointer-events-none group-hover/card:opacity-[0.04]">
+                          <div 
+                           className="absolute inset-0"
+                           style={{
+                             backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8 Z' fill='%23D4AF37'/%3E%3C/svg%3E")`,
+                           }}
+                         />
                       </div>
 
-                      <h3 className={cn(
-                        "font-bold text-[10px] tracking-widest uppercase mb-1",
-                        isCurrent ? "text-[#D4AF37]" : "text-white/40"
-                      )}>
-                        {t.prayers[prayer.name as keyof typeof t.prayers]}
-                      </h3>
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div className={cn(
+                          "w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-all duration-500",
+                          isCurrent 
+                            ? "bg-[#D4AF37]/10 border border-[#D4AF37]/30" 
+                            : "bg-[#022c22] border border-white/5"
+                        )}>
+                          <span className="text-2xl drop-shadow-sm">{prayer.emoji}</span>
+                        </div>
 
-                      <p className={cn(
-                        "text-xl font-mono font-black",
-                        isCurrent ? "text-white" : "text-[#D4AF37]/80"
-                      )}>
-                        {formatPrayerTime(prayer.time, language)}
-                      </p>
+                        <h3 className={cn(
+                          "font-bold text-[10px] tracking-widest uppercase mb-1",
+                          isCurrent ? "text-[#D4AF37]" : "text-white/40"
+                        )}>
+                          {t.prayers[prayer.name as keyof typeof t.prayers]}
+                        </h3>
 
-                      <div className={cn(
-                        "mt-2 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest",
-                        isCurrent 
-                          ? "bg-[#D4AF37] text-[#022c22]" 
-                          : "bg-[#022c22]/60 text-white/30"
-                      )}>
-                        {calculatePrayerTimeStatus(prayer, currentPrayer, language).displayText}
+                        <p className={cn(
+                          "text-xl font-mono font-black",
+                          isCurrent ? "text-white" : "text-[#D4AF37]/80"
+                        )}>
+                          {formatPrayerTime(prayer.time, language)}
+                        </p>
+
+                        <div className={cn(
+                          "mt-2 px-2 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-widest",
+                          isCurrent 
+                            ? "bg-[#D4AF37] text-[#022c22]" 
+                            : "bg-[#022c22]/60 text-white/30"
+                        )}>
+                          {calculatePrayerTimeStatus(prayer, currentPrayer, language).displayText}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+
+              {/* Mobile Carousel: Interactive and compact */}
+              <div className="md:hidden">
+                <PrayerCarousel
+                  prayers={prayers}
+                  currentPrayer={currentPrayer}
+                  language={language}
+                />
+              </div>
             </div>
           </div>
         </div>
