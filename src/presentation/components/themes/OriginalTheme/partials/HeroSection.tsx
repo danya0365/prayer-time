@@ -1,6 +1,6 @@
+import { Language } from "@/src/domain/types/translation";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
-import { Language } from "@/src/domain/types/translation";
 import { formatDisplayDate } from "@/utils/date-formatting";
 import { PrayerInfo } from "@/utils/prayer-utils";
 import CurrentPrayerIndicator from "./CurrentPrayerIndicator";
@@ -33,218 +33,93 @@ export default function HeroSection({
   };
 
   return (
-    <section className="w-full max-w-4xl mx-auto">
-      {/* Main Hero Container */}
-      <div className="relative min-h-[500px] sm:min-h-[600px] overflow-hidden">
-        {/* Background with Islamic Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 rounded-3xl">
-          {/* Islamic Geometric Pattern Overlay */}
-          <div className="absolute inset-0 opacity-10">
-            <div
+    <section className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="relative group perspective-1000">
+        {/* Main Card with Gold Border */}
+        <div className="relative bg-[#064e3b] rounded-[2.5rem] p-1 shadow-2xl overflow-hidden transition-all duration-700 hover:shadow-[0_0_50px_rgba(212,175,55,0.2)] border border-[#D4AF37]/30">
+          
+          {/* Subtle Geometric Background Overlay */}
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
+            <div 
               className="absolute inset-0"
               style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm-20-18c9.941 0 18 8.059 18 18s-8.059 18-18 18S-8 39.941-8 30s8.059-18 18-18zm20 18c0-11.046 8.954-20 20-20s20 8.954 20 20-8.954 20-20 20-20-8.954-20-20zm20-18c9.941 0 18 8.059 18 18s-8.059 18-18 18-18-8.059-18-18 8.059-18 18-18z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                backgroundSize: "60px 60px",
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0 L25 15 L40 20 L25 25 L20 40 L15 25 L0 20 L15 15 Z' fill='%23D4AF37'/%3E%3C/svg%3E")`,
+                backgroundSize: '40px 40px'
               }}
-            ></div>
+            />
           </div>
 
-          {/* Mosque Silhouette */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md opacity-20">
-            <svg viewBox="0 0 400 200" className="w-full h-auto">
-              {/* Main Dome */}
-              <ellipse
-                cx="200"
-                cy="120"
-                rx="60"
-                ry="40"
-                fill="currentColor"
-                className="text-white"
-              />
-              {/* Side Domes */}
-              <ellipse
-                cx="120"
-                cy="130"
-                rx="35"
-                ry="25"
-                fill="currentColor"
-                className="text-white"
-              />
-              <ellipse
-                cx="280"
-                cy="130"
-                rx="35"
-                ry="25"
-                fill="currentColor"
-                className="text-white"
-              />
-              {/* Minarets */}
-              <rect
-                x="80"
-                y="60"
-                width="12"
-                height="100"
-                fill="currentColor"
-                className="text-white"
-              />
-              <rect
-                x="308"
-                y="60"
-                width="12"
-                height="100"
-                fill="currentColor"
-                className="text-white"
-              />
-              {/* Minaret Tops */}
-              <ellipse
-                cx="86"
-                cy="65"
-                rx="8"
-                ry="15"
-                fill="currentColor"
-                className="text-white"
-              />
-              <ellipse
-                cx="314"
-                cy="65"
-                rx="8"
-                ry="15"
-                fill="currentColor"
-                className="text-white"
-              />
-              {/* Main Building */}
-              <rect
-                x="140"
-                y="140"
-                width="120"
-                height="60"
-                fill="currentColor"
-                className="text-white"
-              />
-              {/* Entrance Arch */}
-              <path
-                d="M 180 200 Q 180 170 200 170 Q 220 170 220 200 Z"
-                fill="currentColor"
-                className="text-emerald-600"
-              />
-            </svg>
-          </div>
+          {/* Golden Corner Ornaments */}
+          <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-[#D4AF37]/60 rounded-tl-xl pointer-events-none" />
+          <div className="absolute top-6 right-6 w-12 h-12 border-t-2 border-r-2 border-[#D4AF37]/60 rounded-tr-xl pointer-events-none" />
+          <div className="absolute bottom-6 left-6 w-12 h-12 border-b-2 border-l-2 border-[#D4AF37]/60 rounded-bl-xl pointer-events-none" />
+          <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-[#D4AF37]/60 rounded-br-xl pointer-events-none" />
 
-          {/* Floating Stars */}
-          <div className="absolute top-8 left-8 w-2 h-2 bg-white rounded-full opacity-60 animate-pulse"></div>
-          <div
-            className="absolute top-16 right-12 w-1 h-1 bg-white rounded-full opacity-80 animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
-          <div
-            className="absolute top-24 left-1/4 w-1.5 h-1.5 bg-white rounded-full opacity-70 animate-pulse"
-            style={{ animationDelay: "2s" }}
-          ></div>
-          <div
-            className="absolute top-12 right-1/3 w-1 h-1 bg-white rounded-full opacity-90 animate-pulse"
-            style={{ animationDelay: "0.5s" }}
-          ></div>
-        </div>
+          {/* Top Lighting Gradient */}
+          <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-[#D4AF37]/10 to-transparent pointer-events-none" />
 
-        {/* Content Container */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-6 sm:p-8 md:p-12">
-          {/* Top Section - Title & Date */}
-          <div className="text-center text-white">
-            {/* Islamic Greeting */}
-            <div className="mb-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-sm rounded-full mb-4 border border-white/30">
-                <span className="text-2xl sm:text-3xl">🕌</span>
+          <div className="relative z-10 flex flex-col items-center p-8 sm:p-12 text-center">
+            {/* Mosque Icon with Hover Glow */}
+            <div className="mb-8 relative scale-in">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-[#064e3b] to-[#022c22] rounded-full flex items-center justify-center border-2 border-[#D4AF37]/40 shadow-[0_0_30px_rgba(212,175,55,0.2)] group-hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] transition-all duration-500">
+                <span className="text-4xl sm:text-5xl drop-shadow-lg">🕌</span>
               </div>
+              <div className="absolute -inset-1 bg-[#D4AF37]/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>
 
-            {/* Main Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 bg-gradient-to-r from-white via-emerald-100 to-white bg-clip-text text-transparent drop-shadow-lg">
-              {t.dashboard.title}
-            </h1>
-
-            {/* Date with Islamic Calendar Style */}
-            <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-6 py-3 inline-block border border-white/20">
-              <p className="text-white/90 text-base sm:text-lg font-medium">
-                {formattedDate}
+            {/* Title with Arabic-inspired Style */}
+            <div className="space-y-2 mb-8 animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight drop-shadow-md">
+                {t.dashboard.title}
+              </h1>
+              <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent mx-auto rounded-full" />
+              <p className="text-[#D4AF37]/80 font-medium tracking-widest text-sm sm:text-base uppercase pt-2">
+                بسم الله الرحمن الرحيم
               </p>
             </div>
-          </div>
 
-          {/* Middle Section - Current Prayer Status */}
-          <div className="flex-1 flex items-center justify-center my-8">
-            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl max-w-md w-full">
-              <CurrentPrayerIndicator
-                currentPrayer={currentPrayer}
-                nextPrayer={nextPrayer}
-                timeUntilNext={timeUntilNext}
-                language={language}
-              />
-            </div>
-          </div>
-
-          {/* Bottom Section - Location */}
-          <div className="text-center">
-            <button
-              onClick={onLocationClick}
-              className="group inline-flex items-center space-x-3 bg-white/15 hover:bg-white/25 backdrop-blur-sm px-6 py-4 rounded-2xl border border-white/30 hover:border-white/50 transition-all duration-300 shadow-lg hover:shadow-xl"
-            >
-              {/* Location Icon with Animation */}
-              <div className="relative">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <svg
-                    className="w-4 h-4 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                      clipRule="evenodd"
-                    />
+            {/* Time and Date Display */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
+              <div className="bg-[#022c22]/60 backdrop-blur-md px-8 py-4 rounded-2xl border border-[#D4AF37]/20 shadow-xl">
+                 <p className="text-white text-lg sm:text-xl font-semibold">
+                  {formattedDate}
+                </p>
+              </div>
+              
+              <button
+                onClick={onLocationClick}
+                className="flex items-center gap-3 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 backdrop-blur-sm px-6 py-4 rounded-2xl border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 transition-all duration-300 shadow-lg"
+              >
+                <div className="w-10 h-10 bg-[#D4AF37]/20 rounded-full flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                   </svg>
                 </div>
-                {/* Pulse Animation */}
-                <div className="absolute inset-0 w-8 h-8 bg-white/10 rounded-full animate-ping"></div>
-              </div>
+                <div className="text-left">
+                  <p className="text-[#D4AF37]/70 text-[10px] uppercase font-bold tracking-tighter">Your Location</p>
+                  <p className="text-white text-sm sm:text-base font-bold truncate max-w-[150px] sm:max-w-none">
+                    {getLocationDisplayText()}
+                  </p>
+                </div>
+              </button>
+            </div>
 
-              {/* Location Text */}
-              <div className="text-left">
-                <p className="text-white/70 text-xs font-medium">
-                  موقعك الحالي
-                </p>
-                <p className="text-white text-sm sm:text-base font-semibold truncate max-w-[200px] sm:max-w-[300px]">
-                  {getLocationDisplayText()}
-                </p>
+            {/* Current Prayer Indicator Panel */}
+            <div className="w-full max-w-2xl animate-slide-up">
+              <div className="relative group/panel">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#D4AF37]/30 to-[#B8962E]/30 rounded-[2rem] blur opacity-20 group-hover/panel:opacity-40 transition duration-1000" />
+                <div className="relative bg-[#022c22]/40 backdrop-blur-xl rounded-[2rem] border border-[#D4AF37]/20 overflow-hidden shadow-inner">
+                  <CurrentPrayerIndicator
+                    currentPrayer={currentPrayer}
+                    nextPrayer={nextPrayer}
+                    timeUntilNext={timeUntilNext}
+                    language={language}
+                  />
+                </div>
               </div>
-
-              {/* Arrow Icon */}
-              <svg
-                className="w-4 h-4 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
+            </div>
           </div>
         </div>
-
-        {/* Floating Decorative Elements */}
-        <div
-          className="absolute top-1/4 left-4 w-16 h-16 border-2 border-white/20 rounded-full animate-spin"
-          style={{ animationDuration: "20s" }}
-        ></div>
-        <div className="absolute bottom-1/4 right-4 w-12 h-12 border border-white/30 rounded-lg rotate-45 animate-pulse"></div>
-        <div
-          className="absolute top-1/3 right-8 w-8 h-8 border border-white/25 rounded-full animate-bounce"
-          style={{ animationDelay: "1s" }}
-        ></div>
       </div>
     </section>
   );

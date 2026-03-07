@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { PrayerInfo, formatTimeUntilNextPrayer } from '@/utils/prayer-utils';
-import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { Language } from '@/src/domain/types/translation';
+import { useTranslation } from '@/src/presentation/hooks/useTranslation';
+import { PrayerInfo } from '@/utils/prayer-utils';
+import { useEffect, useState } from 'react';
 
 interface CurrentPrayerIndicatorProps {
   currentPrayer: PrayerInfo | null;
@@ -29,7 +29,20 @@ export default function CurrentPrayerIndicator({
     return template.replace(/{(\w+)}/g, (match, key) => variables[key] || match);
   };
   
-  // Update countdown every minute (only in normal mode)
+  // Format time until: HH:MM:SS or MM:SS
+  const formatTimeUntil = (milliseconds: number): string => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+  
+  // Update countdown every second (only in normal mode)
   useEffect(() => {
     if (testMode) {
       // In test mode, use the provided timeUntilNext directly
@@ -38,8 +51,8 @@ export default function CurrentPrayerIndicator({
     }
     
     const timer = setInterval(() => {
-      setTimeUntilNext(prev => Math.max(0, prev - 60000)); // Subtract one minute (60000ms)
-    }, 60000);
+      setTimeUntilNext(prev => Math.max(0, prev - 1000)); // Subtract one second (1000ms)
+    }, 1000);
     
     return () => clearInterval(timer);
   }, [testMode, initialTimeUntilNext]);
@@ -62,53 +75,50 @@ export default function CurrentPrayerIndicator({
     return colorMap[prayer.name as keyof typeof colorMap] || 'bg-gradient-to-r from-blue-500 to-purple-600';
   };
 
-  if (currentPrayer) {
-    return (
-      <div className={`${getPrayerColors()} rounded-2xl p-4 sm:p-6 text-white`}>
-        {/* Mobile: Stack vertically, Desktop: Side by side */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            <div className="text-3xl sm:text-4xl flex-shrink-0">{currentPrayer.emoji}</div>
-            <div className="min-w-0">
-              <h3 className="text-lg sm:text-xl font-semibold truncate">{t.prayers[currentPrayer.name as keyof typeof t.prayers]}</h3>
-              <p className="text-white/80 text-sm">{t.dashboard.currentPrayer}</p>
+  return (
+    <div className="relative bg-[#064e3b]/40 backdrop-blur-xl rounded-[2rem] p-6 sm:p-8 text-white overflow-hidden group/indicator">
+      {/* Internal Glow Effect */}
+      <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#D4AF37]/10 blur-[80px] rounded-full pointer-events-none group-hover/indicator:bg-[#D4AF37]/20 transition-all duration-1000" />
+      
+      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        {/* Left Side: Prayer Name and Emoji */}
+        <div className="flex items-center gap-5">
+          <div className="relative">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-[#064e3b] to-[#022c22] rounded-2xl flex items-center justify-center border border-[#D4AF37]/30 shadow-xl group-hover/indicator:border-[#D4AF37]/60 transition-colors duration-500">
+              <span className="text-4xl sm:text-5xl drop-shadow-md">{(currentPrayer || nextPrayer).emoji}</span>
+            </div>
+            {/* Animated Pulse for Current Prayer */}
+            {currentPrayer && (
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#D4AF37] rounded-full animate-pulse border-2 border-[#022c22]" />
+            )}
+          </div>
+          
+          <div className="min-w-0">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+              {t.prayers[(currentPrayer || nextPrayer).name as keyof typeof t.prayers]}
+            </h3>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#D4AF37]" />
+              <p className="text-[#D4AF37] text-sm font-bold uppercase tracking-widest">
+                {currentPrayer ? t.dashboard.currentPrayer : t.dashboard.nextPrayer}
+              </p>
             </div>
           </div>
-          <div className="text-center sm:text-right">
-            <p className="text-xl sm:text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
-              hour: t.ui.hour,
-              hours: t.ui.hours,
-              minute: t.ui.minute,
-              minutes: t.ui.minutes,
-              and: t.ui.and
-            })}</p>
-            <p className="text-white/80 text-xs sm:text-sm">{replaceTemplate(t.time.untilPrayer, { prayerName: t.prayers[nextPrayer.name as keyof typeof t.prayers] })}</p>
-          </div>
         </div>
-      </div>
-    );
-  }
 
-  return (
-    <div className={`${getPrayerColors()} rounded-2xl p-4 sm:p-6 text-white`}>
-      {/* Mobile: Stack vertically, Desktop: Side by side */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-        <div className="flex items-center space-x-3 sm:space-x-4">
-          <div className="text-3xl sm:text-4xl flex-shrink-0">{nextPrayer.emoji}</div>
-          <div className="min-w-0">
-            <h3 className="text-lg sm:text-xl font-semibold truncate">{t.prayers[nextPrayer.name as keyof typeof t.prayers]}</h3>
-            <p className="text-white/80 text-sm">{t.dashboard.nextPrayer}</p>
-          </div>
-        </div>
-        <div className="text-center sm:text-right">
-          <p className="text-xl sm:text-2xl font-bold">{formatTimeUntilNextPrayer(timeUntilNext, {
-            hour: t.ui.hour,
-            hours: t.ui.hours,
-            minute: t.ui.minute,
-            minutes: t.ui.minutes,
-            and: t.ui.and
-          })}</p>
-          <p className="text-white/80 text-xs sm:text-sm">{t.time.timeRemaining}</p>
+        {/* Right Side: Countdown */}
+        <div className="bg-[#022c22]/60 px-6 py-4 rounded-2xl border border-[#D4AF37]/20 flex flex-col items-center sm:items-end group-hover/indicator:border-[#D4AF37]/40 transition-colors duration-500 min-w-[140px]">
+          <p className="text-[#D4AF37] text-[10px] sm:text-xs uppercase font-black tracking-[0.2em] mb-1">
+            {currentPrayer ? "Next Prayer In" : "Time Remaining"}
+          </p>
+          <p className="text-3xl sm:text-4xl font-mono font-black text-white drop-shadow-lg tabular-nums">
+            {formatTimeUntil(timeUntilNext)}
+          </p>
+          <p className="text-white/50 text-[10px] sm:text-xs mt-1 italic font-medium">
+             {currentPrayer 
+               ? replaceTemplate(t.time.untilPrayer, { prayerName: t.prayers[nextPrayer.name as keyof typeof t.prayers] })
+               : t.time.timeRemaining}
+          </p>
         </div>
       </div>
     </div>
