@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { CALCULATION_METHODS, getCalculationMethodInfo } from '@/src/domain/constants/calculationMethods'
+import { Language } from '@/src/domain/types/translation'
+import { useAppVersion } from '@/src/presentation/hooks/useAppVersion'
 import { useTranslation } from '@/src/presentation/hooks/useTranslation'
 import { useSettingsStore } from '@/src/presentation/stores/settingsStore'
-import { Language } from '@/src/domain/types/translation'
-import { CalculationMethodType } from '@/utils/prayer-utils'
-import { CALCULATION_METHODS, getCalculationMethodInfo } from '@/src/domain/constants/calculationMethods'
 import { cn } from '@/utils/cn'
+import { CalculationMethodType } from '@/utils/prayer-utils'
+import { useEffect, useState } from 'react'
 import { NotificationButton } from '../ui/NotificationButton'
 import ThemeSelector from '../ui/ThemeSelector'
 import { ThemeToggle } from '../ui/ThemeToggle'
@@ -17,6 +18,7 @@ interface SettingsPanelProps {
 }
 
 export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
+  const { displayVersion } = useAppVersion();
   const { settings, updateSettings, updateAdjustment } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
   const [mounted, setMounted] = useState(false);
@@ -162,6 +164,26 @@ export default function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             >
               Reset to Defaults
             </button>
+          </div>
+
+          {/* About */}
+          <div className="pt-4 mt-4 border-t border-border">
+            <h3 className="text-lg font-semibold mb-3 text-foreground">เกี่ยวกับ (About)</h3>
+            <div className="space-y-1.5 text-sm text-muted-foreground">
+              <p>แอปพลิเคชันเวลาละหมาด</p>
+              <p>เวอร์ชัน {displayVersion}</p>
+              <p className="pt-2 mt-2 border-t border-border flex flex-wrap items-center gap-1">
+                พัฒนาโดยทีมงานจาก
+                <a 
+                  href="https://cleancode1986-portfolio.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-primary hover:text-primary/80 font-medium hover:underline transition-colors"
+                >
+                  CleanCode1986
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
