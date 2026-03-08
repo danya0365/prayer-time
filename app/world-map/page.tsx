@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/contexts/ThemeContext";
 import type { Metadata } from "next";
 import WorldMapClient from "./WorldMapClient";
 
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
 
 export default function WorldMapPage() {
   return (
-    <ThemeProvider>
       <WorldMapClient />
-    </ThemeProvider>
   );
 }

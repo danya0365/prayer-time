@@ -1,4 +1,4 @@
-import { Translations } from '../types/translation';
+import { Translations } from '@/src/domain/types/translation';
 
 export function getGeolocationErrorMessage(errorCode: string, t: Translations): string {
   if (errorCode === 'GEOLOCATION_ERROR_1') {

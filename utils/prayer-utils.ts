@@ -1,5 +1,5 @@
 import { CalculationMethod, Coordinates, Madhab, PrayerTimes } from 'adhan';
-import { Language } from '../types/translation';
+import { Language } from '@/src/domain/types/translation';
 import { formatTimeWithLocale } from './date-formatting';
 
 export type Prayer = 'fajr' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';

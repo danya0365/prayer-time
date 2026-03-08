@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ThemeProvider } from "@/src/presentation/components/providers/ThemeProvider";
 import type { Metadata } from "next";
 import { Geist_Mono, Kanit } from "next/font/google";
 import "./globals.css";

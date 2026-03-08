@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { enUS, th } from 'date-fns/locale';
-import { Language } from '../types/translation';
+import { Language } from '@/src/domain/types/translation';
 
 // Map language codes to date-fns locales
 const localeMap = {
