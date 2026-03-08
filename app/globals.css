@@ -7,6 +7,7 @@
 @theme {
   --font-sans: "Kanit", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-arabic: var(--font-arabic), serif;
 
   /* Light defaults */
   --color-background: #ffffff;
