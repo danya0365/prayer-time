@@ -53,10 +53,10 @@ export default function HeroSection({
             />
           </div>
 
-          <div className="relative z-10 p-6 sm:p-10 flex flex-col gap-10">
+          <div className="relative z-10 p-6 sm:p-10 flex flex-col gap-6 md:gap-10">
             
             {/* 1. TOP: Compact Date & Location Header */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-[#D4AF37]/10 pb-6 mb-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-[#D4AF37]/10 pb-2 md:pb-6 mb-2">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-[#064e3b] to-[#022c22] rounded-full flex items-center justify-center border border-[#D4AF37]/30 shadow-lg shrink-0">
                   <span className="text-2xl">🕌</span>

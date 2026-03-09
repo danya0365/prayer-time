@@ -65,9 +65,9 @@ export default function PrayerCarousel({
   }, [activeIndex, api]);
 
   return (
-    <div className="relative w-full py-8 flex flex-col items-center">
+    <div className="relative w-full flex flex-col items-center">
       {/* Carousel Container */}
-      <div className="relative w-full h-[200px] flex items-center justify-center overflow-hidden px-4">
+      <div className="relative w-full h-[150px] sm:h-[200px] flex items-center justify-center overflow-hidden px-4">
         {/* Animated Cards */}
         <div className="relative flex items-center justify-center w-full">
           {springs.map((style, i) => {
