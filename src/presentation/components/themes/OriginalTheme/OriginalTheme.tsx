@@ -52,7 +52,7 @@ export default function OriginalTheme() {
   }
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-center py-10 px-4 bg-[#022c22] overflow-x-hidden">
+    <div className="min-h-screen relative flex flex-col items-center justify-center py-4 md:py-10 px-4 bg-[#022c22] overflow-x-hidden">
       {/* Background Islamic Pattern Overlay */}
       <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none">
         <div 

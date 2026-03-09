@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/src/presentation/components/providers/ThemeProvider";
 import type { Metadata } from "next";
-import { Geist_Mono, Kanit } from "next/font/google";
+import { Amiri, Geist_Mono, Kanit } from "next/font/google";
 import "./globals.css";
 
 const kanit = Kanit({
@@ -12,6 +12,12 @@ const kanit = Kanit({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const amiri = Amiri({
+  variable: "--font-arabic",
+  subsets: ["arabic"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -126,7 +132,7 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <body
-        className={`${kanit.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
+        className={`${kanit.variable} ${geistMono.variable} ${amiri.variable} antialiased font-sans bg-background text-foreground`}
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>
