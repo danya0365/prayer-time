@@ -9,6 +9,7 @@ import { formatDisplayDate } from '@/utils/date-formatting';
 import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';
 import { formatPrayerTime, PrayerInfo } from '@/utils/prayer-utils';
 import { useState } from 'react';
+import { LocationWarningBanner } from '../../shared/LocationWarningBanner';
 
 interface ModernThemeProps {
   prayers: PrayerInfo[];
@@ -68,6 +69,11 @@ export function ModernTheme({
 
   return (
     <div className={`min-h-screen ${themeConfig.colors.background}`}>
+      <LocationWarningBanner 
+        onUpdateLocation={() => setLocationSelectorOpen(true)} 
+        variant="floating"
+      />
+
       {/* Hero Section */}
       <div className={`${themeConfig.colors.primary} text-white ${themeConfig.styles.spacing} text-center`}>
         <div className="max-w-4xl mx-auto">

@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 
 interface GradientThemeProps {
   prayers: PrayerInfo[];
@@ -80,6 +81,7 @@ export function GradientTheme({
 
   return (
     <div className={`min-h-screen ${themeConfig.colors.background}`}>
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Gradient Hero Section */}
       <div
         className={`${themeConfig.colors.primary} text-white relative overflow-hidden`}

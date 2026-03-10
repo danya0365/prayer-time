@@ -7,6 +7,7 @@ import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 import { AdditionalFeatures } from "./partials/AdditionalFeatures";
 import { FutureFeatures } from "./partials/FutureFeatures";
 import HeroSection from "./partials/HeroSection";
@@ -68,6 +69,11 @@ export default function OriginalTheme() {
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_30%,rgba(6,78,59,0.4)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="relative z-10 w-full flex flex-col items-center">
+        <LocationWarningBanner 
+          onUpdateLocation={() => setLocationSelectorOpen(true)} 
+          variant="floating"
+        />
+        
         <HeroSection
           prayers={prayers}
           currentPrayer={currentPrayer}

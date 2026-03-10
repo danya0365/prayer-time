@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 
 interface GreenThemeProps {
   prayers: PrayerInfo[];
@@ -81,6 +82,7 @@ export function GreenTheme({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-lime-50 to-green-50 relative">
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-20 -left-20 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl animate-pulse"></div>

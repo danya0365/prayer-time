@@ -1,7 +1,7 @@
 "use client";
 
-import LocationSelector from '@/src/presentation/components/shared/LocationSelector';
 import { getCalculationMethodInfo } from '@/src/domain/constants/calculationMethods';
+import LocationSelector from '@/src/presentation/components/shared/LocationSelector';
 import { useTranslation } from '@/src/presentation/hooks/useTranslation';
 import { useLocationStore } from '@/src/presentation/stores/locationStore';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
@@ -10,6 +10,7 @@ import { formatDisplayDate, formatTimeWithLocale } from '@/utils/date-formatting
 import { calculatePrayerTimeStatus } from '@/utils/prayer-time-status';
 import { formatPrayerTime, PrayerInfo } from '@/utils/prayer-utils';
 import { useState } from 'react';
+import { LocationWarningBanner } from '../../shared/LocationWarningBanner';
 
 interface MinimalThemeProps {
   prayers: PrayerInfo[];
@@ -70,6 +71,7 @@ export function MinimalTheme({
 
   return (
     <div className={`min-h-screen ${themeConfig.colors.background}`}>
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Enhanced Header */}
       <div className={`border-b ${themeConfig.styles.spacing}`}>
         <div className="max-w-4xl mx-auto">

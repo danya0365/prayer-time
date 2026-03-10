@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 
 interface OceanThemeProps {
   prayers: PrayerInfo[];
@@ -89,6 +90,7 @@ export function OceanTheme({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 via-cyan-50 to-teal-50 relative overflow-hidden">
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Ocean Waves Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Wave Layers */}

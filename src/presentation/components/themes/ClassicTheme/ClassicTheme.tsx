@@ -4,6 +4,7 @@ import LocationSelector from '@/src/presentation/components/shared/LocationSelec
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
 import { PrayerInfo } from '@/utils/prayer-utils';
 import { useState } from 'react';
+import { LocationWarningBanner } from '../../shared/LocationWarningBanner';
 import { ClassicCurrentPrayer } from './components/ClassicCurrentPrayer';
 import { ClassicHeader } from './components/ClassicHeader';
 import { ClassicPrayerList } from './components/ClassicPrayerList';
@@ -51,6 +52,7 @@ export function ClassicTheme({
 
   return (
     <div className={`min-h-screen ${themeConfig.colors.background}`}>
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       <ClassicHeader onLocationClick={() => setLocationSelectorOpen(true)} />
 
       <div className="max-w-6xl mx-auto p-6">

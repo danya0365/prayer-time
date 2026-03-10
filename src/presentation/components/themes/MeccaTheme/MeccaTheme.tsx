@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 
 interface MeccaThemeProps {
   prayers: PrayerInfo[];
@@ -91,6 +92,7 @@ export function MeccaTheme({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 via-yellow-50 to-stone-100 relative overflow-hidden">
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Desert Landscape Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Sand Dunes */}

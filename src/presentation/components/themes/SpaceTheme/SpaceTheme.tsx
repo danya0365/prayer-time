@@ -9,6 +9,7 @@ import { formatDisplayDate } from "@/utils/date-formatting";
 import { calculatePrayerTimeStatus } from "@/utils/prayer-time-status";
 import { formatPrayerTime, PrayerInfo } from "@/utils/prayer-utils";
 import { useState } from "react";
+import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
 
 interface SpaceThemeProps {
   prayers: PrayerInfo[];
@@ -90,6 +91,7 @@ export function SpaceTheme({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-indigo-900 to-purple-900 relative overflow-hidden">
+      <LocationWarningBanner onUpdateLocation={() => setLocationSelectorOpen(true)} variant="floating" />
       {/* Animated Starfield */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Large Stars */}
