@@ -18,6 +18,8 @@ interface LocationState {
   setLocationError: (error: string | null) => void;
   clearLocation: () => void;
   requestGeolocation: () => Promise<void>;
+  lastLocationWarningDismissedAt: number | null;
+  dismissLocationWarning: () => void;
 }
 
 // Default location (Bangkok, Thailand)
@@ -35,12 +37,18 @@ export const useLocationStore = create<LocationState>()(
       currentLocation: DEFAULT_LOCATION,
       isLocationLoading: false,
       locationError: null,
+      lastLocationWarningDismissedAt: null,
+
+      dismissLocationWarning: () => {
+        set({ lastLocationWarningDismissedAt: Date.now() });
+      },
 
       setLocation: (location: LocationData) => {
         set({ 
           currentLocation: location, 
           locationError: null,
-          isLocationLoading: false 
+          isLocationLoading: false,
+          lastLocationWarningDismissedAt: null // reset on location change
         });
       },
 
@@ -139,7 +147,8 @@ export const useLocationStore = create<LocationState>()(
     {
       name: 'prayer-location-storage',
       partialize: (state) => ({ 
-        currentLocation: state.currentLocation 
+        currentLocation: state.currentLocation,
+        lastLocationWarningDismissedAt: state.lastLocationWarningDismissedAt
       })
     }
   )

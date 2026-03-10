@@ -19,11 +19,20 @@ function deg2rad(deg: number) {
 }
 
 export function useLocationMismatch(thresholdKm: number = 50) {
-  const { currentLocation } = useLocationStore();
+  const { currentLocation, lastLocationWarningDismissedAt } = useLocationStore();
   const [isMismatch, setIsMismatch] = useState(false);
   const [distance, setDistance] = useState<number | null>(null);
 
   useEffect(() => {
+    // If dismissed within the last 24 hours, don't show the mismatch warning
+    if (
+      lastLocationWarningDismissedAt &&
+      Date.now() - lastLocationWarningDismissedAt < 24 * 60 * 60 * 1000
+    ) {
+      setIsMismatch(false);
+      return;
+    }
+
     if (!currentLocation || !navigator.geolocation) {
       setIsMismatch(false);
       return;
@@ -67,7 +76,7 @@ export function useLocationMismatch(thresholdKm: number = 50) {
     } else {
       checkLocation();
     }
-  }, [currentLocation, thresholdKm]);
+  }, [currentLocation, thresholdKm, lastLocationWarningDismissedAt]);
 
   return { isMismatch, distance };
 }

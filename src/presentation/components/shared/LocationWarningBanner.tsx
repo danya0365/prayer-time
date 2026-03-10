@@ -2,9 +2,10 @@
 
 import { useLocationMismatch } from "@/src/presentation/hooks/useLocationMismatch";
 import { useTranslation } from "@/src/presentation/hooks/useTranslation";
+import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { cn } from "@/utils/cn";
-import { AlertCircle, MapPin } from "lucide-react";
+import { AlertCircle, MapPin, X } from "lucide-react";
 
 interface LocationWarningBannerProps {
   onUpdateLocation?: () => void;
@@ -19,6 +20,7 @@ export function LocationWarningBanner({
 }: LocationWarningBannerProps) {
   const { isMismatch, distance } = useLocationMismatch(50);
   const { settings } = useSettingsStore();
+  const { dismissLocationWarning } = useLocationStore();
   const { t } = useTranslation({ language: settings.language });
 
   if (!isMismatch) return null;
@@ -49,6 +51,15 @@ export function LocationWarningBanner({
       >
         <MapPin className="w-4 h-4" />
         {settings.language === 'th' ? "อัปเดตสถานที่" : "Update Location"}
+      </button>
+
+      {/* Dismiss Button */}
+      <button 
+        onClick={dismissLocationWarning}
+        className="absolute top-2 right-2 sm:static sm:top-auto sm:right-auto p-1.5 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+        title={settings.language === 'th' ? "ปิดการแจ้งเตือน 1 วัน" : "Dismiss for 1 day"}
+      >
+        <X className="w-5 h-5" />
       </button>
     </div>
   );
