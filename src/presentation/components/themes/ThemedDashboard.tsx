@@ -1,5 +1,6 @@
 "use client";
 
+import { PortfolioShowcase } from '@/src/presentation/components/shared/PortfolioShowcase';
 import FloatingSettingsButton from '@/src/presentation/components/ui/FloatingSettingsButton';
 import { usePrayerTimes } from '@/src/presentation/hooks/usePrayerTimes';
 import { usePrayerDashboardThemeStore } from '@/src/presentation/stores/prayerDashboardThemeStore';
@@ -66,6 +67,7 @@ export function ThemedDashboard({ testMode = false, testTime = new Date() }: The
     <>
       {renderTheme()}
       <FloatingSettingsButton />
+      <PortfolioShowcase />
     </>
   );
 }
