@@ -83,34 +83,66 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const qiblaRelativeAngle = qiblaInfo ? qiblaInfo.direction - deviceHeading : 0;
   const compassDirection = qiblaInfo ? getCompassDirection(qiblaInfo.direction) : "";
 
+  // Normalizing angle to -180 to 180 for easier calculations
+  const normalizedRelativeAngle = ((((qiblaRelativeAngle + 180) % 360) + 360) % 360) - 180;
+  const isAligned = Math.abs(normalizedRelativeAngle) < 3;
+
   return (
     <div className={cn("w-full max-w-4xl mx-auto flex flex-col gap-12", className)}>
       {/* Immersive Compass Section */}
-      <div className="relative flex flex-col items-center justify-center py-20 rounded-[4rem] bg-[#022c22]/60 backdrop-blur-3xl border border-[#D4AF37]/20 shadow-2xl overflow-hidden group">
+      <div className={cn(
+        "relative flex flex-col items-center justify-center py-20 rounded-[4rem] transition-all duration-700 overflow-hidden group",
+        isAligned 
+          ? "bg-[#064e3b]/80 border-emerald-500/40 shadow-[0_0_80px_rgba(16,185,129,0.15)]" 
+          : "bg-[#022c22]/60 border-[#D4AF37]/20 shadow-2xl"
+      )}>
         {/* Animated Background Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1)_0%,transparent_70%)] animate-pulse" />
+        <div className={cn(
+          "absolute inset-0 transition-opacity duration-1000",
+          isAligned 
+            ? "bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.2)_0%,transparent_70%)]" 
+            : "bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.1)_0%,transparent_70%)] opacity-30"
+        )} />
         
-        {/* Static Mode Badge */}
-        {isStaticMode && (
-          <div className="absolute top-12 px-4 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full flex items-center gap-2 animate-fade-in z-20">
-            <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse" />
-            <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">Static Mode (Reference)</span>
-          </div>
-        )}
+        {/* State Badge */}
+        <div className="absolute top-12 z-20 flex flex-col items-center gap-2">
+          {isStaticMode && (
+            <div className="px-4 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full flex items-center gap-2 animate-fade-in">
+              <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse" />
+              <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">Static Mode (Reference)</span>
+            </div>
+          )}
+          
+          {isAligned && (
+            <div className="px-6 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full flex items-center gap-3 animate-bounce shadow-lg backdrop-blur-md">
+              <div className="w-3 h-3 bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
+              <span className="text-emerald-400 text-xs font-black uppercase tracking-[0.2em]">Mecca Aligned</span>
+            </div>
+          )}
+        </div>
 
         {/* Compass UI */}
-        <div className="relative z-10">
-          <div className="relative w-72 h-72 md:w-96 md:h-96">
+        <div className="relative z-10 transition-transform duration-500">
+          <div className={cn(
+            "relative w-72 h-72 md:w-96 md:h-96 transition-all duration-700",
+            isAligned ? "scale-105" : ""
+          )}>
             {/* Outer Ring with Ornaments */}
-            <div className="absolute inset-0 rounded-full border-4 border-[#D4AF37]/30 shadow-[0_0_50px_rgba(212,175,55,0.1)]" />
-            <div className="absolute -inset-4 rounded-full border border-[#D4AF37]/10" />
+            <div className={cn(
+               "absolute inset-0 rounded-full border-4 transition-colors duration-700",
+               isAligned ? "border-emerald-500/40 shadow-[0_0_50px_rgba(16,185,129,0.2)]" : "border-[#D4AF37]/30 shadow-[0_0_50px_rgba(212,175,55,0.1)]"
+            )} />
+            <div className="absolute -inset-4 rounded-full border border-white/5" />
             
             {/* Degree Markings */}
             <div className="absolute inset-0">
                {[...Array(12)].map((_, i) => (
                  <div 
                    key={i} 
-                   className="absolute top-0 left-1/2 w-0.5 h-4 bg-[#D4AF37]/40 origin-bottom" 
+                   className={cn(
+                     "absolute top-0 left-1/2 w-0.5 h-4 origin-bottom transition-colors duration-700",
+                     isAligned ? "bg-emerald-500/40" : "bg-[#D4AF37]/40"
+                   )} 
                    style={{ 
                      height: i % 3 === 0 ? '16px' : '8px',
                      transform: `translateX(-50%) rotate(${i * 30}deg) translateY(-340%)` 
@@ -120,15 +152,23 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
             </div>
 
             {/* Compass Circle */}
-            <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#064e3b] to-[#022c22] border-2 border-[#D4AF37]/40 flex items-center justify-center shadow-inner">
+            <div className={cn(
+              "absolute inset-4 rounded-full transition-all duration-700 border-2 flex items-center justify-center shadow-inner",
+              isAligned 
+                ? "bg-gradient-to-br from-[#064e3b] to-[#014737] border-emerald-400/50" 
+                : "bg-gradient-to-br from-[#064e3b] to-[#022c22] border-[#D4AF37]/40"
+            )}>
                {/* Cardinal Directions */}
-               <div className="absolute top-6 font-black text-2xl text-[#D4AF37]/80">N</div>
-               <div className="absolute right-6 font-black text-2xl text-[#D4AF37]/40">E</div>
-               <div className="absolute bottom-6 font-black text-2xl text-[#D4AF37]/40">S</div>
-               <div className="absolute left-6 font-black text-2xl text-[#D4AF37]/40">W</div>
+               <div className={cn("absolute top-6 font-black text-2xl transition-colors", isAligned ? "text-emerald-400" : "text-[#D4AF37]/80")}>N</div>
+               <div className="absolute right-6 font-black text-2xl text-white/5">E</div>
+               <div className="absolute bottom-6 font-black text-2xl text-white/5">S</div>
+               <div className="absolute left-6 font-black text-2xl text-white/5">W</div>
 
                {/* Central Kaaba Icon */}
-               <div className="text-6xl z-20 hover:scale-110 transition-transform cursor-pointer">🕋</div>
+               <div className={cn(
+                 "text-6xl z-20 transition-all duration-700",
+                 isAligned ? "scale-125 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "hover:scale-110"
+               )}>🕋</div>
 
                {/* Qibla Indicator Arrow */}
                <div 
@@ -137,8 +177,16 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
                >
                  <div className="relative w-2 h-48 md:h-64 flex flex-col items-center">
                     {/* Arrow Head */}
-                    <div className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] border-b-[#D4AF37]" />
-                    <div className="w-1.5 h-full bg-gradient-to-b from-[#D4AF37] to-transparent rounded-full shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+                    <div className={cn(
+                      "w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] transition-colors duration-700",
+                      isAligned ? "border-b-emerald-400" : "border-b-[#D4AF37]"
+                    )} />
+                    <div className={cn(
+                      "w-1.5 h-full rounded-full transition-all duration-700",
+                      isAligned 
+                        ? "bg-gradient-to-b from-emerald-400 to-transparent shadow-[0_0_25px_rgba(52,211,153,0.8)]" 
+                        : "bg-gradient-to-b from-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,0.5)]"
+                    )} />
                  </div>
                </div>
             </div>
@@ -150,11 +198,17 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
 
         {/* Direction Text Overlay */}
         <div className="relative z-10 mt-12 flex flex-col items-center gap-2">
-          <div className="text-5xl font-black text-white tracking-tighter">
+          <div className={cn(
+            "text-5xl font-black tracking-tighter transition-colors duration-700",
+            isAligned ? "text-emerald-400" : "text-white"
+          )}>
             {qiblaInfo ? `${Math.round(qiblaInfo.direction)}°` : "--°"}
           </div>
-          <div className="text-[#D4AF37] font-bold tracking-[0.3em] uppercase">
-            {compassDirection || "Calibrating..."}
+          <div className={cn(
+            "font-black tracking-[0.3em] uppercase transition-colors duration-700",
+            isAligned ? "text-emerald-400/80" : "text-[#D4AF37]"
+          )}>
+            {isAligned ? "Stop Orientation" : (compassDirection || "Calibrating...")}
           </div>
         </div>
       </div>
