@@ -1,5 +1,5 @@
-import CompassDebugView from "@/src/presentation/components/features/CompassDebugView";
 import { Metadata } from "next";
+import DebugCompassClient from "./client";
 
 export const metadata: Metadata = {
   title: "Compass Debug | Prayer Times",
@@ -8,6 +8,6 @@ export const metadata: Metadata = {
 
 export default function DebugCompassPage() {
   return (
-    <CompassDebugView />
+    <DebugCompassClient />
   );
 }

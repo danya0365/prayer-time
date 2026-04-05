@@ -2,23 +2,62 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+// ─── Type augmentation ────────────────────────────────────────────────────────
+
+/** iOS Safari extends DeviceOrientationEvent with webkitCompassHeading */
+interface DeviceOrientationEventWithWebkit extends DeviceOrientationEvent {
+  readonly webkitCompassHeading: number | null
+}
+
+/**
+ * iOS 13+ requires explicit permission before reading orientation sensors.
+ * This interface describes the static side of DeviceOrientationEvent on iOS.
+ */
+interface DeviceOrientationEventStatic {
+  new (type: string, eventInitDict?: DeviceOrientationEventInit): DeviceOrientationEvent
+  requestPermission?: () => Promise<PermissionState>
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 const DIRECTIONS = [
   'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE',
   'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
-]
+] as const
 
-function getDirection(deg: number) {
+function getDirection(deg: number): string {
   return DIRECTIONS[Math.round(deg / 22.5) % 16]
 }
 
-function shortestPath(from: number, to: number) {
+function shortestPath(from: number, to: number): number {
   const diff = ((to - from + 540) % 360) - 180
   return from + diff
 }
 
+function hasRequestPermission(
+  ctor: typeof DeviceOrientationEvent,
+): ctor is typeof DeviceOrientationEvent & DeviceOrientationEventStatic {
+  return typeof (ctor as unknown as DeviceOrientationEventStatic).requestPermission === 'function'
+}
+
+function isWebkitEvent(e: DeviceOrientationEvent): e is DeviceOrientationEventWithWebkit {
+  return 'webkitCompassHeading' in e
+}
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
 type Status = 'idle' | 'active' | 'error' | 'permission'
 
-export default function CompassDebugView() {
+interface Tick {
+  x1: number; y1: number
+  x2: number; y2: number
+  isMajor: boolean
+  isMed: boolean
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export default function Compass() {
   const [heading, setHeading] = useState(0)
   const [status, setStatus] = useState<Status>('idle')
   const [statusMsg, setStatusMsg] = useState('Initializing...')
@@ -33,8 +72,7 @@ export default function CompassDebugView() {
   const updateHeading = useCallback((alpha: number) => {
     const h = Math.round((360 - alpha + 360) % 360)
     setHeading(h)
-    const next = shortestPath(currentAngle.current, 360 - alpha)
-    targetAngle.current = next
+    targetAngle.current = shortestPath(currentAngle.current, 360 - alpha)
     if (!receivedData.current) {
       receivedData.current = true
       setStatus('active')
@@ -47,18 +85,18 @@ export default function CompassDebugView() {
       if (e.alpha !== null) updateHeading(e.alpha)
     }
 
-    const onOrientation = (e: DeviceOrientationEvent & { webkitCompassHeading?: number }) => {
-      if (e.webkitCompassHeading != null) {
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      if (isWebkitEvent(e) && e.webkitCompassHeading !== null) {
         updateHeading(360 - e.webkitCompassHeading)
       } else if (e.alpha !== null) {
         updateHeading(e.alpha)
       }
     }
 
-    window.addEventListener('deviceorientationabsolute', onAbsolute as EventListener, true)
-    window.addEventListener('deviceorientation', onOrientation as EventListener, true)
+    window.addEventListener('deviceorientationabsolute', onAbsolute, true)
+    window.addEventListener('deviceorientation', onOrientation, true)
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (!receivedData.current) {
         setStatus('error')
         setStatusMsg('No sensor detected on this device')
@@ -66,11 +104,13 @@ export default function CompassDebugView() {
     }, 3000)
 
     return () => {
-      window.removeEventListener('deviceorientationabsolute', onAbsolute as EventListener, true)
-      window.removeEventListener('deviceorientation', onOrientation as EventListener, true)
+      clearTimeout(timer)
+      window.removeEventListener('deviceorientationabsolute', onAbsolute, true)
+      window.removeEventListener('deviceorientation', onOrientation, true)
     }
   }, [updateHeading])
 
+  // RAF animation loop
   useEffect(() => {
     const loop = () => {
       const diff = targetAngle.current - currentAngle.current
@@ -84,26 +124,31 @@ export default function CompassDebugView() {
     return () => cancelAnimationFrame(rafRef.current)
   }, [])
 
+  // Init sensor
   useEffect(() => {
-    if (
-      typeof DeviceOrientationEvent !== 'undefined' &&
-      typeof (DeviceOrientationEvent as any).requestPermission === 'function'
-    ) {
+    if (typeof DeviceOrientationEvent === 'undefined') {
+      setStatus('error')
+      setStatusMsg('DeviceOrientation not supported')
+      return
+    }
+
+    if (hasRequestPermission(DeviceOrientationEvent)) {
       setStatus('permission')
       setStatusMsg('Tap to enable compass')
       setNeedsPermission(true)
-    } else if (typeof DeviceOrientationEvent !== 'undefined') {
-      setStatusMsg('Waiting for sensor...')
-      return startListening()
-    } else {
-      setStatus('error')
-      setStatusMsg('DeviceOrientation not supported')
+      return
     }
+
+    setStatusMsg('Waiting for sensor...')
+    return startListening()
   }, [startListening])
 
   const requestPermission = async () => {
+    if (!hasRequestPermission(DeviceOrientationEvent)) return
+
     try {
-      const result = await (DeviceOrientationEvent as any).requestPermission()
+      const ctor = DeviceOrientationEvent as unknown as DeviceOrientationEventStatic
+      const result = await ctor.requestPermission!()
       if (result === 'granted') {
         setNeedsPermission(false)
         setStatusMsg('Waiting for sensor...')
@@ -112,28 +157,46 @@ export default function CompassDebugView() {
         setStatus('error')
         setStatusMsg('Sensor permission denied')
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Unknown error'
       setStatus('error')
-      setStatusMsg('Permission error: ' + e.message)
+      setStatusMsg(`Permission error: ${msg}`)
     }
   }
 
   const dir = getDirection(heading)
   const isNorth = dir === 'N'
 
-  const ticks = Array.from({ length: 72 }, (_, i) => {
+  const ticks: Tick[] = Array.from({ length: 72 }, (_, i) => {
     const angle = i * 5
     const rad = (angle * Math.PI) / 180
     const cx = 160, cy = 160, r = 148
     const isMajor = i % 9 === 0
     const isMed = i % 3 === 0
     const len = isMajor ? 20 : isMed ? 12 : 7
-    const x1 = Number((cx + r * Math.sin(rad)).toFixed(3))
-    const y1 = Number((cy - r * Math.cos(rad)).toFixed(3))
-    const x2 = Number((cx + (r - len) * Math.sin(rad)).toFixed(3))
-    const y2 = Number((cy - (r - len) * Math.cos(rad)).toFixed(3))
-    return { x1, y1, x2, y2, isMajor, isMed }
+    return {
+      x1: cx + r * Math.sin(rad),
+      y1: cy - r * Math.cos(rad),
+      x2: cx + (r - len) * Math.sin(rad),
+      y2: cy - (r - len) * Math.cos(rad),
+      isMajor,
+      isMed,
+    }
   })
+
+  const cardinals = [
+    { label: 'N', x: 160, y: 26, color: '#c9a96e' },
+    { label: 'S', x: 160, y: 300, color: '#3a3830' },
+    { label: 'E', x: 299, y: 165, color: '#3a3830' },
+    { label: 'W', x: 21, y: 165, color: '#3a3830' },
+  ] as const
+
+  const intercardinals = [
+    { label: 'NE', angle: 45 },
+    { label: 'SE', angle: 135 },
+    { label: 'SW', angle: 225 },
+    { label: 'NW', angle: 315 },
+  ] as const
 
   return (
     <div style={{
@@ -159,7 +222,6 @@ export default function CompassDebugView() {
         width: '100%',
         maxWidth: 360,
       }}>
-        {/* Direction label */}
         <div style={{ textAlign: 'center' }}>
           <div style={{
             fontSize: 56,
@@ -178,10 +240,8 @@ export default function CompassDebugView() {
           }}>direction</div>
         </div>
 
-        {/* Divider */}
         <div style={{ width: 1, height: 60, background: '#1e1e28' }} />
 
-        {/* Degree */}
         <div>
           <div style={{
             fontSize: 56,
@@ -204,13 +264,7 @@ export default function CompassDebugView() {
       </div>
 
       {/* Compass dial */}
-      <div style={{
-        position: 'relative',
-        width: 320,
-        height: 320,
-        flexShrink: 0,
-      }}>
-        {/* Outer glow ring */}
+      <div style={{ position: 'relative', width: 320, height: 320, flexShrink: 0 }}>
         <div style={{
           position: 'absolute',
           inset: -8,
@@ -219,19 +273,16 @@ export default function CompassDebugView() {
           pointerEvents: 'none',
         }} />
 
-        {/* SVG dial */}
         <svg
           width="320" height="320"
           viewBox="0 0 320 320"
           xmlns="http://www.w3.org/2000/svg"
           style={{ position: 'absolute', inset: 0 }}
         >
-          {/* Outer ring */}
           <circle cx="160" cy="160" r="156" fill="none" stroke="#1a1a24" strokeWidth="1" />
           <circle cx="160" cy="160" r="150" fill="#0d0d16" stroke="#252530" strokeWidth="0.5" />
           <circle cx="160" cy="160" r="120" fill="none" stroke="#1a1a24" strokeWidth="0.5" />
 
-          {/* Tick marks */}
           {ticks.map((t, i) => (
             <line
               key={i}
@@ -241,13 +292,7 @@ export default function CompassDebugView() {
             />
           ))}
 
-          {/* Cardinal labels */}
-          {[
-            { label: 'N', x: 160, y: 26, color: '#c9a96e' },
-            { label: 'S', x: 160, y: 300, color: '#3a3830' },
-            { label: 'E', x: 299, y: 165, color: '#3a3830' },
-            { label: 'W', x: 21, y: 165, color: '#3a3830' },
-          ].map((c) => (
+          {cardinals.map((c) => (
             <text
               key={c.label}
               x={c.x} y={c.y}
@@ -263,20 +308,14 @@ export default function CompassDebugView() {
             </text>
           ))}
 
-          {/* Intercardinal labels */}
-          {[
-            { label: 'NE', angle: 45 },
-            { label: 'SE', angle: 135 },
-            { label: 'SW', angle: 225 },
-            { label: 'NW', angle: 315 },
-          ].map((c) => {
+          {intercardinals.map((c) => {
             const rad = (c.angle * Math.PI) / 180
             const r2 = 132
             return (
               <text
                 key={c.label}
-                x={Number((160 + r2 * Math.sin(rad)).toFixed(3))}
-                y={Number((160 - r2 * Math.cos(rad)).toFixed(3))}
+                x={160 + r2 * Math.sin(rad)}
+                y={160 - r2 * Math.cos(rad)}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fontSize="10"
@@ -289,7 +328,6 @@ export default function CompassDebugView() {
             )
           })}
 
-          {/* Center dot */}
           <circle cx="160" cy="160" r="5" fill="#1a1a24" stroke="#3a3830" strokeWidth="1" />
         </svg>
 
@@ -306,19 +344,15 @@ export default function CompassDebugView() {
           }}
         >
           <svg width="32" height="220" viewBox="0 0 32 220" xmlns="http://www.w3.org/2000/svg">
-            {/* North — gold */}
             <polygon points="16,6 22,110 16,100 10,110" fill="#c9a96e" />
             <polygon points="16,6 10,110 16,100 22,110" fill="#a8885a" />
-            {/* South — dark */}
             <polygon points="16,214 22,110 16,120 10,110" fill="#2a2a32" />
             <polygon points="16,214 10,110 16,120 22,110" fill="#1e1e26" />
-            {/* Center cap */}
             <circle cx="16" cy="110" r="6" fill="#0d0d16" stroke="#3a3830" strokeWidth="1.5" />
             <circle cx="16" cy="110" r="2.5" fill="#c9a96e" />
           </svg>
         </div>
 
-        {/* Crosshair rings */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -328,8 +362,7 @@ export default function CompassDebugView() {
           pointerEvents: 'none',
         }}>
           <div style={{
-            width: 50,
-            height: 50,
+            width: 50, height: 50,
             borderRadius: '50%',
             border: '0.5px solid #1e1e28',
           }} />
@@ -337,12 +370,7 @@ export default function CompassDebugView() {
       </div>
 
       {/* Status */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 12,
-      }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -376,8 +404,8 @@ export default function CompassDebugView() {
               cursor: 'pointer',
               textTransform: 'uppercase',
             }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#14141e')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            onMouseEnter={e => { e.currentTarget.style.background = '#14141e' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
           >
             Enable Sensor
           </button>
