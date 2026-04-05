@@ -113,10 +113,18 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
         
         {/* State Badge */}
         <div className="absolute top-12 z-20 flex flex-col items-center gap-2">
-          {isStaticMode && (
+          {isStaticMode ? (
             <div className="px-4 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full flex items-center gap-2 animate-fade-in">
               <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse" />
               <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">{t.qibla.staticReference}</span>
+            </div>
+          ) : (
+            <div className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2 animate-fade-in">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-emerald-500 text-[10px] font-black uppercase tracking-widest">{t.qibla.realTimeSensor}</span>
             </div>
           )}
           
