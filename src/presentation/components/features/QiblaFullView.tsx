@@ -1,12 +1,11 @@
 "use client";
 
-import { calculateQiblaDirection, getCompassDirection, getAbsoluteHeading, QiblaInfo } from "@/utils/qibla-utils";
 import { cn } from "@/utils/cn";
 import { Navigation, Info, ShieldCheck, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useLocationStore } from "../../stores/locationStore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSettingsStore } from "../../stores/settingsStore";
+import { useQibla } from "../../hooks/useQibla";
 
 interface QiblaFullViewProps {
   className?: string;
@@ -16,83 +15,23 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const { settings } = useSettingsStore();
   const { t } = useTranslation({ language: settings.language });
   const { currentLocation } = useLocationStore();
-  const [qiblaInfo, setQiblaInfo] = useState<QiblaInfo | null>(null);
-  const [deviceHeading, setDeviceHeading] = useState<number>(0);
-  const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
-  const [mounted, setMounted] = useState(false);
-  const [isStaticMode, setIsStaticMode] = useState<boolean>(true);
-  const [manualHeading, setManualHeading] = useState<number>(0);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (currentLocation?.latitude && currentLocation?.longitude) {
-      const info = calculateQiblaDirection(currentLocation.latitude, currentLocation.longitude);
-      setQiblaInfo(info);
-    }
-  }, [currentLocation]);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    const requestOrientationPermission = async () => {
-      const DeviceEvent = DeviceOrientationEvent as unknown as {
-        requestPermission?: () => Promise<"granted" | "denied">;
-      };
-
-      if (typeof DeviceEvent.requestPermission === "function") {
-        try {
-          const permission = await DeviceEvent.requestPermission();
-          const granted = permission === "granted";
-          setPermissionGranted(granted);
-          if (granted) setIsStaticMode(false);
-        } catch (error) {
-          console.error("Error requesting device orientation permission:", error);
-        }
-      } else if (typeof DeviceOrientationEvent !== "undefined") {
-        // Non-iOS or older Android
-        setPermissionGranted(true);
-        // We'll set static mode false later if we actually get data
-      }
-    };
-
-    requestOrientationPermission();
-  }, [mounted]);
-
-  useEffect(() => {
-    if (!permissionGranted || !mounted) return;
-
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      const heading = getAbsoluteHeading(event);
-      if (heading !== null) {
-        setDeviceHeading(heading);
-        if (isStaticMode) setIsStaticMode(false);
-      }
-    };
-
-    window.addEventListener("deviceorientation", handleOrientation);
-    if ("ondeviceorientationabsolute" in window) {
-      window.addEventListener("deviceorientationabsolute", handleOrientation);
-    }
-    
-    return () => {
-      window.removeEventListener("deviceorientation", handleOrientation);
-      window.removeEventListener("deviceorientationabsolute", handleOrientation);
-    };
-  }, [permissionGranted, mounted, isStaticMode]);
+  
+  const {
+    qiblaInfo,
+    isStaticMode,
+    manualHeading,
+    setManualHeading,
+    permissionGranted,
+    currentHeading,
+    isAligned,
+    compassDirection,
+    mounted
+  } = useQibla({ 
+    latitude: currentLocation?.latitude, 
+    longitude: currentLocation?.longitude 
+  });
 
   if (!mounted) return null;
-
-  // Use manual heading if we're in static mode, otherwise use the sensor
-  const currentHeading = isStaticMode ? manualHeading : deviceHeading;
-  const qiblaRelativeAngle = qiblaInfo ? qiblaInfo.direction - currentHeading : 0;
-  const compassDirection = qiblaInfo ? getCompassDirection(qiblaInfo.direction) : "";
-
-  // Normalizing angle to -180 to 180 for easier calculations
-  const normalizedRelativeAngle = ((((qiblaRelativeAngle + 180) % 360) + 360) % 360) - 180;
-  const isAligned = Math.abs(normalizedRelativeAngle) < 3;
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto flex flex-col gap-12", className)}>
