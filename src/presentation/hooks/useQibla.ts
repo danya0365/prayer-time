@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { calculateQiblaDirection, getAbsoluteHeading, getCompassDirection, QiblaInfo } from '@/utils/qibla-utils'
+import { calculateQiblaDirection, getAbsoluteHeading, getCompassDirection, QiblaInfo, smoothAngle } from '@/utils/qibla-utils'
 
 interface UseQiblaProps {
   latitude?: number
@@ -58,7 +58,8 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const heading = getAbsoluteHeading(event)
       if (heading !== null) {
-        setDeviceHeading(heading)
+        // Use functional update to get the previous state for smoothing
+        setDeviceHeading(prev => smoothAngle(heading, prev, 0.15))
         if (isStaticMode) setIsStaticMode(false)
       }
     }

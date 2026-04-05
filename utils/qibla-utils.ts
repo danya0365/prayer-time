@@ -53,23 +53,47 @@ export function calculateQiblaDirection(
  * @returns The absolute heading in degrees (0-360), where 0 is true North.
  */
 export function getAbsoluteHeading(event: any): number | null {
-  // iOS (Safari)
+  // iOS (Safari) - uses webkitCompassHeading directly
   if (event.webkitCompassHeading !== undefined) {
-    return event.webkitCompassHeading
+    const heading = event.webkitCompassHeading
+    return heading < 0 ? heading + 360 : heading
   }
   
   // Android / Chrome (Absolute Orientation)
-  // Check for 'absolute' property which signifies absolute orientation relative to Earth's magnetic North
-  if (event.absolute && event.alpha !== null) {
-    return 360 - event.alpha
-  }
-
-  // Fallback for alpha if no absolute property (might be relative on some devices)
+  // deviceorientationabsolute event gives absolute alpha relative to North
+  // If we have an alpha and it's flagged as absolute, or it's from the absolute event
   if (event.alpha !== null) {
-    return 360 - event.alpha
+    if (event.absolute === true || ('ondeviceorientationabsolute' in window)) {
+      // In deviceorientationabsolute, alpha 0 = North, and it increases counter-clockwise (standard sensor)
+      // So heading (clockwise) = 360 - alpha
+      const heading = (360 - event.alpha) % 360
+      return heading
+    }
   }
   
   return null
+}
+
+/**
+ * Low-pass filter for angles that handles the 0/360 wrap-around issue.
+ * @param current The current raw angle from sensor
+ * @param last The last smoothed angle
+ * @param alpha Smoothing factor (0 to 1). Lower = smoother/slower, Higher = noisier/faster.
+ * @returns Smoothed angle
+ */
+export function smoothAngle(current: number, last: number, alpha: number = 0.15): number {
+  if (last === undefined || last === null) return current;
+
+  let diff = current - last;
+
+  // Handle wrap-around (shortest path)
+  if (diff > 180) diff -= 360;
+  if (diff < -180) diff += 360;
+
+  // Apply smoothing factor
+  const result = (last + (diff * alpha) + 360) % 360;
+  
+  return result;
 }
 
 /**

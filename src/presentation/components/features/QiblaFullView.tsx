@@ -90,7 +90,7 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
             
             {/* Rotating Compass Plate (Markings + Directions + Needle) */}
             <div 
-              className="absolute inset-0 transition-transform duration-500 ease-out"
+              className="absolute inset-0 transition-transform duration-200 ease-out"
               style={{ transform: `rotate(${-currentHeading}deg)` }}
             >
               {/* Degree Markings */}
@@ -131,7 +131,7 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
 
                  {/* Qibla Indicator Arrow (Relative to North on the plate) */}
                  <div 
-                   className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out z-10"
+                   className="absolute inset-0 flex items-center justify-center transition-transform duration-200 ease-out z-10"
                    style={{ transform: `rotate(${qiblaInfo?.direction || 0}deg)` }}
                  >
                    <div className="relative w-2 h-48 md:h-64 flex flex-col items-center">
