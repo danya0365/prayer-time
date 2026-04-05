@@ -171,5 +171,40 @@ export const en: Translations = {
       name: 'Turkey',
       description: 'Used in Turkey'
     }
+  },
+
+  qibla: {
+    title: "Qibla Direction",
+    distance: "Distance",
+    precision: "Precision",
+    standardFormula: "Standard Formula",
+    orientation: "Orientation",
+    staticReference: "Static Reference",
+    realTimeSensor: "Real-time Sensor",
+    meccaAligned: "Mecca Aligned",
+    stopOrientation: "Stop Orientation",
+    calibrating: "Calibrating...",
+    howToFind: "How to find Qibla",
+    latitude: "Latitude",
+    longitude: "Longitude",
+    city: "City",
+    unknownLocation: "Unknown Location",
+    yourLocation: "Your Location",
+    qiblaStats: "Qibla Stats",
+    calibrationSteps: [
+      "Lay your phone flat on a level surface away from magnets",
+      "Keep the device at a distance from electronic interference",
+      "If the direction seems off, move your phone in a 'figure 8' pattern",
+      "The compass arrow shows the final direction relative to magnetic North"
+    ],
+    desktopSteps: [
+      "MacBooks do not have built-in compass sensors",
+      "The compass above assumes the Top of your screen is True North",
+      "Align your MacBook so the screen points toward North",
+      "The arrow will then accurately show the direction to Mecca"
+    ],
+    permissionRequired: "Compass Permission Required",
+    permissionDesc: "Enable motion sensors to use the real-time compass features.",
+    enableNow: "Enable Now"
   }
 };

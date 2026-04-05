@@ -5,12 +5,16 @@ import { cn } from "@/utils/cn";
 import { Navigation, Info, ShieldCheck, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocationStore } from "../../stores/locationStore";
+import { useTranslation } from "../../hooks/useTranslation";
+import { useSettingsStore } from "../../stores/settingsStore";
 
 interface QiblaFullViewProps {
   className?: string;
 }
 
 export function QiblaFullView({ className }: QiblaFullViewProps) {
+  const { settings } = useSettingsStore();
+  const { t } = useTranslation({ language: settings.language });
   const { currentLocation } = useLocationStore();
   const [qiblaInfo, setQiblaInfo] = useState<QiblaInfo | null>(null);
   const [deviceHeading, setDeviceHeading] = useState<number>(0);
@@ -109,14 +113,14 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
           {isStaticMode && (
             <div className="px-4 py-1.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full flex items-center gap-2 animate-fade-in">
               <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-pulse" />
-              <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">Static Mode (Reference)</span>
+              <span className="text-[#D4AF37] text-[10px] font-black uppercase tracking-widest">{t.qibla.staticReference}</span>
             </div>
           )}
           
           {isAligned && (
             <div className="px-6 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full flex items-center gap-3 animate-bounce shadow-lg backdrop-blur-md">
               <div className="w-3 h-3 bg-emerald-400 rounded-full shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-              <span className="text-emerald-400 text-xs font-black uppercase tracking-[0.2em]">Mecca Aligned</span>
+              <span className="text-emerald-400 text-xs font-black uppercase tracking-[0.2em]">{t.qibla.meccaAligned}</span>
             </div>
           )}
         </div>
@@ -208,7 +212,7 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
             "font-black tracking-[0.3em] uppercase transition-colors duration-700",
             isAligned ? "text-emerald-400/80" : "text-[#D4AF37]"
           )}>
-            {isAligned ? "Stop Orientation" : (compassDirection || "Calibrating...")}
+            {isAligned ? t.qibla.stopOrientation : (compassDirection || t.qibla.calibrating)}
           </div>
         </div>
       </div>
@@ -221,21 +225,21 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
               <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
                 <MapPin className="text-[#D4AF37] w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-white">Your Location</h3>
+              <h3 className="text-xl font-bold text-white">{t.qibla.yourLocation}</h3>
            </div>
            
            <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-[#D4AF37]/10">
-                 <span className="text-white/40 font-medium">Latitude</span>
+                 <span className="text-white/40 font-medium">{t.qibla.latitude}</span>
                  <span className="text-white font-mono">{currentLocation?.latitude?.toFixed(4) || "---"}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-[#D4AF37]/10">
-                 <span className="text-white/40 font-medium">Longitude</span>
+                 <span className="text-white/40 font-medium">{t.qibla.longitude}</span>
                  <span className="text-white font-mono">{currentLocation?.longitude?.toFixed(4) || "---"}</span>
               </div>
               <div className="flex justify-between items-center py-3">
-                 <span className="text-white/40 font-medium">City</span>
-                 <span className="text-[#D4AF37] font-bold">{currentLocation?.city || "Unknown Location"}</span>
+                 <span className="text-white/40 font-medium">{t.qibla.city}</span>
+                 <span className="text-[#D4AF37] font-bold">{currentLocation?.city || t.qibla.unknownLocation}</span>
               </div>
            </div>
         </div>
@@ -246,22 +250,22 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
               <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
                 <Navigation className="text-[#D4AF37] w-6 h-6" />
               </div>
-              <h3 className="text-xl font-bold text-white">Qibla Stats</h3>
+              <h3 className="text-xl font-bold text-white">{t.qibla.qiblaStats}</h3>
            </div>
 
            <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-[#D4AF37]/10">
-                 <span className="text-white/40 font-medium">Distance</span>
+                 <span className="text-white/40 font-medium">{t.qibla.distance}</span>
                  <span className="text-white font-bold">{qiblaInfo ? `${Math.round(qiblaInfo.distance).toLocaleString()} km` : "--- km"}</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-[#D4AF37]/10">
-                 <span className="text-white/40 font-medium">Precision</span>
-                 <span className="text-emerald-400 font-bold">Standard Formula</span>
+                 <span className="text-white/40 font-medium">{t.qibla.precision}</span>
+                 <span className="text-emerald-400 font-bold">{t.qibla.standardFormula}</span>
               </div>
               <div className="flex justify-between items-center py-3">
-                 <span className="text-white/40 font-medium">Orientation</span>
+                 <span className="text-white/40 font-medium">{t.qibla.orientation}</span>
                  <span className={cn("font-bold", isStaticMode ? "text-amber-400" : "text-emerald-400")}>
-                   {isStaticMode ? "Static Reference" : "Real-time Sensor"}
+                   {isStaticMode ? t.qibla.staticReference : t.qibla.realTimeSensor}
                  </span>
               </div>
            </div>
@@ -275,27 +279,17 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
                <Info className="text-[#D4AF37] w-6 h-6" />
             </div>
             <div className="space-y-4">
-               <h4 className="text-lg font-bold text-white">How to find Qibla</h4>
+               <h4 className="text-lg font-bold text-white">{t.qibla.howToFind}</h4>
                <ul className="space-y-3">
                   {isStaticMode ? (
-                    [
-                      "MacBooks do not have built-in compass sensors",
-                      "The compass above assumes the Top of your screen is True North",
-                      "Align your MacBook so the screen points toward North",
-                      "The arrow will then accurately show the direction to Mecca"
-                    ].map((step, i) => (
+                    t.qibla.desktopSteps.map((step, i) => (
                       <li key={i} className="flex gap-3 text-white/60 text-sm font-medium">
                          <span className="text-[#D4AF37] font-bold">{i + 1}.</span>
                          {step}
                       </li>
                     ))
                   ) : (
-                    [
-                      "Lay your phone flat on a level surface away from magnets",
-                      "Keep the device at a distance from electronic interference",
-                      "If the direction seems off, move your phone in a 'figure 8' pattern",
-                      "The compass arrow shows the final direction relative to magnetic North"
-                    ].map((step, i) => (
+                    t.qibla.calibrationSteps.map((step, i) => (
                       <li key={i} className="flex gap-3 text-white/60 text-sm font-medium">
                          <span className="text-[#D4AF37] font-bold">{i + 1}.</span>
                          {step}
@@ -315,14 +309,14 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
                  <ShieldCheck className="w-8 h-8" />
               </div>
               <div className="text-center md:text-left">
-                 <h5 className="text-xl font-black mb-1">Compass Permission Required</h5>
-                 <p className="font-bold opacity-80">Enable motion sensors to use the real-time compass features.</p>
+                 <h5 className="text-xl font-black mb-1">{t.qibla.permissionRequired}</h5>
+                 <p className="font-bold opacity-80">{t.qibla.permissionDesc}</p>
               </div>
               <button 
                 onClick={() => window.location.reload()}
                 className="px-8 py-4 bg-[#022c22] text-white rounded-2xl font-black hover:scale-105 transition-transform"
               >
-                Enable Now
+                {t.qibla.enableNow}
               </button>
            </div>
         </div>

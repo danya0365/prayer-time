@@ -181,4 +181,30 @@ export interface Translations {
       description: string;
     };
   };
+
+  // Qibla
+  qibla: {
+    title: string;
+    distance: string;
+    precision: string;
+    standardFormula: string;
+    orientation: string;
+    staticReference: string;
+    realTimeSensor: string;
+    meccaAligned: string;
+    stopOrientation: string;
+    calibrating: string;
+    howToFind: string;
+    latitude: string;
+    longitude: string;
+    city: string;
+    unknownLocation: string;
+    yourLocation: string;
+    qiblaStats: string;
+    calibrationSteps: string[];
+    desktopSteps: string[];
+    permissionRequired: string;
+    permissionDesc: string;
+    enableNow: string;
+  };
 }
