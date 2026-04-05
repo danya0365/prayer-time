@@ -31,11 +31,12 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     if (!mounted) return
 
     const requestOrientationPermission = async () => {
-      const DeviceEvent = DeviceOrientationEvent as unknown as {
+      // Safely check for DeviceOrientationEvent on window
+      const DeviceEvent = (window as any).DeviceOrientationEvent as {
         requestPermission?: () => Promise<'granted' | 'denied'>;
       }
 
-      if (typeof DeviceEvent.requestPermission === 'function') {
+      if (DeviceEvent && typeof DeviceEvent.requestPermission === 'function') {
         try {
           const permission = await DeviceEvent.requestPermission()
           const granted = permission === 'granted'
