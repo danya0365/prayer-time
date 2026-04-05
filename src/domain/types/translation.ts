@@ -49,6 +49,9 @@ export interface Translations {
     localTime: string;
     yourTime: string;
     goToMyLocation: string;
+    backToDashboard: string;
+    exploreFeaturesText: string;
+    exploreNow: string;
   };
 
   // Settings

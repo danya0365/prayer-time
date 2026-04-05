@@ -8,15 +8,12 @@ import { useLocationStore } from "@/src/presentation/stores/locationStore";
 import { useSettingsStore } from "@/src/presentation/stores/settingsStore";
 import { useState } from "react";
 import { LocationWarningBanner } from "../../shared/LocationWarningBanner";
-import { AdditionalFeatures } from "./partials/AdditionalFeatures";
-import { FutureFeatures } from "./partials/FutureFeatures";
 import HeroSection from "./partials/HeroSection";
-import { MockupShowcase } from "./partials/MockupShowcase";
+import Link from "next/link";
+import { Sparkles, ArrowRight } from "lucide-react";
 
 export default function OriginalTheme() {
   const [locationSelectorOpen, setLocationSelectorOpen] =
-    useState<boolean>(false);
-  const [showAdditionalFeatures, setShowAdditionalFeatures] =
     useState<boolean>(false);
 
   const { currentLocation } = useLocationStore();
@@ -83,77 +80,36 @@ export default function OriginalTheme() {
           language={settings.language}
         />
 
-        {/* Additional Features Toggle */}
-        {!showAdditionalFeatures && (
-          <div className="w-full max-w-4xl mt-12">
-            <div className="text-center">
-              <button
-                onClick={() => setShowAdditionalFeatures(true)}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#D4AF37] hover:bg-[#B8962E] text-[#022c22] rounded-full transition-all duration-300 font-bold overflow-hidden shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                <svg
-                  className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-                {t.ui.additionalFeatures}
-              </button>
+        {/* Additional Features Call to Action */}
+        <div className="w-full max-w-4xl mt-16 p-8 rounded-[2.5rem] bg-[#064e3b]/30 backdrop-blur-md border border-[#D4AF37]/20 relative overflow-hidden group/cta">
+          {/* Subtle Glow */}
+          <div className="absolute -top-10 -left-10 w-32 h-32 bg-[#D4AF37]/5 rounded-full blur-3xl group-hover/cta:bg-[#D4AF37]/10 transition-colors" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="w-16 h-16 bg-[#D4AF37]/10 rounded-2xl flex items-center justify-center border border-[#D4AF37]/30 shadow-xl shrink-0">
+                <Sparkles className="w-8 h-8 text-[#D4AF37] animate-pulse" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  {t.ui.additionalFeatures || "Additional Features"}
+                </h3>
+                <p className="text-[#D4AF37]/60 font-medium">
+                  {t.ui.exploreFeaturesText || "Explore Qibla, Islamic Calendar, and experimental tools."}
+                </p>
+              </div>
             </div>
+            
+            <Link
+              href="/features"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#D4AF37] hover:bg-[#B8962E] text-[#022c22] rounded-full transition-all duration-300 font-black overflow-hidden shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] whitespace-nowrap"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+              <span>{t.ui.exploreNow || "Explore Now"}</span>
+              <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
           </div>
-        )}
-
-        {/* Additional Features - Lazy Loaded */}
-        {showAdditionalFeatures && (
-          <div className="w-full max-w-4xl space-y-12 mt-12">
-            {/* Collapse Button */}
-            <div className="text-center">
-              <button
-                onClick={() => setShowAdditionalFeatures(false)}
-                className="inline-flex items-center gap-2 px-6 py-2 text-[#D4AF37]/70 hover:text-[#D4AF37] transition-colors font-medium border border-[#D4AF37]/20 rounded-full bg-[#064e3b]/20"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-                {t.ui.close}
-              </button>
-            </div>
-
-            <div className="bg-[#064e3b]/10 backdrop-blur-md rounded-[2.5rem] border border-[#D4AF37]/10 p-2 sm:p-6 space-y-12">
-              <AdditionalFeatures
-                latitude={currentLocation?.latitude}
-                longitude={currentLocation?.longitude}
-                language={settings.language}
-              />
-
-              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37]/20 to-transparent mx-12" />
-
-              <MockupShowcase />
-
-              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent mx-12" />
-
-              <FutureFeatures />
-            </div>
-          </div>
-        )}
+        </div>
       </div>
 
       <LocationSelector

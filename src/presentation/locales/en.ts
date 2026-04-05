@@ -46,7 +46,10 @@ export const en: Translations = {
     refresh: 'Refresh',
     localTime: 'Local Time',
     yourTime: 'Your Time',
-    goToMyLocation: 'Go to My Location'
+    goToMyLocation: 'Go to My Location',
+    backToDashboard: 'Back to Dashboard',
+    exploreFeaturesText: 'Explore Qibla, Islamic Calendar, and experimental tools.',
+    exploreNow: 'Explore Now'
   },
 
   settings: {

@@ -47,6 +47,9 @@ export const ar: Translations = {
     localTime: "التوقيت المحلي",
     yourTime: "توقيتك",
     goToMyLocation: "الذهاب إلى موقعي",
+    backToDashboard: "العودة إلى لوحة القيادة",
+    exploreFeaturesText: "استكشف القبلة والتقويم الإسلامي والأدوات التجريبية.",
+    exploreNow: "استكشف الآن",
   },
 
   settings: {

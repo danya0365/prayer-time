@@ -47,6 +47,9 @@ export const th: Translations = {
     localTime: "เวลาท้องถิ่น",
     yourTime: "เวลาของคุณ",
     goToMyLocation: "ไปยังตำแหน่งของฉัน",
+    backToDashboard: "กลับหน้าหลัก",
+    exploreFeaturesText: "สำรวจทิศกิบลัต, ปฏิทินอิสลาม และเครื่องมือใหม่ๆ",
+    exploreNow: "สำรวจเลย",
   },
 
   settings: {
