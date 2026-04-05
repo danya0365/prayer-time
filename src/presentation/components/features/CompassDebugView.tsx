@@ -16,6 +16,10 @@ function shortestPath(from: number, to: number) {
   return from + diff
 }
 
+interface DeviceOrientationEventExtended {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
 type Status = 'idle' | 'active' | 'error' | 'permission'
 
 export default function CompassDebugView() {
@@ -87,7 +91,7 @@ export default function CompassDebugView() {
   useEffect(() => {
     if (
       typeof DeviceOrientationEvent !== 'undefined' &&
-      typeof (DeviceOrientationEvent as any).requestPermission === 'function'
+      typeof (DeviceOrientationEvent as unknown as DeviceOrientationEventExtended).requestPermission === 'function'
     ) {
       setStatus('permission')
       setStatusMsg('Tap to enable compass')
@@ -103,7 +107,7 @@ export default function CompassDebugView() {
 
   const requestPermission = async () => {
     try {
-      const result = await (DeviceOrientationEvent as any).requestPermission()
+      const result = await (DeviceOrientationEvent as unknown as DeviceOrientationEventExtended).requestPermission?.()
       if (result === 'granted') {
         setNeedsPermission(false)
         setStatusMsg('Waiting for sensor...')
@@ -112,9 +116,9 @@ export default function CompassDebugView() {
         setStatus('error')
         setStatusMsg('Sensor permission denied')
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       setStatus('error')
-      setStatusMsg('Permission error: ' + e.message)
+      setStatusMsg('Permission error: ' + (e instanceof Error ? e.message : String(e)))
     }
   }
 
