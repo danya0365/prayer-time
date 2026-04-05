@@ -21,6 +21,7 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const [permissionGranted, setPermissionGranted] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false);
   const [isStaticMode, setIsStaticMode] = useState<boolean>(true);
+  const [manualHeading, setManualHeading] = useState<number>(0);
 
   useEffect(() => {
     setMounted(true);
@@ -84,7 +85,9 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
 
   if (!mounted) return null;
 
-  const qiblaRelativeAngle = qiblaInfo ? qiblaInfo.direction - deviceHeading : 0;
+  // Use manual heading if we're in static mode, otherwise use the sensor
+  const currentHeading = isStaticMode ? manualHeading : deviceHeading;
+  const qiblaRelativeAngle = qiblaInfo ? qiblaInfo.direction - currentHeading : 0;
   const compassDirection = qiblaInfo ? getCompassDirection(qiblaInfo.direction) : "";
 
   // Normalizing angle to -180 to 180 for easier calculations
@@ -216,6 +219,51 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
           </div>
         </div>
       </div>
+
+      {/* Manual Adjustment - Only in Static Mode */}
+      {isStaticMode && (
+        <div className="p-8 rounded-[2.5rem] bg-[#022c22]/40 backdrop-blur-xl border border-[#D4AF37]/20 flex flex-col gap-8 animate-fade-in">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+             <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
+                  <Navigation className="text-[#D4AF37] w-6 h-6 animate-spin-slow" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">{t.qibla.manualAdjustment}</h3>
+                  <p className="text-white/40 text-sm mt-1">{t.qibla.orientationHint}</p>
+                </div>
+             </div>
+             <button 
+               onClick={() => setManualHeading(0)}
+               className="px-6 py-2 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 rounded-xl font-bold text-sm transition-all"
+             >
+               {t.qibla.resetOrientation}
+             </button>
+          </div>
+
+          <div className="space-y-6">
+             <div className="flex justify-between items-end">
+                <span className="text-white/60 font-bold uppercase tracking-widest text-xs">{t.qibla.adjustHeading}</span>
+                <span className="text-3xl font-black text-[#D4AF37] tabular-nums">{manualHeading}°</span>
+             </div>
+             <input 
+               type="range"
+               min="0"
+               max="360"
+               value={manualHeading}
+               onChange={(e) => setManualHeading(parseInt(e.target.value))}
+               className="w-full h-3 bg-[#022c22] rounded-lg appearance-none cursor-pointer accent-[#D4AF37] border border-[#D4AF37]/10 transition-all hover:border-[#D4AF37]/30"
+             />
+             <div className="flex justify-between text-[10px] font-black text-white/20 uppercase tracking-widest">
+                <span>0° (N)</span>
+                <span>90° (E)</span>
+                <span>180° (S)</span>
+                <span>270° (W)</span>
+                <span>360° (N)</span>
+             </div>
+          </div>
+        </div>
+      )}
 
       {/* Info Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

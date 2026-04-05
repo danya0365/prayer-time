@@ -205,6 +205,10 @@ export const en: Translations = {
     ],
     permissionRequired: "Compass Permission Required",
     permissionDesc: "Enable motion sensors to use the real-time compass features.",
-    enableNow: "Enable Now"
+    enableNow: "Enable Now",
+    manualAdjustment: "Manual Adjustment",
+    adjustHeading: "Adjust Compass Heading",
+    resetOrientation: "Reset Orientation",
+    orientationHint: "If you know where True North is, adjust the slider below to align the compass."
   }
 };

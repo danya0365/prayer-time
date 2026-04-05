@@ -206,5 +206,9 @@ export interface Translations {
     permissionRequired: string;
     permissionDesc: string;
     enableNow: string;
+    manualAdjustment: string;
+    adjustHeading: string;
+    resetOrientation: string;
+    orientationHint: string;
   };
 }

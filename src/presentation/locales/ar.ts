@@ -208,6 +208,10 @@ export const ar: Translations = {
     ],
     permissionRequired: "مطلوب إذن البوصلة",
     permissionDesc: "قم بتمكين حساسات الحركة لاستخدام ميزات البوصلة في الوقت الحقيقي",
-    enableNow: "تمكين الآن"
+    enableNow: "تمكين الآن",
+    manualAdjustment: "تعديل يدوي",
+    adjustHeading: "ضبط اتجاه البوصلة",
+    resetOrientation: "إعادة ضبط الاتجاه",
+    orientationHint: "إذا كنت تعرف مكان الشمال الحقيقي، يمكنك ضبط شريط التمرير أدناه لمحاذاة البوصلة."
   }
 };
