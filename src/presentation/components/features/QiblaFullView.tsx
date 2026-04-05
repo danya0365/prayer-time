@@ -141,61 +141,67 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
             )} />
             <div className="absolute -inset-4 rounded-full border border-white/5" />
             
-            {/* Degree Markings */}
-            <div className="absolute inset-0">
-               {[...Array(12)].map((_, i) => (
+            {/* Rotating Compass Plate (Markings + Directions + Needle) */}
+            <div 
+              className="absolute inset-0 transition-transform duration-500 ease-out"
+              style={{ transform: `rotate(${-currentHeading}deg)` }}
+            >
+              {/* Degree Markings */}
+              <div className="absolute inset-0">
+                 {[...Array(12)].map((_, i) => (
+                   <div 
+                     key={i} 
+                     className={cn(
+                       "absolute top-0 left-1/2 w-0.5 h-4 origin-bottom transition-colors duration-700",
+                       isAligned ? "bg-emerald-500/40" : "bg-[#D4AF37]/40"
+                     )} 
+                     style={{ 
+                       height: i % 3 === 0 ? '16px' : '8px',
+                       transform: `translateX(-50%) rotate(${i * 30}deg) translateY(-340%)` 
+                     }} 
+                   />
+                 ))}
+              </div>
+
+              {/* Compass Circle */}
+              <div className={cn(
+                "absolute inset-4 rounded-full transition-all duration-700 border-2 flex items-center justify-center shadow-inner",
+                isAligned 
+                  ? "bg-gradient-to-br from-[#064e3b] to-[#014737] border-emerald-400/50" 
+                  : "bg-gradient-to-br from-[#064e3b] to-[#022c22] border-[#D4AF37]/40"
+              )}>
+                 {/* Cardinal Directions */}
+                 <div className={cn("absolute top-6 font-black text-2xl transition-colors", isAligned ? "text-emerald-400" : "text-[#D4AF37]/80")}>N</div>
+                 <div className="absolute right-6 font-black text-2xl text-white/5">E</div>
+                 <div className="absolute bottom-6 font-black text-2xl text-white/5">S</div>
+                 <div className="absolute left-6 font-black text-2xl text-white/5">W</div>
+
+                 {/* Central Kaaba Icon */}
+                 <div className={cn(
+                   "text-6xl z-20 transition-all duration-700",
+                   isAligned ? "scale-125 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "hover:scale-110"
+                 )}>🕋</div>
+
+                 {/* Qibla Indicator Arrow (Relative to North on the plate) */}
                  <div 
-                   key={i} 
-                   className={cn(
-                     "absolute top-0 left-1/2 w-0.5 h-4 origin-bottom transition-colors duration-700",
-                     isAligned ? "bg-emerald-500/40" : "bg-[#D4AF37]/40"
-                   )} 
-                   style={{ 
-                     height: i % 3 === 0 ? '16px' : '8px',
-                     transform: `translateX(-50%) rotate(${i * 30}deg) translateY(-340%)` 
-                   }} 
-                 />
-               ))}
-            </div>
-
-            {/* Compass Circle */}
-            <div className={cn(
-              "absolute inset-4 rounded-full transition-all duration-700 border-2 flex items-center justify-center shadow-inner",
-              isAligned 
-                ? "bg-gradient-to-br from-[#064e3b] to-[#014737] border-emerald-400/50" 
-                : "bg-gradient-to-br from-[#064e3b] to-[#022c22] border-[#D4AF37]/40"
-            )}>
-               {/* Cardinal Directions */}
-               <div className={cn("absolute top-6 font-black text-2xl transition-colors", isAligned ? "text-emerald-400" : "text-[#D4AF37]/80")}>N</div>
-               <div className="absolute right-6 font-black text-2xl text-white/5">E</div>
-               <div className="absolute bottom-6 font-black text-2xl text-white/5">S</div>
-               <div className="absolute left-6 font-black text-2xl text-white/5">W</div>
-
-               {/* Central Kaaba Icon */}
-               <div className={cn(
-                 "text-6xl z-20 transition-all duration-700",
-                 isAligned ? "scale-125 drop-shadow-[0_0_15px_rgba(16,185,129,0.5)]" : "hover:scale-110"
-               )}>🕋</div>
-
-               {/* Qibla Indicator Arrow */}
-               <div 
-                 className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out z-10"
-                 style={{ transform: `rotate(${qiblaRelativeAngle}deg)` }}
-               >
-                 <div className="relative w-2 h-48 md:h-64 flex flex-col items-center">
-                    {/* Arrow Head */}
-                    <div className={cn(
-                      "w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] transition-colors duration-700",
-                      isAligned ? "border-b-emerald-400" : "border-b-[#D4AF37]"
-                    )} />
-                    <div className={cn(
-                      "w-1.5 h-full rounded-full transition-all duration-700",
-                      isAligned 
-                        ? "bg-gradient-to-b from-emerald-400 to-transparent shadow-[0_0_25px_rgba(52,211,153,0.8)]" 
-                        : "bg-gradient-to-b from-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,0.5)]"
-                    )} />
+                   className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out z-10"
+                   style={{ transform: `rotate(${qiblaInfo?.direction || 0}deg)` }}
+                 >
+                   <div className="relative w-2 h-48 md:h-64 flex flex-col items-center">
+                      {/* Arrow Head */}
+                      <div className={cn(
+                        "w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] transition-colors duration-700",
+                        isAligned ? "border-b-emerald-400" : "border-b-[#D4AF37]"
+                      )} />
+                      <div className={cn(
+                        "w-1.5 h-full rounded-full transition-all duration-700",
+                        isAligned 
+                          ? "bg-gradient-to-b from-emerald-400 to-transparent shadow-[0_0_25px_rgba(52,211,153,0.8)]" 
+                          : "bg-gradient-to-b from-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,0.5)]"
+                      )} />
+                   </div>
                  </div>
-               </div>
+              </div>
             </div>
             
             {/* Center Hub Overlay */}
