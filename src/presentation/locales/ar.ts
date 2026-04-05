@@ -47,6 +47,9 @@ export const ar: Translations = {
     localTime: "التوقيت المحلي",
     yourTime: "توقيتك",
     goToMyLocation: "الذهاب إلى موقعي",
+    backToDashboard: "العودة إلى لوحة القيادة",
+    exploreFeaturesText: "استكشف القبلة والتقويم الإسلامي والأدوات التجريبية.",
+    exploreNow: "استكشف الآن",
   },
 
   settings: {
@@ -169,7 +172,46 @@ export const ar: Translations = {
     },
     Turkey: {
       name: "تركيا",
-      description: "تستخدم في تركيا",
+      description: "المستخدمة في تركيا",
     },
   },
+
+  qibla: {
+    title: "اتجاه القبلة",
+    distance: "المسافة",
+    precision: "الدقة",
+    standardFormula: "الصيغة القياسية",
+    orientation: "التوجه",
+    staticReference: "مرجع ثابت",
+    realTimeSensor: "حساس الوقت الحقيقي",
+    meccaAligned: "تمت محاذاة مكة",
+    stopOrientation: "توقف عن التدوير",
+    calibrating: "جاري المعايرة...",
+    howToFind: "كيف تجد القبلة",
+    latitude: "خط العرض",
+    longitude: "خط الطول",
+    city: "المدينة",
+    unknownLocation: "موقع غير معروف",
+    yourLocation: "موقعك",
+    qiblaStats: "إحصائيات القبلة",
+    calibrationSteps: [
+      "ضع هاتفك بشكل مسطح على سطح مستوٍ بعيداً عن المغناطيس",
+      "ابقِ الجهاز بعيداً عن التشويش الإلكتروني",
+      "إذا بدا الاتجاه غير صحيح، فقم بتحريك هاتفك بنمط 'رقم 8'",
+      "سهم البوصلة يظهر الاتجاه النهائي بالنسبة للشمال المغناطيسي"
+    ],
+    desktopSteps: [
+      "أجهزة ماك بوك لا تحتوي على حساسات بوصلة مدمجة",
+      "تفترض البوصلة أعلاه أن الجزء العلوي من شاشتك هو الشمال الحقيقي",
+      "قم بمحاذاة جهاز ماك بوك الخاص بك بحيث توجه الشاشة نحو الشمال",
+      "سيظهر السهم بعد ذلك بدقة الاتجاه نحو مكة"
+    ],
+    permissionRequired: "مطلوب إذن البوصلة",
+    permissionDesc: "قم بتمكين حساسات الحركة لاستخدام ميزات البوصلة في الوقت الحقيقي",
+    enableNow: "تمكين الآن",
+    manualAdjustment: "تعديل يدوي",
+    adjustHeading: "ضبط اتجاه البوصلة",
+    resetOrientation: "إعادة ضبط الاتجاه",
+    orientationHint: "إذا كنت تعرف مكان الشمال الحقيقي، يمكنك ضبط شريط التمرير أدناه لمحاذاة البوصلة."
+  }
 };

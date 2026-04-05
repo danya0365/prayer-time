@@ -108,6 +108,37 @@ export default function FloatingSettingsButton() {
               </div>
             </div>
 
+            {/* Features Button */}
+            <div className="relative group">
+              <button
+                onClick={() => {
+                  router.push("/features");
+                  setIsExpanded(false);
+                }}
+                className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center backdrop-blur-sm border border-white/20"
+                aria-label={t.ui.additionalFeatures || "Features"}
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"
+                  />
+                </svg>
+              </button>
+              {/* Tooltip */}
+              <div className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                {t.ui.additionalFeatures || "Features"}
+                <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
+              </div>
+            </div>
+
             {/* World Map Button */}
             <div className="relative group">
               <button

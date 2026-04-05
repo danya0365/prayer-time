@@ -49,6 +49,9 @@ export interface Translations {
     localTime: string;
     yourTime: string;
     goToMyLocation: string;
+    backToDashboard: string;
+    exploreFeaturesText: string;
+    exploreNow: string;
   };
 
   // Settings
@@ -177,5 +180,35 @@ export interface Translations {
       name: string;
       description: string;
     };
+  };
+
+  // Qibla
+  qibla: {
+    title: string;
+    distance: string;
+    precision: string;
+    standardFormula: string;
+    orientation: string;
+    staticReference: string;
+    realTimeSensor: string;
+    meccaAligned: string;
+    stopOrientation: string;
+    calibrating: string;
+    howToFind: string;
+    latitude: string;
+    longitude: string;
+    city: string;
+    unknownLocation: string;
+    yourLocation: string;
+    qiblaStats: string;
+    calibrationSteps: string[];
+    desktopSteps: string[];
+    permissionRequired: string;
+    permissionDesc: string;
+    enableNow: string;
+    manualAdjustment: string;
+    adjustHeading: string;
+    resetOrientation: string;
+    orientationHint: string;
   };
 }

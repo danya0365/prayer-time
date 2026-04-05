@@ -5,7 +5,8 @@ import { useTranslation } from "@/src/presentation/hooks/useTranslation";
 import { cn } from "@/utils/cn";
 import { PrayerInfo, formatPrayerTime } from "@/utils/prayer-utils";
 import { animated, config, useSprings } from "@react-spring/web";
-import { useEffect, useState } from "react";
+import { useDrag } from "@use-gesture/react";
+import { useEffect, useState, useRef } from "react";
 
 interface PrayerCarouselProps {
   prayers: PrayerInfo[];
@@ -20,9 +21,15 @@ export default function PrayerCarousel({
 }: PrayerCarouselProps) {
   const { t } = useTranslation({ language });
   
+  // Constants for carousel layout
+  const CARD_WIDTH = 120; // Matches the spacing used in effects
+  
   // Find index of current prayer or default to 0
   const initialIndex = prayers.findIndex(p => p.name === currentPrayer?.name);
   const [activeIndex, setActiveIndex] = useState(initialIndex !== -1 ? initialIndex : 0);
+  
+  // ref to track dragging state to prevent clicks during drag
+  const isDragging = useRef(false);
   
   // Update active index if current prayer changes externally
   useEffect(() => {
@@ -35,20 +42,47 @@ export default function PrayerCarousel({
   const [springs, api] = useSprings(prayers.length, (index) => {
     const offset = index - activeIndex;
     
-    // Uniform scale and opacity as requested for "equal prominence"
-    const scale = 1;
-    const opacity = 1; // All items clearly visible
-    const zIndex = index === activeIndex ? 10 : 1;
-    const x = offset * 110;
-
     return {
-      x,
-      scale,
-      opacity,
-      zIndex,
+      x: offset * CARD_WIDTH,
+      scale: 1,
+      opacity: 1,
+      zIndex: index === activeIndex ? 10 : 1,
       config: config.gentle,
     };
   }, [activeIndex]);
+
+  // Handle drag gestures
+  const bind = useDrag(({ active, movement: [mx], direction: [xDir], distance: [dx], cancel }) => {
+    if (active) {
+      isDragging.current = dx > 5;
+      api.start((i) => {
+        const offset = i - activeIndex;
+        return { 
+          x: offset * CARD_WIDTH + mx, 
+          scale: 1,
+          zIndex: i === activeIndex ? 10 : 1,
+          immediate: true 
+        };
+      });
+    } else {
+      // On release, determine if we should snap to a new index
+      setTimeout(() => { isDragging.current = false; }, 0);
+      
+      let nextIndex = activeIndex;
+      const swipeThreshold = CARD_WIDTH / 3;
+      
+      if (Math.abs(mx) > swipeThreshold) {
+        nextIndex = mx > 0 ? activeIndex - 1 : activeIndex + 1;
+      }
+      
+      // Clamp index
+      nextIndex = Math.max(0, Math.min(prayers.length - 1, nextIndex));
+      setActiveIndex(nextIndex);
+    }
+  }, {
+    axis: 'x',
+    filterTaps: true,
+  });
 
   // Update springs when activeIndex changes
   useEffect(() => {
@@ -56,10 +90,12 @@ export default function PrayerCarousel({
       const offset = index - activeIndex;
       
       return {
-        x: offset * 120,
+        x: offset * CARD_WIDTH,
         scale: 1,
         opacity: 1,
         zIndex: index === activeIndex ? 10 : 1,
+        immediate: false,
+        config: config.gentle,
       };
     });
   }, [activeIndex, api]);
@@ -67,9 +103,12 @@ export default function PrayerCarousel({
   return (
     <div className="relative w-full flex flex-col items-center">
       {/* Carousel Container */}
-      <div className="relative w-full h-[150px] sm:h-[200px] flex items-center justify-center overflow-hidden px-4">
+      <div 
+        {...bind()}
+        className="relative w-full h-[150px] sm:h-[200px] flex items-center justify-center overflow-hidden px-4 touch-pan-y select-none cursor-grab active:cursor-grabbing"
+      >
         {/* Animated Cards */}
-        <div className="relative flex items-center justify-center w-full">
+        <div className="relative flex items-center justify-center w-full pointer-events-none">
           {springs.map((style, i) => {
             const prayer = prayers[i];
             const isCenter = i === activeIndex;
@@ -83,9 +122,13 @@ export default function PrayerCarousel({
                 className="absolute"
               >
                 <div 
-                  onClick={() => setActiveIndex(i)}
+                  onClick={() => {
+                    if (!isDragging.current) {
+                      setActiveIndex(i);
+                    }
+                  }}
                   className={cn(
-                    "w-24 h-36 sm:w-28 sm:h-40 rounded-[1.5rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-500 relative bg-[#064e3b] border border-[#D4AF37]/20 shadow-xl overflow-hidden"
+                    "w-24 h-36 sm:w-28 sm:h-40 rounded-[1.5rem] flex flex-col items-center justify-center cursor-pointer transition-all duration-500 relative bg-[#064e3b] border border-[#D4AF37]/20 shadow-xl overflow-hidden pointer-events-auto"
                   )}
                 >
                   <span className="text-[10px] font-bold uppercase tracking-wider mb-2 text-[#D4AF37]">
