@@ -1,13 +1,14 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Navigation, Info, ShieldCheck, MapPin } from "lucide-react";
+import { Navigation, Info, ShieldCheck, MapPin, HelpCircle } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useQibla } from "../../hooks/useQibla";
 import { useSound } from "../../stores/soundStore";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { QiblaGuideModal, shouldShowQiblaGuide } from "./QiblaGuideModal";
 
 interface QiblaFullViewProps {
   className?: string;
@@ -38,6 +39,14 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   
   const { playSuccess } = useSound();
   const wasAligned = useRef(false);
+  const [showGuide, setShowGuide] = useState(false);
+
+  // Show guide on first mount if not dismissed
+  useEffect(() => {
+    if (mounted && shouldShowQiblaGuide()) {
+      setShowGuide(true);
+    }
+  }, [mounted]);
 
   useEffect(() => {
     if (isAligned && !wasAligned.current) {
@@ -47,6 +56,7 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   }, [isAligned, playSuccess]);
 
   if (!mounted) return null;
+
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto flex flex-col gap-12", className)}>
@@ -368,6 +378,20 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
               </button>
            </div>
         </div>
+      )}
+
+      {/* Floating Help Button - always visible */}
+      <button
+        onClick={() => setShowGuide(true)}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#D4AF37]/90 text-[#022c22] shadow-lg shadow-[#D4AF37]/30 hover:scale-110 active:scale-95 transition-all flex items-center justify-center backdrop-blur-sm border-2 border-[#D4AF37]/50"
+        aria-label="Qibla Compass Guide"
+      >
+        <HelpCircle className="w-7 h-7" />
+      </button>
+
+      {/* Guide Modal */}
+      {showGuide && (
+        <QiblaGuideModal t={t} onClose={() => setShowGuide(false)} />
       )}
     </div>
   );

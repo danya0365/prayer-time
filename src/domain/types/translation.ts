@@ -214,4 +214,21 @@ export interface Translations {
     resetOrientation: string;
     orientationHint: string;
   };
+
+  // Qibla Guide Modal
+  qiblaGuide: {
+    title: string;
+    subtitle: string;
+    startButton: string;
+    nextButton: string;
+    prevButton: string;
+    doneButton: string;
+    dontShowAgain: string;
+    steps: {
+      title: string;
+      description: string;
+      icon: string;
+      tips: string[];
+    }[];
+  };
 }

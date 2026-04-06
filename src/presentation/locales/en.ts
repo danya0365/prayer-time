@@ -213,5 +213,67 @@ export const en: Translations = {
     adjustHeading: "Adjust Compass Heading",
     resetOrientation: "Reset Orientation",
     orientationHint: "If you know where True North is, adjust the slider below to align the compass."
+  },
+
+  qiblaGuide: {
+    title: "Qibla Compass Guide",
+    subtitle: "Follow these tips for the most accurate Qibla direction",
+    startButton: "Get Started",
+    nextButton: "Next",
+    prevButton: "Back",
+    doneButton: "Start Finding Qibla",
+    dontShowAgain: "Don't show this again",
+    steps: [
+      {
+        title: "Enable Location Access",
+        description: "Accurate GPS location is the foundation of a precise Qibla direction. The Qibla angle is calculated from YOUR location to Makkah.",
+        icon: "📍",
+        tips: [
+          "Allow location access when prompted",
+          "Go outdoors or near a window for the best GPS signal",
+          "Wi-Fi and mobile data improve location accuracy"
+        ]
+      },
+      {
+        title: "Calibrate Your Compass",
+        description: "Your phone's magnetometer needs calibration to detect True North accurately. Interference can cause incorrect readings.",
+        icon: "🔄",
+        tips: [
+          "Move your phone slowly in a figure-8 pattern 3–4 times",
+          "Rotate along all axes (tilt, roll, and yaw)",
+          "Recalibrate if direction readings feel wrong"
+        ]
+      },
+      {
+        title: "Watch Your Environment",
+        description: "Magnetic fields from nearby objects can distort the compass. Even small sources of interference matter.",
+        icon: "⚠️",
+        tips: [
+          "Move away from metal objects, speakers, and magnets",
+          "Remove magnetic phone cases or metal covers",
+          "Step away from electronics, cars, and steel structures"
+        ]
+      },
+      {
+        title: "Hold the Device Correctly",
+        description: "The compass sensor works best when the phone is held flat and parallel to the ground.",
+        icon: "📱",
+        tips: [
+          "Hold your phone flat like a tray",
+          "Keep it parallel to the ground, not tilted",
+          "Avoid moving while reading the compass direction"
+        ]
+      },
+      {
+        title: "Manual Mode as Fallback",
+        description: "If the compass doesn't work on your device (common on some Android phones and all desktops), you can manually set the North direction yourself.",
+        icon: "🧭",
+        tips: [
+          "Use another compass or a known landmark to find North",
+          "Switch to 'Manual Mode' and adjust the slider to True North",
+          "Cross-verify with Google Maps: North is always up on the map"
+        ]
+      }
+    ]
   }
 };
