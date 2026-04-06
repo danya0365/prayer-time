@@ -19,8 +19,11 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
   const {
     qiblaInfo,
     isStaticMode,
+    isManualMode,
+    setIsManualMode,
     manualHeading,
     setManualHeading,
+    deviceHeading,
     permissionGranted,
     currentHeading,
     isAligned,
@@ -120,28 +123,70 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
         </div>
       </div>
 
-      {/* Manual Mini Controller (Static Mode Only) */}
-      {isStaticMode && (
-        <div className="w-full space-y-4 pt-4 border-t border-white/5 animate-fade-in">
-           <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                 <Navigation className="w-3 h-3 text-[#D4AF37] animate-spin-slow" />
-                 <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t.qibla.manualAdjustment}</span>
-              </div>
-              <button onClick={() => setManualHeading(0)} className="text-[#D4AF37]/60 hover:text-[#D4AF37]">
-                 <RotateCcw className="w-3 h-3" />
-              </button>
-           </div>
-           <input 
-             type="range"
-             min="0"
-             max="360"
-             value={manualHeading}
-             onChange={(e) => setManualHeading(parseInt(e.target.value))}
-             className="w-full h-1.5 bg-[#022c22] rounded-lg appearance-none cursor-pointer accent-[#D4AF37] border border-white/5"
-           />
-        </div>
-      )}
+      {/* Manual Adjustment Section */}
+      <div className="w-full space-y-4 pt-6 border-t border-white/10 animate-fade-in">
+         <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+               <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
+               <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{t.qibla.manualAdjustment}</span>
+            </div>
+            
+            <div className="flex items-center gap-3">
+               {!isStaticMode && (
+                 <button 
+                   onClick={() => {
+                     if (!isManualMode) {
+                       setManualHeading(Math.round(deviceHeading));
+                       setIsManualMode(true);
+                     } else {
+                       setIsManualMode(false);
+                     }
+                   }}
+                   className={cn(
+                     "px-2.5 py-1 rounded-lg text-[10px] font-black uppercase transition-all border",
+                     isManualMode 
+                       ? "bg-[#D4AF37] border-[#D4AF37] text-[#022c22]" 
+                       : "border-white/10 text-white/40 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+                   )}
+                 >
+                   {isManualMode ? t.qibla.manualMode : t.qibla.sensorMode}
+                 </button>
+               )}
+               <button 
+                 onClick={() => {
+                   setManualHeading(0);
+                   if (isManualMode && !isStaticMode) setIsManualMode(false);
+                 }} 
+                 className="text-[#D4AF37]/60 hover:text-[#D4AF37] transition-colors"
+               >
+                 <RotateCcw className="w-3.5 h-3.5" />
+               </button>
+            </div>
+         </div>
+
+         {(isStaticMode || isManualMode) && (
+            <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+               <div className="flex justify-between items-center px-1">
+                  <span className="text-[10px] font-bold text-white/30 uppercase tracking-tighter">{t.qibla.adjustHeading}</span>
+                  <span className="text-sm font-black text-[#D4AF37] tabular-nums">{manualHeading}°</span>
+               </div>
+               <input 
+                 type="range"
+                 min="0"
+                 max="360"
+                 value={manualHeading}
+                 onChange={(e) => setManualHeading(parseInt(e.target.value))}
+                 className="w-full h-1.5 bg-[#022c22] rounded-lg appearance-none cursor-pointer accent-[#D4AF37] border border-white/5"
+               />
+               <div className="flex justify-between text-[8px] font-black text-white/10 uppercase tracking-widest">
+                  <span>N</span>
+                  <span>E</span>
+                  <span>S</span>
+                  <span>W</span>
+               </div>
+            </div>
+         )}
+      </div>
       
       {!permissionGranted && (
         <button
