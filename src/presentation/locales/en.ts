@@ -207,6 +207,9 @@ export const en: Translations = {
     permissionDesc: "Enable motion sensors to use the real-time compass features.",
     enableNow: "Enable Now",
     manualAdjustment: "Manual Adjustment",
+    manualMode: "Manual Mode",
+    sensorMode: "Auto Compass",
+    overrideDesc: "Override device sensor",
     adjustHeading: "Adjust Compass Heading",
     resetOrientation: "Reset Orientation",
     orientationHint: "If you know where True North is, adjust the slider below to align the compass."

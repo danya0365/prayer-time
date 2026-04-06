@@ -210,6 +210,9 @@ export const ar: Translations = {
     permissionDesc: "قم بتمكين حساسات الحركة لاستخدام ميزات البوصلة في الوقت الحقيقي",
     enableNow: "تمكين الآن",
     manualAdjustment: "تعديل يدوي",
+    manualMode: "الوضع اليدوي",
+    sensorMode: "بوصلة تلقائية",
+    overrideDesc: "تجاوز حساس الجهاز",
     adjustHeading: "ضبط اتجاه البوصلة",
     resetOrientation: "إعادة ضبط الاتجاه",
     orientationHint: "إذا كنت تعرف مكان الشمال الحقيقي، يمكنك ضبط شريط التمرير أدناه لمحاذاة البوصلة."

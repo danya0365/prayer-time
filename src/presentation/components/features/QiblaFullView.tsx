@@ -19,8 +19,11 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const {
     qiblaInfo,
     isStaticMode,
+    isManualMode,
+    setIsManualMode,
     manualHeading,
     setManualHeading,
+    deviceHeading,
     permissionGranted,
     currentHeading,
     isAligned,
@@ -173,28 +176,60 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
         </div>
       </div>
 
-      {/* Manual Adjustment - Only in Static Mode */}
-      {isStaticMode && (
-        <div className="p-8 rounded-[2.5rem] bg-[#022c22]/40 backdrop-blur-xl border border-[#D4AF37]/20 flex flex-col gap-8 animate-fade-in">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-             <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
-                  <Navigation className="text-[#D4AF37] w-6 h-6 animate-spin-slow" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">{t.qibla.manualAdjustment}</h3>
-                  <p className="text-white/40 text-sm mt-1">{t.qibla.orientationHint}</p>
-                </div>
+      {/* Manual Adjustment Section */}
+      <div className="p-8 rounded-[2.5rem] bg-[#022c22]/40 backdrop-blur-xl border border-[#D4AF37]/20 flex flex-col gap-8 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+           <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
+                <Navigation className="text-[#D4AF37] w-6 h-6 animate-spin-slow" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">{t.qibla.manualAdjustment}</h3>
+                <p className="text-white/40 text-sm mt-1">{t.qibla.orientationHint}</p>
+              </div>
+           </div>
+           
+           {!isStaticMode && (
+             <div className="flex items-center bg-[#022c22] p-1 rounded-2xl border border-[#D4AF37]/20">
+               <button 
+                 onClick={() => setIsManualMode(false)}
+                 className={cn(
+                   "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all",
+                   !isManualMode ? "bg-[#D4AF37] text-[#022c22]" : "text-white/40 hover:text-white"
+                 )}
+               >
+                 {t.qibla.sensorMode}
+               </button>
+               <button 
+                 onClick={() => {
+                   setManualHeading(Math.round(deviceHeading));
+                   setIsManualMode(true);
+                 }}
+                 className={cn(
+                   "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all",
+                   isManualMode ? "bg-[#D4AF37] text-[#022c22]" : "text-white/40 hover:text-white"
+                 )}
+               >
+                 {t.qibla.manualMode}
+               </button>
              </div>
+           )}
+
+           {(isStaticMode || isManualMode) && (
              <button 
-               onClick={() => setManualHeading(0)}
+               onClick={() => {
+                 setManualHeading(0);
+                 if (isManualMode && !isStaticMode) setIsManualMode(false);
+               }}
                className="px-6 py-2 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 rounded-xl font-bold text-sm transition-all"
              >
                {t.qibla.resetOrientation}
              </button>
-          </div>
+           )}
+        </div>
 
-          <div className="space-y-6">
+        {(isStaticMode || isManualMode) && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
              <div className="flex justify-between items-end">
                 <span className="text-white/60 font-bold uppercase tracking-widest text-xs">{t.qibla.adjustHeading}</span>
                 <span className="text-3xl font-black text-[#D4AF37] tabular-nums">{manualHeading}°</span>
@@ -215,8 +250,8 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
                 <span>360° (N)</span>
              </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Info Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

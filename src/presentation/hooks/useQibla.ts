@@ -15,6 +15,7 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
   const [mounted, setMounted] = useState(false)
   const [isStaticMode, setIsStaticMode] = useState<boolean>(true)
   const [manualHeading, setManualHeading] = useState<number>(0)
+  const [isManualMode, setIsManualMode] = useState<boolean>(false)
 
   useEffect(() => {
     setMounted(true)
@@ -78,7 +79,7 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     }
   }, [permissionGranted, mounted, isStaticMode])
 
-  const currentHeading = isStaticMode ? manualHeading : deviceHeading
+  const currentHeading = (isStaticMode || isManualMode) ? manualHeading : deviceHeading
   const compassDirection = qiblaInfo ? getCompassDirection(qiblaInfo.direction) : ""
   
   // Calculate relative angle normalized to -180 to 180
@@ -90,6 +91,8 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     qiblaInfo,
     deviceHeading,
     isStaticMode,
+    isManualMode,
+    setIsManualMode,
     manualHeading,
     setManualHeading,
     permissionGranted,
