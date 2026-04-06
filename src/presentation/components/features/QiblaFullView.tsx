@@ -1,11 +1,14 @@
 "use client";
 
 import { cn } from "@/utils/cn";
-import { Navigation, Info, ShieldCheck, MapPin } from "lucide-react";
+import { Navigation, Info, ShieldCheck, MapPin, HelpCircle } from "lucide-react";
 import { useLocationStore } from "../../stores/locationStore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useQibla } from "../../hooks/useQibla";
+import { useSound } from "../../stores/soundStore";
+import { useEffect, useRef, useState } from "react";
+import { QiblaGuideModal, shouldShowQiblaGuide } from "./QiblaGuideModal";
 
 interface QiblaFullViewProps {
   className?: string;
@@ -19,8 +22,11 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const {
     qiblaInfo,
     isStaticMode,
+    isManualMode,
+    setIsManualMode,
     manualHeading,
     setManualHeading,
+    deviceHeading,
     permissionGranted,
     currentHeading,
     isAligned,
@@ -30,8 +36,27 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
     latitude: currentLocation?.latitude, 
     longitude: currentLocation?.longitude 
   });
+  
+  const { playSuccess } = useSound();
+  const wasAligned = useRef(false);
+  const [showGuide, setShowGuide] = useState(false);
+
+  // Show guide on first mount if not dismissed
+  useEffect(() => {
+    if (mounted && shouldShowQiblaGuide()) {
+      setShowGuide(true);
+    }
+  }, [mounted]);
+
+  useEffect(() => {
+    if (isAligned && !wasAligned.current) {
+      playSuccess();
+    }
+    wasAligned.current = isAligned;
+  }, [isAligned, playSuccess]);
 
   if (!mounted) return null;
+
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto flex flex-col gap-12", className)}>
@@ -173,28 +198,60 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
         </div>
       </div>
 
-      {/* Manual Adjustment - Only in Static Mode */}
-      {isStaticMode && (
-        <div className="p-8 rounded-[2.5rem] bg-[#022c22]/40 backdrop-blur-xl border border-[#D4AF37]/20 flex flex-col gap-8 animate-fade-in">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-             <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
-                  <Navigation className="text-[#D4AF37] w-6 h-6 animate-spin-slow" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">{t.qibla.manualAdjustment}</h3>
-                  <p className="text-white/40 text-sm mt-1">{t.qibla.orientationHint}</p>
-                </div>
+      {/* Manual Adjustment Section */}
+      <div className="p-8 rounded-[2.5rem] bg-[#022c22]/40 backdrop-blur-xl border border-[#D4AF37]/20 flex flex-col gap-8 animate-fade-in">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+           <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#D4AF37]/10 rounded-xl flex items-center justify-center border border-[#D4AF37]/20">
+                <Navigation className="text-[#D4AF37] w-6 h-6 animate-spin-slow" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">{t.qibla.manualAdjustment}</h3>
+                <p className="text-white/40 text-sm mt-1">{t.qibla.orientationHint}</p>
+              </div>
+           </div>
+           
+           {!isStaticMode && (
+             <div className="flex items-center bg-[#022c22] p-1 rounded-2xl border border-[#D4AF37]/20">
+               <button 
+                 onClick={() => setIsManualMode(false)}
+                 className={cn(
+                   "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all",
+                   !isManualMode ? "bg-[#D4AF37] text-[#022c22]" : "text-white/40 hover:text-white"
+                 )}
+               >
+                 {t.qibla.sensorMode}
+               </button>
+               <button 
+                 onClick={() => {
+                   setManualHeading(Math.round(deviceHeading));
+                   setIsManualMode(true);
+                 }}
+                 className={cn(
+                   "px-4 py-2 rounded-xl text-xs font-black uppercase transition-all",
+                   isManualMode ? "bg-[#D4AF37] text-[#022c22]" : "text-white/40 hover:text-white"
+                 )}
+               >
+                 {t.qibla.manualMode}
+               </button>
              </div>
+           )}
+
+           {(isStaticMode || isManualMode) && (
              <button 
-               onClick={() => setManualHeading(0)}
+               onClick={() => {
+                 setManualHeading(0);
+                 if (isManualMode && !isStaticMode) setIsManualMode(false);
+               }}
                className="px-6 py-2 bg-[#D4AF37]/10 hover:bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/30 rounded-xl font-bold text-sm transition-all"
              >
                {t.qibla.resetOrientation}
              </button>
-          </div>
+           )}
+        </div>
 
-          <div className="space-y-6">
+        {(isStaticMode || isManualMode) && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
              <div className="flex justify-between items-end">
                 <span className="text-white/60 font-bold uppercase tracking-widest text-xs">{t.qibla.adjustHeading}</span>
                 <span className="text-3xl font-black text-[#D4AF37] tabular-nums">{manualHeading}°</span>
@@ -215,8 +272,8 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
                 <span>360° (N)</span>
              </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Info Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -321,6 +378,20 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
               </button>
            </div>
         </div>
+      )}
+
+      {/* Floating Help Button - always visible */}
+      <button
+        onClick={() => setShowGuide(true)}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#D4AF37]/90 text-[#022c22] shadow-lg shadow-[#D4AF37]/30 hover:scale-110 active:scale-95 transition-all flex items-center justify-center backdrop-blur-sm border-2 border-[#D4AF37]/50"
+        aria-label="Qibla Compass Guide"
+      >
+        <HelpCircle className="w-7 h-7" />
+      </button>
+
+      {/* Guide Modal */}
+      {showGuide && (
+        <QiblaGuideModal t={t} onClose={() => setShowGuide(false)} />
       )}
     </div>
   );

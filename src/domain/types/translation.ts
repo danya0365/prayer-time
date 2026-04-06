@@ -207,8 +207,28 @@ export interface Translations {
     permissionDesc: string;
     enableNow: string;
     manualAdjustment: string;
+    manualMode: string;
+    sensorMode: string;
+    overrideDesc: string;
     adjustHeading: string;
     resetOrientation: string;
     orientationHint: string;
+  };
+
+  // Qibla Guide Modal
+  qiblaGuide: {
+    title: string;
+    subtitle: string;
+    startButton: string;
+    nextButton: string;
+    prevButton: string;
+    doneButton: string;
+    dontShowAgain: string;
+    steps: {
+      title: string;
+      description: string;
+      icon: string;
+      tips: string[];
+    }[];
   };
 }
