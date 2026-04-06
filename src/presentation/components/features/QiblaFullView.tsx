@@ -9,6 +9,7 @@ import { useQibla } from "../../hooks/useQibla";
 import { useSound } from "../../stores/soundStore";
 import { useEffect, useRef, useState } from "react";
 import { QiblaGuideModal, shouldShowQiblaGuide } from "./QiblaGuideModal";
+import { QiblaCalibrationOverlay } from "./QiblaCalibrationOverlay";
 
 interface QiblaFullViewProps {
   className?: string;
@@ -31,7 +32,10 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
     currentHeading,
     isAligned,
     compassDirection,
-    mounted
+    mounted,
+    calibrationProgress,
+    isCalibrationComplete,
+    skipCalibration
   } = useQibla({ 
     latitude: currentLocation?.latitude, 
     longitude: currentLocation?.longitude 
@@ -40,6 +44,16 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
   const { playSuccess } = useSound();
   const wasAligned = useRef(false);
   const [showGuide, setShowGuide] = useState(false);
+  const [calibrationStarted, setCalibrationStarted] = useState(false);
+
+  // Show calibration after guide is done or if sensors are available
+  const showCalibration = !isStaticMode && !isCalibrationComplete && permissionGranted && mounted;
+
+  useEffect(() => {
+    if (showCalibration && !calibrationStarted) {
+      setCalibrationStarted(true);
+    }
+  }, [showCalibration, calibrationStarted]);
 
   // Show guide on first mount if not dismissed
   useEffect(() => {
@@ -392,6 +406,15 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
       {/* Guide Modal */}
       {showGuide && (
         <QiblaGuideModal t={t} onClose={() => setShowGuide(false)} />
+      )}
+
+      {/* Calibration Overlay */}
+      {showCalibration && (
+        <QiblaCalibrationOverlay 
+          t={t} 
+          progress={calibrationProgress} 
+          onSkip={skipCalibration} 
+        />
       )}
     </div>
   );

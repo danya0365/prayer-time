@@ -212,7 +212,11 @@ export const en: Translations = {
     overrideDesc: "Override device sensor",
     adjustHeading: "Adjust Compass Heading",
     resetOrientation: "Reset Orientation",
-    orientationHint: "If you know where True North is, adjust the slider below to align the compass."
+    orientationHint: "If you know where True North is, adjust the slider below to align the compass.",
+    calibrationTitle: "Calibrate Your Compass",
+    calibrationDesc: "To ensure accuracy, please move your phone in a figure-8 motion.",
+    calibrationStatus: "Detecting motion... {progress}%",
+    skipCalibration: "Skip",
   },
 
   qiblaGuide: {
