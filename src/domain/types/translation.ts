@@ -213,6 +213,10 @@ export interface Translations {
     adjustHeading: string;
     resetOrientation: string;
     orientationHint: string;
+    calibrationTitle: string;
+    calibrationDesc: string;
+    calibrationStatus: string;
+    skipCalibration: string;
   };
 
   // Qibla Guide Modal

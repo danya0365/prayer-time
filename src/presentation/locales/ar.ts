@@ -215,7 +215,11 @@ export const ar: Translations = {
     overrideDesc: "تجاوز حساس الجهاز",
     adjustHeading: "ضبط اتجاه البوصلة",
     resetOrientation: "إعادة ضبط الاتجاه",
-    orientationHint: "إذا كنت تعرف مكان الشمال الحقيقي، يمكنك ضبط شريط التمرير أدناه لمحاذاة البوصلة."
+    orientationHint: "إذا كنت تعرف مكان الشمال الحقيقي، يمكنك ضبط شريط التمرير أدناه لمحاذاة البوصلة.",
+    calibrationTitle: "معايرة البوصلة",
+    calibrationDesc: "لضمان الدقة، يرجى تحريك هاتفك في حركة دائرية (رقم 8).",
+    calibrationStatus: "جاري اكتشاف الحركة... %{progress}",
+    skipCalibration: "تخطى",
   },
 
   qiblaGuide: {

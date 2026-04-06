@@ -16,6 +16,13 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
   const [isStaticMode, setIsStaticMode] = useState<boolean>(true)
   const [manualHeading, setManualHeading] = useState<number>(0)
   const [isManualMode, setIsManualMode] = useState<boolean>(false)
+  const [calibrationProgress, setCalibrationProgress] = useState<number>(0)
+  const [isCalibrationComplete, setIsCalibrationComplete] = useState<boolean>(false)
+  const [visitedBins, setVisitedBins] = useState({
+    alpha: new Set<number>(),
+    beta: new Set<number>(),
+    gamma: new Set<number>()
+  })
 
   useEffect(() => {
     setMounted(true)
@@ -62,9 +69,43 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     const handleOrientation = (event: DeviceOrientationEvent) => {
       const heading = getAbsoluteHeading(event)
       if (heading !== null) {
-        // Use functional update to get the previous state for smoothing
         setDeviceHeading(prev => smoothAngle(heading, prev, 0.15))
         if (isStaticMode) setIsStaticMode(false)
+      }
+
+      // Calibration logic
+      if (!isCalibrationComplete) {
+        const { alpha, beta, gamma } = event
+        if (alpha !== null && beta !== null && gamma !== null) {
+          const alphaBin = Math.floor(alpha / 30) // 12 bins
+          const betaBin = Math.floor((beta + 180) / 60) // 6 bins
+          const gammaBin = Math.floor((gamma + 90) / 30) // 6 bins
+
+          setVisitedBins(prev => {
+            const newAlpha = new Set(prev.alpha).add(alphaBin)
+            const newBeta = new Set(prev.beta).add(betaBin)
+            const newGamma = new Set(prev.gamma).add(gammaBin)
+            
+            // Calculate progress: 50% alpha, 25% beta, 25% gamma
+            // We want them to visit at least 8 bins of alpha, 3 of beta, 3 of gamma
+            const alphaSize = newAlpha.size
+            const betaSize = newBeta.size
+            const gammaSize = newGamma.size
+
+            const alphaProgress = Math.min(alphaSize / 8, 1) * 50
+            const betaProgress = Math.min(betaSize / 3, 1) * 25
+            const gammaProgress = Math.min(gammaSize / 3, 1) * 25
+            
+            const totalProgress = Math.round(alphaProgress + betaProgress + gammaProgress)
+            setCalibrationProgress(totalProgress)
+            
+            if (totalProgress >= 100) {
+              setIsCalibrationComplete(true)
+            }
+
+            return { alpha: newAlpha, beta: newBeta, gamma: newGamma }
+          })
+        }
       }
     }
 
@@ -99,6 +140,9 @@ export function useQibla({ latitude, longitude }: UseQiblaProps) {
     currentHeading,
     isAligned,
     compassDirection,
-    mounted
+    mounted,
+    calibrationProgress,
+    isCalibrationComplete,
+    skipCalibration: () => setIsCalibrationComplete(true)
   }
 }
