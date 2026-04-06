@@ -16,7 +16,8 @@ type SoundType =
   | "playerReady"
   | "countdown"
   | "chat"
-  | "hover";
+  | "hover"
+  | "success";
 
 type BgmType = "waiting" | "game";
 type GameBgmStyle = "adventure" | "battle" | "castle" | "tavern" | "tension";
@@ -144,6 +145,9 @@ class SoundService {
           break;
         case "hover":
           this.playHoverSound(ctx);
+          break;
+        case "success":
+          this.playSuccessSound(ctx);
           break;
       }
     } catch (e) {
@@ -428,6 +432,33 @@ class SoundService {
 
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.02);
+  }
+
+  /**
+   * Play a clean, subtle success chime for Qibla alignment
+   */
+  private playSuccessSound(ctx: AudioContext) {
+    const notes = [659.25, 880.0]; // E5, A5 - Ascending perfect fourth
+    const now = ctx.currentTime;
+    const vol = this.volume;
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const startTime = now + i * 0.12;
+
+      osc.type = "sine";
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.frequency.setValueAtTime(freq, startTime);
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(vol * 0.25, startTime + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
+
+      osc.start(startTime);
+      osc.stop(startTime + 0.35);
+    });
   }
 
   // Background music - ambient loop

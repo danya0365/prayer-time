@@ -6,6 +6,8 @@ import { useLocationStore } from "../../stores/locationStore";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSettingsStore } from "../../stores/settingsStore";
 import { useQibla } from "../../hooks/useQibla";
+import { useSound } from "../../stores/soundStore";
+import { useEffect, useRef } from "react";
 
 interface QiblaFullViewProps {
   className?: string;
@@ -33,6 +35,16 @@ export function QiblaFullView({ className }: QiblaFullViewProps) {
     latitude: currentLocation?.latitude, 
     longitude: currentLocation?.longitude 
   });
+  
+  const { playSuccess } = useSound();
+  const wasAligned = useRef(false);
+
+  useEffect(() => {
+    if (isAligned && !wasAligned.current) {
+      playSuccess();
+    }
+    wasAligned.current = isAligned;
+  }, [isAligned, playSuccess]);
 
   if (!mounted) return null;
 

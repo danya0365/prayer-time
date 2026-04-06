@@ -5,6 +5,8 @@ import { useTranslation } from '../../hooks/useTranslation'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { Navigation, RotateCcw } from 'lucide-react'
 import { useQibla } from '../../hooks/useQibla'
+import { useSound } from '../../stores/soundStore'
+import { useEffect, useRef } from 'react'
 
 interface QiblaCompassProps {
   latitude?: number
@@ -30,6 +32,16 @@ export function QiblaCompass({ latitude, longitude, className }: QiblaCompassPro
     compassDirection,
     mounted
   } = useQibla({ latitude, longitude })
+
+  const { playSuccess } = useSound()
+  const wasAligned = useRef(false)
+
+  useEffect(() => {
+    if (isAligned && !wasAligned.current) {
+      playSuccess()
+    }
+    wasAligned.current = isAligned
+  }, [isAligned, playSuccess])
 
   if (!mounted || !qiblaInfo) {
     return (

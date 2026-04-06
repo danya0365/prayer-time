@@ -43,6 +43,7 @@ interface SoundState {
   playPlayerReady: () => void;
   playCountdown: () => void;
   playChat: () => void;
+  playSuccess: () => void;
 }
 
 export const useSoundStore = create<SoundState>()(
@@ -130,6 +131,7 @@ export const useSoundStore = create<SoundState>()(
       playPlayerReady: () => soundService.play("playerReady"),
       playCountdown: () => soundService.play("countdown"),
       playChat: () => soundService.play("chat"),
+      playSuccess: () => soundService.play("success"),
     }),
     {
       name: "sound-settings",
@@ -188,5 +190,6 @@ export function useSound() {
     playPlayerReady: store.playPlayerReady,
     playCountdown: store.playCountdown,
     playChat: store.playChat,
+    playSuccess: store.playSuccess,
   };
 }
