@@ -3,24 +3,29 @@
 /* 1) ทำให้ dark: ใช้ได้แบบสลับด้วยคลาส .dark (ค่าเริ่มต้นของ v4 คือ media query) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 2) ประกาศ theme tokens (จะได้ใช้คลาสเช่น bg-background, text-foreground, font-sans) */
-@theme {
-  --font-sans: "Kanit", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --font-arabic: var(--font-arabic), serif;
-
-  /* Light defaults */
+/* ============================================
+   ALL CSS VARIABLES - Light Mode (Default)
+   ============================================ */
+:root {
+  /* Base colors */
   --color-background: #ffffff;
   --color-foreground: #171717;
   --color-surface: #ffffff;
   --color-on-surface: #000000;
 
-  /* Prayer colors -> ใช้ bg-fajr, text-dhuhr ได้เลย */
+  /* Prayer colors */
   --color-fajr: #5b6fb5;
   --color-dhuhr: #f59e0b;
   --color-asr: #10b981;
   --color-maghrib: #8b5cf6;
   --color-isha: #1e40af;
+
+  /* Gradients */
+  --fajr-gradient: linear-gradient(135deg, #5b6fb5, #8b9dc8);
+  --dhuhr-gradient: linear-gradient(135deg, #f59e0b, #fbbf24);
+  --asr-gradient: linear-gradient(135deg, #10b981, #34d399);
+  --maghrib-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  --isha-gradient: linear-gradient(135deg, #1e40af, #3b82f6);
 
   /* Status colors */
   --color-success: #10b981;
@@ -70,112 +75,220 @@
   --color-overlay: rgba(0, 0, 0, 0.5);
   --color-overlay-light: rgba(255, 255, 255, 0.9);
   --color-overlay-dark: rgba(0, 0, 0, 0.8);
+
+  /* UI Theme */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* ============================================
+   DARK MODE OVERRIDES - เปลี่ยนเฉพาะที่จำเป็น
+   ============================================ */
+.dark {
+  /* Base colors */
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-surface: #1a1a1a;
+  --color-on-surface: #ffffff;
+
+  /* Gradients โทนมืด */
+  --fajr-gradient: linear-gradient(135deg, #8b9dc8, #5b6fb5);
+  --dhuhr-gradient: linear-gradient(135deg, #fcd34d, #f59e0b);
+  --asr-gradient: linear-gradient(135deg, #6ee7b7, #10b981);
+  --maghrib-gradient: linear-gradient(135deg, #c4b5fd, #8b5cf6);
+  --isha-gradient: linear-gradient(135deg, #60a5fa, #1e40af);
+
+  /* Status colors */
+  --color-success-light: #065f46;
+  --color-success-dark: #34d399;
+  --color-warning-light: #92400e;
+  --color-warning-dark: #fbbf24;
+  --color-error-light: #991b1b;
+  --color-error-dark: #f87171;
+  --color-info-light: #1e3a8a;
+  --color-info-dark: #60a5fa;
+  --color-development-light: #92400e;
+  --color-development-dark: #fbbf24;
+  --color-islamic-light: #065f46;
+  --color-islamic-dark: #34d399;
+  --color-ramadan-light: #581c87;
+  --color-ramadan-dark: #a78bfa;
+
+  /* UI Colors - Gray scale */
+  --color-muted: #9ca3af;
+  --color-muted-light: #1f2937;
+  --color-muted-dark: #d1d5db;
+  --color-border: #374151;
+  --color-border-light: #1f2937;
+  --color-border-dark: #6b7280;
+
+  /* Primary brand colors */
+  --color-primary-light: #065f46;
+  --color-primary-dark: #34d399;
+  --color-secondary-light: #312e81;
+  --color-secondary-dark: #818cf8;
+
+  /* Overlay colors */
+  --color-overlay: rgba(0, 0, 0, 0.7);
+  --color-overlay-light: rgba(0, 0, 0, 0.9);
+  --color-overlay-dark: rgba(255, 255, 255, 0.1);
+
+  /* UI Theme */
+  --card-bg: rgba(30, 30, 30, 0.8);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-shadow:
+    0 4px 6px rgba(255, 255, 255, 0.05), 0 10px 15px rgba(255, 255, 255, 0.03);
+}
+
+/* ============================================
+   TAILWIND THEME - Reference :root variables only
+   ============================================ */
+@theme {
+  /* Fonts */
+  --font-sans:
+    "Kanit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-arabic: var(--font-arabic), serif;
+
+  /* Base colors */
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-surface: var(--color-surface);
+  --color-on-surface: var(--color-on-surface);
+
+  /* Prayer colors */
+  --color-fajr: var(--color-fajr);
+  --color-dhuhr: var(--color-dhuhr);
+  --color-asr: var(--color-asr);
+  --color-maghrib: var(--color-maghrib);
+  --color-isha: var(--color-isha);
+
+  /* Status colors */
+  --color-success: var(--color-success);
+  --color-success-light: var(--color-success-light);
+  --color-success-dark: var(--color-success-dark);
+  --color-warning: var(--color-warning);
+  --color-warning-light: var(--color-warning-light);
+  --color-warning-dark: var(--color-warning-dark);
+  --color-error: var(--color-error);
+  --color-error-light: var(--color-error-light);
+  --color-error-dark: var(--color-error-dark);
+  --color-info: var(--color-info);
+  --color-info-light: var(--color-info-light);
+  --color-info-dark: var(--color-info-dark);
+
+  /* Development/Coming Soon colors */
+  --color-development: var(--color-development);
+  --color-development-light: var(--color-development-light);
+  --color-development-dark: var(--color-development-dark);
+
+  /* Islamic/Religious colors */
+  --color-islamic: var(--color-islamic);
+  --color-islamic-light: var(--color-islamic-light);
+  --color-islamic-dark: var(--color-islamic-dark);
+  --color-ramadan: var(--color-ramadan);
+  --color-ramadan-light: var(--color-ramadan-light);
+  --color-ramadan-dark: var(--color-ramadan-dark);
+
+  /* UI Colors - Gray scale */
+  --color-muted: var(--color-muted);
+  --color-muted-light: var(--color-muted-light);
+  --color-muted-dark: var(--color-muted-dark);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --color-border-dark: var(--color-border-dark);
+  --color-card-border: var(--color-card-border);
+
+  /* Primary brand colors */
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-light: var(--color-secondary-light);
+  --color-secondary-dark: var(--color-secondary-dark);
+
+  /* Overlay colors */
+  --color-overlay: var(--color-overlay);
+  --color-overlay-light: var(--color-overlay-light);
+  --color-overlay-dark: var(--color-overlay-dark);
 }
 
 /* 3) ตัวแปรที่ไม่ต้องการให้สร้าง utility อัตโนมัติ เก็บไว้ใน base */
 @layer base {
-  :root {
-    /* Gradients */
-    --fajr-gradient: linear-gradient(135deg, #5b6fb5, #8b9dc8);
-    --dhuhr-gradient: linear-gradient(135deg, #f59e0b, #fbbf24);
-    --asr-gradient: linear-gradient(135deg, #10b981, #34d399);
-    --maghrib-gradient: linear-gradient(135deg, #8b5cf6, #a78bfa);
-    --isha-gradient: linear-gradient(135deg, #1e40af, #3b82f6);
-
-    /* UI Theme */
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --card-border: rgba(0, 0, 0, 0.1);
-    --card-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 15px rgba(0,0,0,0.03);
-  }
-
   /* ใช้ tokens กับ body ผ่าน utilities ของ Tailwind */
-  body { @apply bg-background text-foreground font-sans; }
-
-  /* Prayer gradient classes */
-  .bg-fajr-gradient { background: var(--fajr-gradient); }
-  .bg-dhuhr-gradient { background: var(--dhuhr-gradient); }
-  .bg-asr-gradient { background: var(--asr-gradient); }
-  .bg-maghrib-gradient { background: var(--maghrib-gradient); }
-  .bg-isha-gradient { background: var(--isha-gradient); }
-
-  /* Card styling classes */
-  .card-bg { background-color: var(--card-bg); }
-  .card-border { border-color: var(--card-border); }
-  .card-shadow { box-shadow: var(--card-shadow); }
-
-  /* Prayer-specific ring colors for current prayer indication */
-  .ring-fajr { --tw-ring-color: var(--color-fajr); }
-  .ring-dhuhr { --tw-ring-color: var(--color-dhuhr); }
-  .ring-asr { --tw-ring-color: var(--color-asr); }
-  .ring-maghrib { --tw-ring-color: var(--color-maghrib); }
-  .ring-isha { --tw-ring-color: var(--color-isha); }
-
-  /* UI utility classes */
-  .bg-overlay { background-color: var(--color-overlay); }
-  .bg-overlay-light { background-color: var(--color-overlay-light); }
-  .bg-overlay-dark { background-color: var(--color-overlay-dark); }
-  
-  /* Brand gradient classes */
-  .bg-primary-gradient { 
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); 
-  }
-  .bg-hero-gradient { 
-    background: linear-gradient(135deg, var(--color-primary), #14b8a6, #06b6d4); 
+  body {
+    @apply bg-background text-foreground font-sans;
   }
 }
 
-/* 4) Overrides ตอนเป็น .dark (แค่เปลี่ยนค่าตัวแปรก็พอ) */
-@layer base {
-  .dark {
-    --color-background: #0a0a0a;
-    --color-foreground: #f5f5f5;
-    --color-surface: #1a1a1a;
-    --color-on-surface: #ffffff;
+@layer components {
+  /* Prayer gradient classes */
+  .bg-fajr-gradient {
+    background: var(--fajr-gradient);
+  }
+  .bg-dhuhr-gradient {
+    background: var(--dhuhr-gradient);
+  }
+  .bg-asr-gradient {
+    background: var(--asr-gradient);
+  }
+  .bg-maghrib-gradient {
+    background: var(--maghrib-gradient);
+  }
+  .bg-isha-gradient {
+    background: var(--isha-gradient);
+  }
 
-    /* Gradients โทนมืด */
-    --fajr-gradient: linear-gradient(135deg, #8b9dc8, #5b6fb5);
-    --dhuhr-gradient: linear-gradient(135deg, #fcd34d, #f59e0b);
-    --asr-gradient: linear-gradient(135deg, #6ee7b7, #10b981);
-    --maghrib-gradient: linear-gradient(135deg, #c4b5fd, #8b5cf6);
-    --isha-gradient: linear-gradient(135deg, #60a5fa, #1e40af);
+  /* Card styling classes */
+  .card-bg {
+    background-color: var(--card-bg);
+  }
+  .card-border {
+    border-color: var(--card-border);
+  }
+  .card-shadow {
+    box-shadow: var(--card-shadow);
+  }
 
-    --card-bg: rgba(30,30,30,0.8);
-    --card-border: rgba(255,255,255,0.1);
-    --card-shadow: 0 4px 6px rgba(255,255,255,0.05), 0 10px 15px rgba(255,255,255,0.03);
+  /* Prayer-specific ring colors for current prayer indication */
+  .ring-fajr {
+    --tw-ring-color: var(--color-fajr);
+  }
+  .ring-dhuhr {
+    --tw-ring-color: var(--color-dhuhr);
+  }
+  .ring-asr {
+    --tw-ring-color: var(--color-asr);
+  }
+  .ring-maghrib {
+    --tw-ring-color: var(--color-maghrib);
+  }
+  .ring-isha {
+    --tw-ring-color: var(--color-isha);
+  }
 
-    /* Status colors for dark mode */
-    --color-success-light: #065f46;
-    --color-success-dark: #34d399;
-    --color-warning-light: #92400e;
-    --color-warning-dark: #fbbf24;
-    --color-error-light: #991b1b;
-    --color-error-dark: #f87171;
-    --color-info-light: #1e3a8a;
-    --color-info-dark: #60a5fa;
-    --color-development-light: #92400e;
-    --color-development-dark: #fbbf24;
-    --color-islamic-light: #065f46;
-    --color-islamic-dark: #34d399;
-    --color-ramadan-light: #581c87;
-    --color-ramadan-dark: #a78bfa;
+  /* UI utility classes */
+  .bg-overlay {
+    background-color: var(--color-overlay);
+  }
+  .bg-overlay-light {
+    background-color: var(--color-overlay-light);
+  }
+  .bg-overlay-dark {
+    background-color: var(--color-overlay-dark);
+  }
 
-    /* UI Colors - Gray scale (dark mode) */
-    --color-muted: #9ca3af;
-    --color-muted-light: #1f2937;
-    --color-muted-dark: #d1d5db;
-    --color-border: #374151;
-    --color-border-light: #1f2937;
-    --color-border-dark: #6b7280;
-
-    /* Primary brand colors (dark mode) */
-    --color-primary-light: #065f46;
-    --color-primary-dark: #34d399;
-    --color-secondary-light: #312e81;
-    --color-secondary-dark: #818cf8;
-
-    /* Overlay colors (dark mode) */
-    --color-overlay: rgba(0, 0, 0, 0.7);
-    --color-overlay-light: rgba(0, 0, 0, 0.9);
-    --color-overlay-dark: rgba(255, 255, 255, 0.1);
+  /* Brand gradient classes */
+  .bg-primary-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-primary-dark)
+    );
+  }
+  .bg-hero-gradient {
+    background: linear-gradient(135deg, var(--color-primary), #14b8a6, #06b6d4);
   }
 }
