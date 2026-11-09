@@ -3,7 +3,8 @@
   "name": "prayer-time",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-01",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
   "upload_source_maps": true,
   "assets": {
     "directory": ".open-next/assets",
@@ -23,7 +24,11 @@
   // assets, main, compatibility และ observability สืบทอดมาที่ staging
   "env": {
     "staging": {
-      "name": "prayer-time-dev"
+      "name": "prayer-time-dev",
+      "workers_dev": true,
+      "routes": [
+        { "pattern": "prayer-time-dev.easyai.site", "custom_domain": true }
+      ]
     }
   }
 }

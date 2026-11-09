@@ -8,7 +8,7 @@
     "start": "next start",
     "cf:build": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion",
     "cf:deploy": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy",
-    "cf:deploy:staging": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy --env staging",
+    "cf:deploy:staging": "opennextjs-cloudflare build --dangerouslyUseUnsupportedNextVersion && opennextjs-cloudflare deploy --config wrangler.staging.jsonc",
     "lint": "next lint"
   },
   "dependencies": {
